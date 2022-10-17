@@ -1,0 +1,29 @@
+.article {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding: 1rem;
+    width: 100%;
+    height: fit-content;
+}
+
+.avatar {
+    height: 6rem;
+    width: 6rem;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+.container {
+    border-left: 2px solid #2222220f;
+    padding-left: 2rem;
+}
+
+.nom_prenom {
+    display: flex;
+    gap: .3rem;
+}
+
+.lastname {
+    text-transform: uppercase;
+}

@@ -3,9 +3,45 @@ import styles from '../styles/Home.module.css'
 import Header from '../components/Header'
 import Navbar from '../components/Navbar'
 import Dashboard from '../components/Dashboard'
-import CreateUser from '../components/CreateUser'
+import CreateAdmin from '../components/createAdmin'
+import { useState } from 'react'
+import ValidateUsers from '../components/ValidateUsers'
+import UsersList from '../components/UsersList'
 
 export default function Home() {
+
+  const [dashboard, setDashboard] = useState(true)
+  const [createAdmin, setCreateAdmin] = useState(false)
+  const [validateUsers, setValidateUsers] = useState(false)
+  const [usersList, setUsersList] = useState(false)
+
+  const setAllToFalse = () => {
+    setDashboard(false)
+    setCreateAdmin(false)
+    setValidateUsers(false)
+    setUsersList(false)
+  }
+
+  const switchToDashboard = () => {
+    setAllToFalse()
+    setDashboard(true)
+  }
+
+  const switchToCreateAdmin = () => {
+    setAllToFalse()
+    setCreateAdmin(true)
+  }
+
+  const switchToValidateUsers = () => {
+    setAllToFalse()
+    setValidateUsers(true)
+  }
+
+  const switchToUsersList = () => {
+    setAllToFalse()
+    setUsersList(true)
+  }
+
   return (
     <>
       <Head>
@@ -15,10 +51,17 @@ export default function Home() {
       </Head>
 
       <Header />
-
       <main className={styles.main}>
-        <Navbar />
-        <CreateUser />
+        <Navbar
+          switchToDashboard={switchToDashboard}
+          switchToCreateAdmin={switchToCreateAdmin}
+          switchToValidateUsers={switchToValidateUsers}
+          switchToUsersList={switchToUsersList}
+        />
+        {dashboard ? (<Dashboard />) : ('')}
+        {createAdmin ? (<CreateAdmin />) : ('')}
+        {validateUsers ? (<ValidateUsers />) : ('')}
+        {usersList ? (<UsersList />) : ('')}
       </main>
 
       <footer className={styles.footer}>
