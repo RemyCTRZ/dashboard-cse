@@ -11,7 +11,7 @@ export default function Profil() {
             </div>
             <div className={styles.container}>
                 <div className={styles.info_box}>
-                    <img className={styles.avatar} alt="avatar" src='/assets/images/pdp.jpg' />
+                    <img className={styles.avatar} alt="avatar" src='/assets/images/profile_pic.png' />
                     <div className={styles.infos}>
                         <div className={styles.nom_prenom}>
                             <p className={styles.lastname}>Jean</p>

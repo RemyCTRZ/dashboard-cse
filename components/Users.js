@@ -5,7 +5,7 @@ export default function Users() {
     return (
         <>
             <article className={styles.article}>
-                <img className={styles.avatar} alt="avatar" src='/assets/images/pdp.jpg' />
+                <img className={styles.avatar} alt="avatar" src='/assets/images/profile_pic.png' />
                 <div className={styles.container}>
                     <div className={styles.info_box}>
                         <div className={styles.infos}>
@@ -21,7 +21,7 @@ export default function Users() {
                 </div>
             </article>
             <article className={styles.article}>
-                <img className={styles.avatar} alt="avatar" src='/assets/images/pdp.jpg' />
+                <img className={styles.avatar} alt="avatar" src='/assets/images/profile_pic.png' />
                 <div className={styles.container}>
                     <div className={styles.info_box}>
                         <div className={styles.infos}>
