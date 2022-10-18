@@ -8,7 +8,7 @@ import { useState } from 'react'
 import ValidateUsers from '../components/ValidateUsers'
 import UsersList from '../components/UsersList'
 
-export default function Home() {
+export default function Home({ users }) {
 
   const [dashboard, setDashboard] = useState(true)
   const [createAdmin, setCreateAdmin] = useState(false)
@@ -61,11 +61,22 @@ export default function Home() {
         {dashboard ? (<Dashboard />) : ('')}
         {createAdmin ? (<CreateAdmin />) : ('')}
         {validateUsers ? (<ValidateUsers />) : ('')}
-        {usersList ? (<UsersList />) : ('')}
+        {usersList ? (<UsersList users={users}/>) : ('')}
       </main>
 
       <footer className={styles.footer}>
       </footer>
     </>
   )
+}
+
+export async function getStaticProps() {
+  const res = await fetch('http://localhost:5000/api/users')
+  const users = await res.json()
+
+  return {
+    props: {
+      users,
+    },
+  }
 }

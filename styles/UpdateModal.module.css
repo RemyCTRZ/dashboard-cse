@@ -1,0 +1,14 @@
+.btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    border: 1px solid black;
+    border-radius: 50%;
+    height: 2rem;
+    width: 2rem;
+}
+
+.btn:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}

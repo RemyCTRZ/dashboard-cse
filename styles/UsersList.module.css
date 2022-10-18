@@ -6,3 +6,8 @@
     background-color: var(--white-2);
     color: var(--black-text);
 }
+
+.container {
+    display: flex;
+    gap: 1rem;
+}
