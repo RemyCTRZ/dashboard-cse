@@ -4,16 +4,25 @@ import Header from '../components/Header'
 import Navbar from '../components/Navbar'
 import Dashboard from '../components/Dashboard'
 import CreateAdmin from '../components/createAdmin'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import ValidateUsers from '../components/ValidateUsers'
 import UsersList from '../components/UsersList'
+import { apiService } from '../services/APIService'
 
-export default function Home({ users }) {
+export default function Home() {
 
   const [dashboard, setDashboard] = useState(true)
   const [createAdmin, setCreateAdmin] = useState(false)
   const [validateUsers, setValidateUsers] = useState(false)
   const [usersList, setUsersList] = useState(false)
+  const [users, setUsers] = useState([])
+
+  useEffect(() => {
+    apiService.get('users')
+      .then(
+        response => setUsers(response.data)
+      )
+  }, [usersList])
 
   const setAllToFalse = () => {
     setDashboard(false)
@@ -42,6 +51,7 @@ export default function Home({ users }) {
     setUsersList(true)
   }
 
+
   return (
     <>
       <Head>
@@ -61,7 +71,7 @@ export default function Home({ users }) {
         {dashboard ? (<Dashboard />) : ('')}
         {createAdmin ? (<CreateAdmin />) : ('')}
         {validateUsers ? (<ValidateUsers />) : ('')}
-        {usersList ? (<UsersList users={users}/>) : ('')}
+        {usersList ? (<UsersList users={users} />) : ('')}
       </main>
 
       <footer className={styles.footer}>
@@ -70,13 +80,13 @@ export default function Home({ users }) {
   )
 }
 
-export async function getStaticProps() {
-  const res = await fetch('http://localhost:5000/api/users')
-  const users = await res.json()
+// export async function getStaticProps() {
+//   const res = await fetch('http://localhost:5000/api/users')
+//   const users = await res.json()
 
-  return {
-    props: {
-      users,
-    },
-  }
-}
+//   return {
+//     props: {
+//       users,
+//     },
+//   }
+// }

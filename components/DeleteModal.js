@@ -7,7 +7,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useState } from 'react';
 import styles from '../styles/DeleteModal.module.css'
-import { FaXbox } from 'react-icons/fa'
+import { FiTrash2 } from 'react-icons/fi'
 import { apiService } from '../services/APIService'
 
 export default function DeleteModal({ user, setUserList }) {
@@ -35,7 +35,7 @@ export default function DeleteModal({ user, setUserList }) {
     return (
         <div>
             <button className={styles.btn} onClick={() => { handleModal(true) }}>
-                <FaXbox />
+                <FiTrash2 className={styles.icon}/>
             </button>
             <Dialog
                 open={open}

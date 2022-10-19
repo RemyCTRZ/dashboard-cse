@@ -20,7 +20,7 @@ export default function UpdateModal({ user }) {
     return (
         <div>
             <button className={styles.btn} onClick={() => { handleModal(true) }}>
-                <FiEdit2 />
+                <FiEdit2 className={styles.icon} />
             </button>
             <Dialog open={open} onClose={() => { handleModal(false) }}>
                 <DialogTitle>Modification de profil</DialogTitle>
