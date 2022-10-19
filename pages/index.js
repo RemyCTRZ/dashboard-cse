@@ -11,44 +11,89 @@ import { apiService } from '../services/APIService'
 
 export default function Home() {
 
-  const [dashboard, setDashboard] = useState(true)
-  const [createAdmin, setCreateAdmin] = useState(false)
-  const [validateUsers, setValidateUsers] = useState(false)
-  const [usersList, setUsersList] = useState(false)
+  const [dashboardWindow, setDashboardWindow] = useState({
+    dashboard: true,
+    createAdmin: false,
+    validateUsers: false,
+    usersList: false,
+    candidatesList: false,
+    companiesList: false,
+  })
+
   const [users, setUsers] = useState([])
+  const [candidates, setCandidates] = useState([])
+  const [companies, setCompanies] = useState([])
 
   useEffect(() => {
-    apiService.get('users')
-      .then(
-        response => setUsers(response.data)
-      )
-  }, [usersList])
-
-  const setAllToFalse = () => {
-    setDashboard(false)
-    setCreateAdmin(false)
-    setValidateUsers(false)
-    setUsersList(false)
-  }
+    apiService.get('users').then(response => setUsers(response.data))
+    apiService.get('candidates').then(response => setCandidates(response.data))
+    apiService.get('companies').then(response => setCompanies(response.data))
+  }, [dashboardWindow])
 
   const switchToDashboard = () => {
-    setAllToFalse()
-    setDashboard(true)
+    setDashboardWindow({
+      dashboard: true,
+      createAdmin: false,
+      validateUsers: false,
+      usersList: false,
+      candidatesList: false,
+      companiesList: false,
+    })
   }
 
   const switchToCreateAdmin = () => {
-    setAllToFalse()
-    setCreateAdmin(true)
+    setDashboardWindow({
+      dashboard: false,
+      createAdmin: true,
+      validateUsers: false,
+      usersList: false,
+      candidatesList: false,
+      companiesList: false,
+    })
   }
 
   const switchToValidateUsers = () => {
-    setAllToFalse()
-    setValidateUsers(true)
+    setDashboardWindow({
+      dashboard: false,
+      createAdmin: false,
+      validateUsers: true,
+      usersList: false,
+      candidatesList: false,
+      companiesList: false,
+    })
   }
 
   const switchToUsersList = () => {
-    setAllToFalse()
-    setUsersList(true)
+    setDashboardWindow({
+      dashboard: false,
+      createAdmin: false,
+      validateUsers: false,
+      usersList: true,
+      candidatesList: false,
+      companiesList: false,
+    })
+  }
+
+  const switchToCandidatesList = () => {
+    setDashboardWindow({
+      dashboard: false,
+      createAdmin: false,
+      validateUsers: false,
+      usersList: false,
+      candidatesList: true,
+      companiesList: false,
+    })
+  }
+
+  const switchToCompaniesList = () => {
+    setDashboardWindow({
+      dashboard: false,
+      createAdmin: false,
+      validateUsers: false,
+      usersList: false,
+      candidatesList: false,
+      companiesList: true,
+    })
   }
 
 
@@ -67,11 +112,15 @@ export default function Home() {
           switchToCreateAdmin={switchToCreateAdmin}
           switchToValidateUsers={switchToValidateUsers}
           switchToUsersList={switchToUsersList}
+          switchToCandidatesList={switchToCandidatesList}
+          switchToCompaniesList={switchToCompaniesList}
         />
-        {dashboard ? (<Dashboard />) : ('')}
-        {createAdmin ? (<CreateAdmin />) : ('')}
-        {validateUsers ? (<ValidateUsers />) : ('')}
-        {usersList ? (<UsersList users={users} />) : ('')}
+        {dashboardWindow.dashboard ? (<Dashboard />) : ('')}
+        {dashboardWindow.createAdmin ? (<CreateAdmin />) : ('')}
+        {dashboardWindow.validateUsers ? (<ValidateUsers />) : ('')}
+        {dashboardWindow.usersList ? (<UsersList users={users} />) : ('')}
+        {dashboardWindow.candidatesList ? (<UsersList candidates={candidates} />) : ('')}
+        {dashboardWindow.companiesList ? (<UsersList companies={companies} />) : ('')}
       </main>
 
       <footer className={styles.footer}>
@@ -79,14 +128,3 @@ export default function Home() {
     </>
   )
 }
-
-// export async function getStaticProps() {
-//   const res = await fetch('http://localhost:5000/api/users')
-//   const users = await res.json()
-
-//   return {
-//     props: {
-//       users,
-//     },
-//   }
-// }
