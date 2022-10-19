@@ -13,6 +13,10 @@ export default function UpdateModal({ user }) {
 
     const [open, setOpen] = useState(false);
 
+    const update = () => {
+        
+    }
+
     const handleModal = (bool) => {
         setOpen(bool);
     };
