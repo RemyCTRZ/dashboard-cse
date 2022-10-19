@@ -23,12 +23,13 @@ export default function Home() {
   const [users, setUsers] = useState([])
   const [candidates, setCandidates] = useState([])
   const [companies, setCompanies] = useState([])
+  const [monitorChange, setMonitorChange] = useState(false)
 
   useEffect(() => {
     apiService.get('users').then(response => setUsers(response.data))
     apiService.get('candidates').then(response => setCandidates(response.data))
     apiService.get('companies').then(response => setCompanies(response.data))
-  }, [dashboardWindow])
+  }, [dashboardWindow, monitorChange])
 
   const switchToDashboard = () => {
     setDashboardWindow({
@@ -118,9 +119,9 @@ export default function Home() {
         {dashboardWindow.dashboard ? (<Dashboard />) : ('')}
         {dashboardWindow.createAdmin ? (<CreateAdmin />) : ('')}
         {dashboardWindow.validateUsers ? (<ValidateUsers />) : ('')}
-        {dashboardWindow.usersList ? (<UsersList users={users} />) : ('')}
-        {dashboardWindow.candidatesList ? (<UsersList candidates={candidates} />) : ('')}
-        {dashboardWindow.companiesList ? (<UsersList companies={companies} />) : ('')}
+        {dashboardWindow.usersList ? (<UsersList users={users} setMonitorChange={setMonitorChange} />) : ('')}
+        {dashboardWindow.candidatesList ? (<UsersList candidates={candidates} setMonitorChange={setMonitorChange} />) : ('')}
+        {dashboardWindow.companiesList ? (<UsersList companies={companies} setMonitorChange={setMonitorChange} />) : ('')}
       </main>
 
       <footer className={styles.footer}>

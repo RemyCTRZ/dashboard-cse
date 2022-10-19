@@ -4,9 +4,9 @@ import UpdateModal from './UpdateModal';
 import DeleteModal from './DeleteModal';
 import { useState, useEffect } from 'react';
 
-export default function UsersList({ users, candidates, companies }) {
+export default function UsersList({ users, candidates, companies, setMonitorChange }) {
 
-    const [userList, setUserList] = useState()
+    
 
     useEffect(() => {
         candidates?.map(candidate => {
@@ -17,10 +17,10 @@ export default function UsersList({ users, candidates, companies }) {
             Object.assign(company, company.User)
             delete company['User']
         })
-    }, [candidates, companies])
+    }, [candidates, companies, users])
 
     const usersColumns = [
-        { field: 'id', headerName: 'ID', width: 70 },
+        { field: 'user_id', headerName: 'ID', width: 70 },
         { field: 'mail', headerName: 'Email', width: 160 },
         { field: 'city', headerName: 'Ville', width: 160 },
         { field: 'zip_code', headerName: 'Code postal', width: 160 },
@@ -34,7 +34,7 @@ export default function UsersList({ users, candidates, companies }) {
             renderCell: (params) => (
                 <strong className={styles.container}>
                     <UpdateModal user={params.row} />
-                    <DeleteModal user={params.row} setUserList={setUserList} />
+                    <DeleteModal user={params.row} setMonitorChange={setMonitorChange} />
                 </strong>
             ),
         },
@@ -56,7 +56,7 @@ export default function UsersList({ users, candidates, companies }) {
             renderCell: (params) => (
                 <strong className={styles.container}>
                     <UpdateModal user={params.row} />
-                    <DeleteModal user={params.row} setUserList={setUserList} />
+                    <DeleteModal user={params.row} setMonitorChange={setMonitorChange} />
                 </strong>
             ),
         },
@@ -78,7 +78,7 @@ export default function UsersList({ users, candidates, companies }) {
             renderCell: (params) => (
                 <strong className={styles.container}>
                     <UpdateModal user={params.row} />
-                    <DeleteModal user={params.row} setUserList={setUserList} />
+                    <DeleteModal user={params.row} setMonitorChange={setMonitorChange} />
                 </strong>
             ),
         },
@@ -88,6 +88,7 @@ export default function UsersList({ users, candidates, companies }) {
         <>
             {users ? <>
                 <DataGrid
+                    getRowId={(row) => row.user_id}
                     className={styles.list}
                     rows={users}
                     columns={usersColumns}
