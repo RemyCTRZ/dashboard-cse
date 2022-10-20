@@ -10,7 +10,7 @@ import { FiEdit2 } from 'react-icons/fi'
 import styles from '../styles/UpdateModal.module.css'
 import { apiService } from '../services/APIService';
 
-export default function UpdateModal({ user }) {
+export default function UpdateModal({ user, monitorChange, setMonitorChange }) {
 
     const [open, setOpen] = useState(false);
     const [userInfo, setUserInfo] = useState({
@@ -35,7 +35,17 @@ export default function UpdateModal({ user }) {
     console.log(userInfo)
 
     const updateUser = () => {
-        apiService.put(`users /${user.user_id}`, userInfo).then(response => console.log(response))
+        apiService.put(`users /${user.user_id}`, userInfo)
+            .then(
+                response => {
+                    apiService.get('users')
+                }
+            )
+            .then(
+                response => {
+                    setMonitorChange(!monitorChange)
+                }
+            )
     }
 
     const handleModal = (bool) => {
@@ -44,10 +54,10 @@ export default function UpdateModal({ user }) {
 
     return (
         <div>
-            <button className={styles.btn} onClick={() => { handleModal(true) }}>
+            <button className={styles.btn} onClick={() => { handleModal(!open) }}>
                 <FiEdit2 className={styles.icon} />
             </button>
-            <Dialog open={open} onClose={() => { handleModal(false) }}>
+            <Dialog open={open} onClose={() => { handleModal(!open) }}>
                 <DialogTitle>Modification de profil</DialogTitle>
                 <DialogContent>
                     {/* <DialogContentText>
@@ -96,8 +106,8 @@ export default function UpdateModal({ user }) {
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={() => { updateUser(), handleModal(false) }}>Confirmer</Button>
-                    <Button onClick={() => { handleModal(false) }}>Annuler</Button>
+                    <Button onClick={() => { updateUser(), handleModal(!open) }}>Confirmer</Button>
+                    <Button onClick={() => { handleModal(!open) }}>Annuler</Button>
                 </DialogActions>
             </Dialog>
         </div>

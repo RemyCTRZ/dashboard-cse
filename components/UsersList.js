@@ -31,7 +31,7 @@ export default function UsersList({ users, candidates, companies, setMonitorChan
             field: 'actions', headerName: 'Actions', width: 500,
             renderCell: (params) => (
                 <strong className={styles.container}>
-                    <UpdateModal user={params.row} />
+                    <UpdateModal user={params.row} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />
                     <DeleteModal user={params.row} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />
                 </strong>
             ),
@@ -53,7 +53,7 @@ export default function UsersList({ users, candidates, companies, setMonitorChan
             field: 'actions', headerName: 'Actions', width: 500,
             renderCell: (params) => (
                 <strong className={styles.container}>
-                    <UpdateModal user={params.row} />
+                    <UpdateModal user={params.row} setMonitorChange={setMonitorChange} />
                     <DeleteModal user={params.row} setMonitorChange={setMonitorChange} />
                 </strong>
             ),
@@ -75,7 +75,7 @@ export default function UsersList({ users, candidates, companies, setMonitorChan
             field: 'actions', headerName: 'Actions', width: 500,
             renderCell: (params) => (
                 <strong className={styles.container}>
-                    <UpdateModal user={params.row} />
+                    <UpdateModal user={params.row} setMonitorChange={setMonitorChange} />
                     <DeleteModal user={params.row} setMonitorChange={setMonitorChange} />
                 </strong>
             ),
@@ -86,6 +86,12 @@ export default function UsersList({ users, candidates, companies, setMonitorChan
         <>
             {users ? <>
                 <DataGrid
+                    sx={{
+                        '& .MuiDataGrid-columnHeaders': {
+                            backgroundImage: 'linear-gradient(0deg,hsl(199deg 100% 14%) 0%,hsl(199deg 100% 18%) 50%,hsl(199deg 100% 22%) 100%)',
+                            color: '#fff'
+                        },
+                    }}
                     getRowId={(row) => row.user_id}
                     className={styles.list}
                     rows={users}
