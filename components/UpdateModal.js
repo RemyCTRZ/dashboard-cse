@@ -10,7 +10,7 @@ import { FiEdit2 } from 'react-icons/fi'
 import styles from '../styles/UpdateModal.module.css'
 import { apiService } from '../services/APIService';
 
-export default function UpdateModal({ user }) {
+export default function UpdateModal({ user, setMonitorChange, monitorChange }) {
 
     const [open, setOpen] = useState(false);
     const [userInfo, setUserInfo] = useState({
@@ -24,14 +24,12 @@ export default function UpdateModal({ user }) {
         role: ''
     })
 
-    useEffect( () => {
+    useEffect(() => {
         setUserInfo(user)
-    },[])
+    }, [])
 
-    console.log(userInfo)
-
-    const updateUser = async () => {
-       await apiService.put(`users/${user.user_id}`, userInfo).then(response => console.log(response))
+    const updateUser = () => {
+        apiService.put(`users/${user.user_id}`, userInfo).then(response => setMonitorChange(!monitorChange))
     }
 
     const handleChange = (e) => {
@@ -43,7 +41,6 @@ export default function UpdateModal({ user }) {
     }
 
     const handleModal = (bool) => {
-        console.log('UserInfo', userInfo)
         setOpen(bool);
     };
 
@@ -53,68 +50,88 @@ export default function UpdateModal({ user }) {
                 <FiEdit2 className={styles.icon} />
             </button>
             <Dialog open={open} onClose={() => { handleModal(false) }}>
-                <DialogTitle>Modification de profil</DialogTitle>
-                <DialogContent>
+                <DialogTitle className={styles.dialog_title}>Modification de profil</DialogTitle>
+                <DialogContent className={styles.dialog_content}>
                     {/* <DialogContentText>
                         To subscribe to this website, please enter your email address here. We
                         will send updates occasionally.
                     </DialogContentText> */}
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        type="email"
-                        fullWidth
-                        name="mail"
-                        variant="standard"
-                        value={userInfo.mail}
-                        onChange={handleChange}
-                    />
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        type="text"
-                        fullWidth
-                        name="city"
-                        variant="standard"
-                        value={userInfo.city}
-                        onChange={handleChange}
-                    />
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        type="text"
-                        fullWidth
-                        name="zip_code"
-                        variant="standard"
-                        value={userInfo.zip_code}
-                        onChange={handleChange}
-                    />
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        type="text"
-                        fullWidth
-                        name="phone_number"
-                        variant="standard"
-                        value={userInfo.phone_number}
-                        onChange={handleChange}
-                    />
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        type="text"
-                        fullWidth
-                        name="role"
-                        variant="standard"
-                        value={userInfo.role}
-                        onChange={handleChange}
-                    />
+                    <div className={styles.div}>
+                        <label className={styles.label}>Adresse mail :</label>
+                        <TextField
+                            className={styles.text_field}
+                            autoFocus
+                            margin="dense"
+                            type="email"
+                            fullWidth
+                            name="mail"
+                            variant="standard"
+                            value={userInfo.mail}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div className={styles.div}>
+                        <label className={styles.label}>Ville :</label>
+                        <TextField
+                            className={styles.text_field}
+                            autoFocus
+                            margin="dense"
+                            type="text"
+                            fullWidth
+                            name="city"
+                            variant="standard"
+                            value={userInfo.city}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div className={styles.div}>
+                        <label className={styles.label}>Code postal :</label>
+                        <TextField
+                            className={styles.text_field}
+                            autoFocus
+                            margin="dense"
+                            type="text"
+                            fullWidth
+                            name="zip_code"
+                            variant="standard"
+                            value={userInfo.zip_code}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div className={styles.div}>
+                        <label className={styles.label}>Téléphone :</label>
+                        <TextField
+                            className={styles.text_field}
+                            autoFocus
+                            margin="dense"
+                            type="text"
+                            fullWidth
+                            name="phone_number"
+                            variant="standard"
+                            value={userInfo.phone_number}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div className={styles.div}>
+                        <label className={styles.label}>Rôle :</label>
+                        <TextField
+                            className={styles.text_field}
+                            autoFocus
+                            margin="dense"
+                            type="text"
+                            fullWidth
+                            name="role"
+                            variant="standard"
+                            value={userInfo.role}
+                            onChange={handleChange}
+                        />
+                    </div>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={() => { 
+                    <Button onClick={() => {
                         updateUser()
                         handleModal(false)
-                         }}>Confirmer</Button>
+                    }}>Confirmer</Button>
                     <Button onClick={() => { handleModal(false) }}>Annuler</Button>
                 </DialogActions>
             </Dialog>

@@ -3,6 +3,8 @@ import styles from '../styles/UsersList.module.css'
 import UpdateModal from './UpdateModal';
 import DeleteModal from './DeleteModal';
 import { useEffect } from 'react';
+import { GrClose } from 'react-icons/gr'
+import { BsCheckLg } from 'react-icons/bs'
 
 export default function UsersList({ users, candidates, companies, setMonitorChange, monitorChange }) {
 
