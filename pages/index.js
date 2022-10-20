@@ -119,7 +119,7 @@ export default function Home() {
         {dashboardWindow.dashboard ? (<Dashboard />) : ('')}
         {dashboardWindow.createAdmin ? (<CreateAdmin />) : ('')}
         {dashboardWindow.validateUsers ? (<ValidateUsers />) : ('')}
-        {dashboardWindow.usersList ? (<UsersList users={users} setMonitorChange={setMonitorChange} />) : ('')}
+        {dashboardWindow.usersList ? (<UsersList users={users} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />) : ('')}
         {dashboardWindow.candidatesList ? (<UsersList candidates={candidates} setMonitorChange={setMonitorChange} />) : ('')}
         {dashboardWindow.companiesList ? (<UsersList companies={companies} setMonitorChange={setMonitorChange} />) : ('')}
       </main>

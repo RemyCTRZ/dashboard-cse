@@ -4,9 +4,7 @@ import UpdateModal from './UpdateModal';
 import DeleteModal from './DeleteModal';
 import { useState, useEffect } from 'react';
 
-export default function UsersList({ users, candidates, companies, setMonitorChange }) {
-
-    
+export default function UsersList({ users, candidates, companies, setMonitorChange, monitorChange }) {
 
     useEffect(() => {
         candidates?.map(candidate => {
@@ -34,7 +32,7 @@ export default function UsersList({ users, candidates, companies, setMonitorChan
             renderCell: (params) => (
                 <strong className={styles.container}>
                     <UpdateModal user={params.row} />
-                    <DeleteModal user={params.row} setMonitorChange={setMonitorChange} />
+                    <DeleteModal user={params.row} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />
                 </strong>
             ),
         },

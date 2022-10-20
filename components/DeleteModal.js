@@ -10,7 +10,7 @@ import styles from '../styles/DeleteModal.module.css'
 import { FiTrash2 } from 'react-icons/fi'
 import { apiService } from '../services/APIService'
 
-export default function DeleteModal({ user, setMonitorChange }) {
+export default function DeleteModal({ user, setMonitorChange, monitorChange }) {
 
     const [open, setOpen] = useState(false);
 
@@ -25,7 +25,7 @@ export default function DeleteModal({ user, setMonitorChange }) {
                     apiService.get('users')
                         .then(
                             response => {
-                                setMonitorChange(true)
+                                setMonitorChange(!monitorChange)
                             }
                         )
                 }
@@ -34,8 +34,8 @@ export default function DeleteModal({ user, setMonitorChange }) {
 
     return (
         <div>
-            <button className={styles.btn} onClick={() => { handleModal(true) }}>
-                <FiTrash2 className={styles.icon}/>
+            <button className={styles.btn} onClick={() => { handleModal(!open) }}>
+                <FiTrash2 className={styles.icon} />
             </button>
             <Dialog
                 open={open}
@@ -53,10 +53,10 @@ export default function DeleteModal({ user, setMonitorChange }) {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={() => {
-                        handleModal(false)
+                        handleModal(!open)
                         deleteUser()
                     }} autoFocus>Confirmer</Button>
-                    <Button onClick={() => { handleModal(false) }}>Annuler</Button>
+                    <Button onClick={() => { handleModal(!open) }}>Annuler</Button>
                 </DialogActions>
             </Dialog>
         </div>

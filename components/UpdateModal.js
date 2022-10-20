@@ -8,13 +8,34 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { useState } from 'react';
 import { FiEdit2 } from 'react-icons/fi'
 import styles from '../styles/UpdateModal.module.css'
+import { apiService } from '../services/APIService';
 
 export default function UpdateModal({ user }) {
 
     const [open, setOpen] = useState(false);
+    const [userInfo, setUserInfo] = useState({
+        city: user.city,
+        mail: user.mail,
+        // password: user.password,
+        phone_number: user.phone_number,
+        zip_code: user.zip_code,
+        is_active: user.is_active,
+        is_pending: user.is_pending,
+        role: user.role
+    })
 
-    const update = () => {
-        
+    const handleChange = (e) => {
+        const value = e.target.value
+        setUserInfo({
+            ...userInfo,
+            [e.target.name]: value
+        })
+    }
+
+    console.log(userInfo)
+
+    const updateUser = () => {
+        apiService.put(`users /${user.user_id}`, userInfo).then(response => console.log(response))
     }
 
     const handleModal = (bool) => {
@@ -39,7 +60,7 @@ export default function UpdateModal({ user }) {
                         type="email"
                         fullWidth
                         variant="standard"
-                        value={user.mail}
+                        value={userInfo.mail}
                     />
                     <TextField
                         autoFocus
@@ -47,7 +68,7 @@ export default function UpdateModal({ user }) {
                         type="text"
                         fullWidth
                         variant="standard"
-                        value={user.city}
+                        value={userInfo.city}
                     />
                     <TextField
                         autoFocus
@@ -55,7 +76,7 @@ export default function UpdateModal({ user }) {
                         type="text"
                         fullWidth
                         variant="standard"
-                        value={user.zip_code}
+                        value={userInfo.zip_code}
                     />
                     <TextField
                         autoFocus
@@ -63,7 +84,7 @@ export default function UpdateModal({ user }) {
                         type="text"
                         fullWidth
                         variant="standard"
-                        value={user.phone_number}
+                        value={userInfo.phone_number}
                     />
                     <TextField
                         autoFocus
@@ -71,11 +92,11 @@ export default function UpdateModal({ user }) {
                         type="text"
                         fullWidth
                         variant="standard"
-                        value={user.role}
+                        value={userInfo.role}
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={() => { handleModal(false) }}>Confirmer</Button>
+                    <Button onClick={() => { updateUser(), handleModal(false) }}>Confirmer</Button>
                     <Button onClick={() => { handleModal(false) }}>Annuler</Button>
                 </DialogActions>
             </Dialog>
