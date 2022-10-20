@@ -3,8 +3,10 @@ import styles from '../styles/UsersList.module.css'
 import UpdateModal from './UpdateModal';
 import DeleteModal from './DeleteModal';
 import { useEffect } from 'react';
-import { GrClose } from 'react-icons/gr'
+import { IoClose } from 'react-icons/io5'
 import { BsCheckLg } from 'react-icons/bs'
+import { BiDotsHorizontalRounded } from 'react-icons/bi'
+import { red } from '@mui/material/colors';
 
 export default function UsersList({ users, candidates, companies, setMonitorChange, monitorChange }) {
 
@@ -25,8 +27,20 @@ export default function UsersList({ users, candidates, companies, setMonitorChan
         { field: 'city', headerName: 'Ville', width: 160 },
         { field: 'zip_code', headerName: 'Code postal', width: 160 },
         { field: 'phone_number', headerName: 'Téléphone', width: 160 },
-        { field: 'is_active', headerName: 'Actif', width: 130 },
-        { field: 'is_pending', headerName: 'En attente', width: 130 },
+        {
+            field: 'is_active', headerName: 'Actif', width: 80, sortable: false,
+            renderCell: (params) => (
+                params.colDef.headerName = <p className={styles.title}>Actif</p>,
+                console.log(params.colDef.headerName),
+                params.value ? params.value = <BsCheckLg className={styles.true} /> : params.value = <IoClose className={styles.false} />
+            )
+        },
+        {
+            field: 'is_pending', headerName: 'Validé', width: 80,
+            renderCell: (params) => (
+                params.value ? params.value = <BiDotsHorizontalRounded className={styles.pending} /> : params.value = <BsCheckLg className={styles.true} />
+            )
+        },
         { field: 'role', headerName: 'Rôle', width: 130 },
         { field: 'createdAt', headerName: 'Créé le', width: 160 },
         {
@@ -91,8 +105,8 @@ export default function UsersList({ users, candidates, companies, setMonitorChan
                     sx={{
                         '& .MuiDataGrid-columnHeaders': {
                             backgroundImage: 'linear-gradient(0deg,hsl(199deg 100% 14%) 0%,hsl(199deg 100% 18%) 50%,hsl(199deg 100% 22%) 100%)',
-                            color: '#fff'
-                        },
+                            color: '#fff',
+                        }
                     }}
                     getRowId={(row) => row.user_id}
                     className={styles.list}
@@ -101,6 +115,9 @@ export default function UsersList({ users, candidates, companies, setMonitorChan
                     pageSize={20}
                     rowsPerPageOptions={[20]}
                     disableSelectionOnClick
+                    disableColumnMenu
+                    disableColumnFilter
+                    disableColumnSelector
                 />
 
             </> : ''}
@@ -112,6 +129,9 @@ export default function UsersList({ users, candidates, companies, setMonitorChan
                     pageSize={20}
                     rowsPerPageOptions={[20]}
                     disableSelectionOnClick
+                    disableColumnMenu
+                    disableColumnFilter
+                    disableColumnSelector
                 />
 
             </> : ''}
@@ -123,6 +143,9 @@ export default function UsersList({ users, candidates, companies, setMonitorChan
                     pageSize={20}
                     rowsPerPageOptions={[20]}
                     disableSelectionOnClick
+                    disableColumnMenu
+                    disableColumnFilter
+                    disableColumnSelector
                 />
 
             </> : ''}
