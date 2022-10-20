@@ -2,7 +2,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import styles from '../styles/UsersList.module.css'
 import UpdateModal from './UpdateModal';
 import DeleteModal from './DeleteModal';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 
 export default function UsersList({ users, candidates, companies, setMonitorChange, monitorChange }) {
 
@@ -92,6 +92,7 @@ export default function UsersList({ users, candidates, companies, setMonitorChan
                     columns={usersColumns}
                     pageSize={20}
                     rowsPerPageOptions={[20]}
+                    disableSelectionOnClick
                 />
 
             </> : ''}
@@ -102,6 +103,7 @@ export default function UsersList({ users, candidates, companies, setMonitorChan
                     columns={candidatesColumns}
                     pageSize={20}
                     rowsPerPageOptions={[20]}
+                    disableSelectionOnClick
                 />
 
             </> : ''}
@@ -112,6 +114,7 @@ export default function UsersList({ users, candidates, companies, setMonitorChan
                     columns={companiesColumns}
                     pageSize={20}
                     rowsPerPageOptions={[20]}
+                    disableSelectionOnClick
                 />
 
             </> : ''}
