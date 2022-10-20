@@ -10,7 +10,7 @@ import { FiEdit2 } from 'react-icons/fi'
 import styles from '../styles/UpdateModal.module.css'
 import { apiService } from '../services/APIService';
 
-export default function UpdateModal({ user }) {
+export default function UpdateModal({ user, setMonitorChange, monitorChange }) {
 
     const [open, setOpen] = useState(false);
     const [userInfo, setUserInfo] = useState({
@@ -30,8 +30,9 @@ export default function UpdateModal({ user }) {
 
     console.log(userInfo)
 
-    const updateUser = async () => {
-       await apiService.put(`users/${user.user_id}`, userInfo).then(response => console.log(response))
+    const updateUser = () => {
+        apiService.put(`users/${user.user_id}`, userInfo)
+            .then(response => setMonitorChange(!monitorChange))
     }
 
     const handleChange = (e) => {
