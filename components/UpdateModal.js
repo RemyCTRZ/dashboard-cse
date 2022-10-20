@@ -5,24 +5,34 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FiEdit2 } from 'react-icons/fi'
 import styles from '../styles/UpdateModal.module.css'
 import { apiService } from '../services/APIService';
 
-export default function UpdateModal({ user, monitorChange, setMonitorChange }) {
+export default function UpdateModal({ user }) {
 
     const [open, setOpen] = useState(false);
     const [userInfo, setUserInfo] = useState({
-        city: user.city,
-        mail: user.mail,
+        city: '',
+        mail: '',
         // password: user.password,
-        phone_number: user.phone_number,
-        zip_code: user.zip_code,
-        is_active: user.is_active,
-        is_pending: user.is_pending,
-        role: user.role
+        phone_number: '',
+        zip_code: '',
+        is_active: '',
+        is_pending: '',
+        role: ''
     })
+
+    useEffect( () => {
+        setUserInfo(user)
+    },[])
+
+    console.log(userInfo)
+
+    const updateUser = async () => {
+       await apiService.put(`users/${user.user_id}`, userInfo).then(response => console.log(response))
+    }
 
     const handleChange = (e) => {
         const value = e.target.value
@@ -32,32 +42,17 @@ export default function UpdateModal({ user, monitorChange, setMonitorChange }) {
         })
     }
 
-    console.log(userInfo)
-
-    const updateUser = () => {
-        apiService.put(`users /${user.user_id}`, userInfo)
-            .then(
-                response => {
-                    apiService.get('users')
-                }
-            )
-            .then(
-                response => {
-                    setMonitorChange(!monitorChange)
-                }
-            )
-    }
-
     const handleModal = (bool) => {
+        console.log('UserInfo', userInfo)
         setOpen(bool);
     };
 
     return (
         <div>
-            <button className={styles.btn} onClick={() => { handleModal(!open) }}>
+            <button className={styles.btn} onClick={() => { handleModal(true) }}>
                 <FiEdit2 className={styles.icon} />
             </button>
-            <Dialog open={open} onClose={() => { handleModal(!open) }}>
+            <Dialog open={open} onClose={() => { handleModal(false) }}>
                 <DialogTitle>Modification de profil</DialogTitle>
                 <DialogContent>
                     {/* <DialogContentText>
@@ -69,45 +64,58 @@ export default function UpdateModal({ user, monitorChange, setMonitorChange }) {
                         margin="dense"
                         type="email"
                         fullWidth
+                        name="mail"
                         variant="standard"
                         value={userInfo.mail}
+                        onChange={handleChange}
                     />
                     <TextField
                         autoFocus
                         margin="dense"
                         type="text"
                         fullWidth
+                        name="city"
                         variant="standard"
                         value={userInfo.city}
+                        onChange={handleChange}
                     />
                     <TextField
                         autoFocus
                         margin="dense"
                         type="text"
                         fullWidth
+                        name="zip_code"
                         variant="standard"
                         value={userInfo.zip_code}
+                        onChange={handleChange}
                     />
                     <TextField
                         autoFocus
                         margin="dense"
                         type="text"
                         fullWidth
+                        name="phone_number"
                         variant="standard"
                         value={userInfo.phone_number}
+                        onChange={handleChange}
                     />
                     <TextField
                         autoFocus
                         margin="dense"
                         type="text"
                         fullWidth
+                        name="role"
                         variant="standard"
                         value={userInfo.role}
+                        onChange={handleChange}
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={() => { updateUser(), handleModal(!open) }}>Confirmer</Button>
-                    <Button onClick={() => { handleModal(!open) }}>Annuler</Button>
+                    <Button onClick={() => { 
+                        updateUser()
+                        handleModal(false)
+                         }}>Confirmer</Button>
+                    <Button onClick={() => { handleModal(false) }}>Annuler</Button>
                 </DialogActions>
             </Dialog>
         </div>
