@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { AiFillHome } from 'react-icons/ai'
-import { FaUserCheck, FaUserPlus, FaUsers, FaArrowRight, FaPowerOff } from 'react-icons/fa'
+import { FaUserCheck, FaUserPlus, FaUsers, FaArrowRight, FaPowerOff, FaUserTie, FaUser } from 'react-icons/fa'
 import styles from '../styles/Navbar.module.css'
 
-export default function Navbar({ switchToDashboard, switchToCreateAdmin, switchToValidateUsers, switchToUsersList, switchToCandidatesList, switchToCompaniesList }) {
+export default function Navbar({ switchToDashboard, switchToCreateUser, switchToValidateUsers, switchToUsersList, switchToCandidatesList, switchToCompaniesList }) {
 
     const [isNavbarActive, setIsNavbarActive] = useState(true)
 
@@ -28,10 +28,10 @@ export default function Navbar({ switchToDashboard, switchToCreateAdmin, switchT
                     {isNavbarActive ? (<p className={styles.txt}>Accueil </p>) : ('')}
                 </span>
             </button>
-            <button className={styles.link} onClick={switchToCreateAdmin}>
+            <button className={styles.link} onClick={switchToCreateUser}>
                 <span className={styles.span}>
                     <FaUserPlus className={styles.icon} />
-                    {isNavbarActive ? (<p className={styles.txt}>Création d&apos;admin </p>) : ('')}
+                    {isNavbarActive ? (<p className={styles.txt}>Création d&apos;utilisateur </p>) : ('')}
                 </span>
             </button>
             <button className={styles.link} onClick={switchToValidateUsers}>
@@ -48,13 +48,13 @@ export default function Navbar({ switchToDashboard, switchToCreateAdmin, switchT
             </button>
             <button className={styles.link} onClick={switchToCandidatesList}>
                 <span className={styles.span}>
-                    <FaUsers className={styles.icon} />
+                    <FaUser className={styles.icon} />
                     {isNavbarActive ? (<p className={styles.txt}>Liste de candidats </p>) : ('')}
                 </span>
             </button>
             <button className={styles.link} onClick={switchToCompaniesList}>
                 <span className={styles.span}>
-                    <FaUsers className={styles.icon} />
+                    <FaUserTie className={styles.icon} />
                     {isNavbarActive ? (<p className={styles.txt}>Liste de recruteurs</p>) : ('')}
                 </span>
             </button>

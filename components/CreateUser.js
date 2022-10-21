@@ -1,11 +1,11 @@
 import React from 'react'
-import styles from '../styles/CreateAdmin.module.css'
+import styles from '../styles/CreateUser.module.css'
 import { GrLogin } from 'react-icons/gr'
 
-export default function CreateAdmin() {
+export default function CreateUser() {
     return (
         <section className={styles.section}>
-            <h2 className={styles.title}>Création d&apos;un administrateur</h2>
+            <h2 className={styles.title}>Création d&apos;un utilisateur</h2>
             <div className={styles.container}>
                 <img className={styles.avatar} alt="avatar" src='/assets/images/profile_pic.png' />
                 <article className={styles.article}>
@@ -39,6 +39,16 @@ export default function CreateAdmin() {
                         <input type="password" className={styles.input} autoComplete="off" required ></input>
                         <label className={styles.label}>
                             <span className={styles.span} >Confirmation mot de passe *</span>
+                        </label>
+                    </div>
+                    <div className={styles.input_box}>
+                        <select className={styles.select} required name="role" >
+                            <option value="company" selected>Recruteur</option>
+                            <option value="candidate">Candidat</option>
+                            <option value="admin">Administrateur</option>
+                        </select>
+                        <label className={styles.label}>
+                            <span className={styles.span_role} >Rôle *</span>
                         </label>
                     </div>
                 </article>

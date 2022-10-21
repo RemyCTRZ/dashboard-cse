@@ -48,7 +48,8 @@
 }
 
 .label,
-.span {
+.span,
+.span_role {
     position: absolute;
     color: #2222228a;
     left: .5rem;
@@ -89,7 +90,8 @@
 }
 
 .input:focus+.label .span,
-.input:valid+.label .span {
+.input:valid+.label .span,
+.span_role {
     transform: translateY(-160%);
     left: -.5rem;
     color: #333;

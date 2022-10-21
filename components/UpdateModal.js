@@ -10,10 +10,15 @@ import { FiEdit2 } from 'react-icons/fi'
 import styles from '../styles/UpdateModal.module.css'
 import { apiService } from '../services/APIService';
 
-export default function UpdateModal({ user, setMonitorChange, monitorChange }) {
+export default function UpdateModal({ user, candidates, companies, setMonitorChange, monitorChange }) {
 
     const [open, setOpen] = useState(false);
     const [userInfo, setUserInfo] = useState({
+        lastname: '',
+        firstname: '',
+        birthdate: '',
+        name: '',
+        siret: '',
         city: '',
         mail: '',
         // password: user.password,
@@ -21,7 +26,7 @@ export default function UpdateModal({ user, setMonitorChange, monitorChange }) {
         zip_code: '',
         is_active: '',
         is_pending: '',
-        role: ''
+        role: '',
     })
 
     useEffect(() => {
@@ -56,6 +61,84 @@ export default function UpdateModal({ user, setMonitorChange, monitorChange }) {
                         To subscribe to this website, please enter your email address here. We
                         will send updates occasionally.
                     </DialogContentText> */}
+                    {candidates ? (
+                        <>
+                            <div className={styles.div}>
+                                <label className={styles.label}>Nom :</label>
+                                <TextField
+                                    className={styles.text_field}
+                                    autoFocus
+                                    margin="dense"
+                                    type="text"
+                                    fullWidth
+                                    name="lastname"
+                                    variant="standard"
+                                    value={userInfo.lastname}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                            <div className={styles.div}>
+                                <label className={styles.label}>Prénom :</label>
+                                <TextField
+                                    className={styles.text_field}
+                                    autoFocus
+                                    margin="dense"
+                                    type="text"
+                                    fullWidth
+                                    name="firstname"
+                                    variant="standard"
+                                    value={userInfo.firstname}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                            <div className={styles.div}>
+                                <label className={styles.label}>Date de naissance :</label>
+                                <TextField
+                                    className={styles.text_field}
+                                    autoFocus
+                                    margin="dense"
+                                    type="text"
+                                    fullWidth
+                                    name="birthdate"
+                                    variant="standard"
+                                    value={userInfo.birthdate}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                        </>
+                    ) : ''}
+                    {companies ? (
+                        <>
+                            <div className={styles.div}>
+                                <label className={styles.label}>Nom :</label>
+                                <TextField
+                                    className={styles.text_field}
+                                    autoFocus
+                                    margin="dense"
+                                    type="name"
+                                    fullWidth
+                                    name="name"
+                                    variant="standard"
+                                    value={userInfo.name}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                            <div className={styles.div}>
+                                <label className={styles.label}>Siret :</label>
+                                <TextField
+                                    className={styles.text_field}
+                                    autoFocus
+                                    margin="dense"
+                                    type="siret"
+                                    fullWidth
+                                    name="siret"
+                                    variant="standard"
+                                    value={userInfo.siret}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                        </>
+                    ) : ''}
                     <div className={styles.div}>
                         <label className={styles.label}>Adresse mail :</label>
                         <TextField
