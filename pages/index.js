@@ -8,6 +8,7 @@ import { useState, useEffect } from 'react'
 import ValidateUsers from '../components/ValidateUsers'
 import UsersList from '../components/UsersList'
 import { apiService } from '../services/APIService'
+import Login from '../components/Login'
 
 export default function DashboardAdmin() {
 
@@ -24,6 +25,7 @@ export default function DashboardAdmin() {
   const [candidates, setCandidates] = useState([])
   const [companies, setCompanies] = useState([])
   const [monitorChange, setMonitorChange] = useState(false)
+  const [isConnected, setIsConnected] = useState(false)
 
   useEffect(() => {
     apiService.get('users').then(response => setUsers(response.data))
@@ -97,6 +99,11 @@ export default function DashboardAdmin() {
     })
   }
 
+  const user = {
+    name: "Rémy",
+    role: "Super Administrateur",
+    isConnected: true,
+  }
 
   return (
     <>
@@ -106,26 +113,33 @@ export default function DashboardAdmin() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Header />
-      <main className={styles.main}>
-        <Navbar
-          switchToDashboard={switchToDashboard}
-          switchToCreateUser={switchToCreateUser}
-          switchToValidateUsers={switchToValidateUsers}
-          switchToUsersList={switchToUsersList}
-          switchToCandidatesList={switchToCandidatesList}
-          switchToCompaniesList={switchToCompaniesList}
-        />
-        {dashboardWindow.dashboard ? (<Dashboard />) : ('')}
-        {dashboardWindow.createUser ? (<CreateUser />) : ('')}
-        {dashboardWindow.validateUsers ? (<ValidateUsers />) : ('')}
-        {dashboardWindow.usersList ? (<UsersList users={users} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />) : ('')}
-        {dashboardWindow.candidatesList ? (<UsersList candidates={candidates} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />) : ('')}
-        {dashboardWindow.companiesList ? (<UsersList companies={companies} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />) : ('')}
-      </main>
-
-      <footer className={styles.footer}>
-      </footer>
+      {isConnected ? (
+        <>
+          <Header
+            user={user}
+          />
+          <main className={styles.main}>
+            <Navbar
+              isConnected={isConnected}
+              setIsConnected={setIsConnected}
+              switchToDashboard={switchToDashboard}
+              switchToCreateUser={switchToCreateUser}
+              switchToValidateUsers={switchToValidateUsers}
+              switchToUsersList={switchToUsersList}
+              switchToCandidatesList={switchToCandidatesList}
+              switchToCompaniesList={switchToCompaniesList}
+            />
+            {dashboardWindow.dashboard ? (<Dashboard />) : ('')}
+            {dashboardWindow.createUser ? (<CreateUser />) : ('')}
+            {dashboardWindow.validateUsers ? (<ValidateUsers />) : ('')}
+            {dashboardWindow.usersList ? (<UsersList users={users} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />) : ('')}
+            {dashboardWindow.candidatesList ? (<UsersList candidates={candidates} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />) : ('')}
+            {dashboardWindow.companiesList ? (<UsersList companies={companies} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />) : ('')}
+          </main>
+        </>
+      ) : (
+        <Login setIsConnected={setIsConnected} isConnected={isConnected} />
+      )}
     </>
   )
 }

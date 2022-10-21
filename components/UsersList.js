@@ -2,23 +2,13 @@ import { DataGrid } from '@mui/x-data-grid';
 import styles from '../styles/UsersList.module.css'
 import UpdateModal from './UpdateModal';
 import DeleteModal from './DeleteModal';
-import { useEffect } from 'react';
 import { IoClose } from 'react-icons/io5'
 import { BsCheckLg } from 'react-icons/bs'
 import { BiDotsHorizontalRounded } from 'react-icons/bi'
 
 export default function UsersList({ users, candidates, companies, setMonitorChange, monitorChange }) {
 
-    useEffect(() => {
-        candidates?.map(candidate => {
-            Object.assign(candidate, candidate.User)
-            delete candidate['User']
-        })
-        companies?.map(company => {
-            Object.assign(company, company.User)
-            delete company['User']
-        })
-    }, [candidates, companies, users])
+    
 
     const usersColumns = [
         { field: 'user_id', headerName: 'ID', width: 70 },

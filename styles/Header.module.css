@@ -11,13 +11,29 @@
 }
 
 .title {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
     margin-left: 5rem;
+}
+
+.role {
+    font-size: .7em;
+    font-weight: 500;
 }
 
 .username {
     font-weight: 500;
     font-size: 1.2em;
     margin-right: 2rem;
+    color: var(--black-text);
+    background-color: var(--white);
+    padding: .5rem 1rem;
+    border-radius: 30rem;
+}
+
+.user {
+    color: rgb(20, 135, 20);
 }
 
 .logo {
