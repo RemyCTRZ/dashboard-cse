@@ -43,7 +43,7 @@ export default function CreateUser() {
                     </div>
                     <div className={styles.input_box}>
                         <select className={styles.select} required name="role" >
-                            <option value="company" selected>Recruteur</option>
+                            <option value="company">Recruteur</option>
                             <option value="candidate">Candidat</option>
                             <option value="admin">Administrateur</option>
                         </select>

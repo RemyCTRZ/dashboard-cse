@@ -57,10 +57,7 @@ export default function UpdateModal({ user, candidates, companies, setMonitorCha
             <Dialog open={open} onClose={() => { handleModal(false) }}>
                 <DialogTitle className={styles.dialog_title}>Modification de profil</DialogTitle>
                 <DialogContent className={styles.dialog_content}>
-                    {/* <DialogContentText>
-                        To subscribe to this website, please enter your email address here. We
-                        will send updates occasionally.
-                    </DialogContentText> */}
+
                     {candidates ? (
                         <>
                             <div className={styles.div}>
@@ -107,6 +104,7 @@ export default function UpdateModal({ user, candidates, companies, setMonitorCha
                             </div>
                         </>
                     ) : ''}
+
                     {companies ? (
                         <>
                             <div className={styles.div}>
@@ -139,6 +137,7 @@ export default function UpdateModal({ user, candidates, companies, setMonitorCha
                             </div>
                         </>
                     ) : ''}
+
                     <div className={styles.div}>
                         <label className={styles.label}>Adresse mail :</label>
                         <TextField

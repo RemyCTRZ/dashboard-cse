@@ -16,7 +16,6 @@ export default function DeleteModal({ user, setMonitorChange, monitorChange }) {
 
     const handleModal = (bool) => {
         setOpen(bool);
-        console.log("test", monitorChange)
     };
 
     const deleteUser = () => {
@@ -27,7 +26,6 @@ export default function DeleteModal({ user, setMonitorChange, monitorChange }) {
                         .then(
                             response => {
                                 setMonitorChange(!monitorChange)
-                                console.log(monitorChange)
                             }
                         )
                 }

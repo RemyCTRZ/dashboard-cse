@@ -1,14 +1,13 @@
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, frFR } from '@mui/x-data-grid';
 import styles from '../styles/UsersList.module.css'
 import UpdateModal from './UpdateModal';
 import DeleteModal from './DeleteModal';
 import { IoClose } from 'react-icons/io5'
 import { BsCheckLg } from 'react-icons/bs'
 import { BiDotsHorizontalRounded } from 'react-icons/bi'
+import CreateModal from './CreateModal';
 
 export default function UsersList({ users, candidates, companies, setMonitorChange, monitorChange }) {
-
-    
 
     const usersColumns = [
         { field: 'user_id', headerName: 'ID', width: 70 },
@@ -106,6 +105,7 @@ export default function UsersList({ users, candidates, companies, setMonitorChan
         },
     ];
 
+
     return (
         <>
             {users ? <>
@@ -132,6 +132,7 @@ export default function UsersList({ users, candidates, companies, setMonitorChan
                     disableColumnMenu
                     disableColumnFilter
                     disableColumnSelector
+                    localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
                 />
 
             </> : ''}
@@ -158,6 +159,7 @@ export default function UsersList({ users, candidates, companies, setMonitorChan
                     disableColumnMenu
                     disableColumnFilter
                     disableColumnSelector
+                    localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
                 />
 
             </> : ''}
@@ -184,9 +186,10 @@ export default function UsersList({ users, candidates, companies, setMonitorChan
                     disableColumnMenu
                     disableColumnFilter
                     disableColumnSelector
+                    localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
                 />
-
             </> : ''}
+            <CreateModal />
         </>
     );
 }

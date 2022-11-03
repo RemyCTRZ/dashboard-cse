@@ -14,13 +14,13 @@ export default function Login({ setIsConnected, isConnected }) {
                     <form className={styles.form}>
                         <h2 className={styles.title}>Bienvenue</h2>
                         <div className={styles.input_box}>
-                            <input className={styles.input} type="email" placeholder='' name="email" autocomplete="off" required ></input>
+                            <input className={styles.input} type="email" placeholder='' name="email" autoComplete="off" required ></input>
                             <label className={styles.label}>
                                 <span className={styles.span}>Mail *</span>
                             </label>
                         </div>
                         <div className={styles.input_box}>
-                            <input type="password" className={styles.input} placeholder='' autocomplete="off" required></input>
+                            <input type="password" className={styles.input} placeholder='' autoComplete="off" required></input>
                             <label className={styles.label}>
                                 <span className={styles.span}>Mot de passe *</span>
                             </label>

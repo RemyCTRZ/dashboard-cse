@@ -22,8 +22,11 @@ export default function DashboardAdmin() {
   })
 
   const [users, setUsers] = useState([])
+
   const [candidates, setCandidates] = useState([])
+
   const [companies, setCompanies] = useState([])
+
   const [monitorChange, setMonitorChange] = useState(false)
   const [isConnected, setIsConnected] = useState(false)
 
@@ -32,6 +35,7 @@ export default function DashboardAdmin() {
     apiService.get('candidates').then(response => setCandidates(response.data))
     apiService.get('companies').then(response => setCompanies(response.data))
   }, [dashboardWindow, monitorChange])
+
 
   const switchToDashboard = () => {
     setDashboardWindow({
@@ -129,7 +133,8 @@ export default function DashboardAdmin() {
               switchToCandidatesList={switchToCandidatesList}
               switchToCompaniesList={switchToCompaniesList}
             />
-            {dashboardWindow.dashboard ? (<Dashboard />) : ('')}
+            {dashboardWindow.dashboard ? (
+              <Dashboard companies={companies} candidates={candidates} users={users} />) : ('')}
             {dashboardWindow.createUser ? (<CreateUser />) : ('')}
             {dashboardWindow.validateUsers ? (<ValidateUsers />) : ('')}
             {dashboardWindow.usersList ? (<UsersList users={users} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />) : ('')}

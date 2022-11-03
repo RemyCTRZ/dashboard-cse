@@ -12,7 +12,8 @@ const apiService = {
             .post(`${url}/api/auth/login`, logs)
     },
     get(ressource) {
-        return axios.get(`${url}/api/${ressource}`)
+        return axios
+            .get(`${url}/api/${ressource}`)
     },
     post(ressource, data) {
         return axios
@@ -27,5 +28,5 @@ const apiService = {
             .delete(`${url}/api/${ressource}/${id}`)
     },
 }
-  
+
 export { apiService }
