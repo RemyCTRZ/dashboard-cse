@@ -7,7 +7,9 @@ export default function CreateUser() {
         <section className={styles.section}>
             <h2 className={styles.title}>Création d&apos;un utilisateur</h2>
             <div className={styles.container}>
-                <img className={styles.avatar} alt="avatar" src='/assets/images/profile_pic.png' />
+                <div className={styles.avatar_box}>
+                    <img className={styles.avatar} alt="avatar" src='/assets/images/profile_pic.png' />
+                </div>
                 <article className={styles.article}>
                     <div className={styles.input_box}>
                         <input className={styles.input} autoComplete="off" required></input>

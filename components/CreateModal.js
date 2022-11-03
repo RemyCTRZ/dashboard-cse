@@ -4,7 +4,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styles from '../styles/CreateModal.module.css'
 import { apiService } from '../services/APIService';
 import { FaUserPlus } from 'react-icons/fa';
@@ -13,7 +13,20 @@ export default function CreateModal() {
 
     const [open, setOpen] = useState(false);
     const [selectedRole, setSelectedRole] = useState('candidate')
-    const [userInfo, setUserInfo] = useState('')
+    const [userInfo, setUserInfo] = useState({
+        mail: null,
+        password: null,
+        is_active: null,
+        is_pending: null,
+        zip_code: null,
+        city: null,
+        address: null,
+        phone_number: null,
+        role: null,
+        lastname: null,
+        firstname: null,
+        birthdate: null
+    })
 
     const handleChange = (e) => {
         const value = e.target.value
