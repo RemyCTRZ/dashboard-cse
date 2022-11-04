@@ -1,30 +1,37 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styles from '../styles/CreateUser.module.css'
 import { GrLogin } from 'react-icons/gr'
+import FileUploader from './FileUploader'
 
 export default function CreateUser() {
+
+    const [selectedAvatar, setSelectedAvatar] = useState()
+
     return (
-        <section className={styles.section}>
+        <form className={styles.section}>
             <h2 className={styles.title}>Création d&apos;un utilisateur</h2>
             <div className={styles.container}>
                 <div className={styles.avatar_box}>
-                    <img className={styles.avatar} alt="avatar" src='/assets/images/profile_pic.png' />
+                    <FileUploader
+                        onFileSelectSuccess={(file) => setSelectedAvatar(file)}
+                        onFileSelectError={({ error }) => alert(error)}
+                    />
                 </div>
                 <article className={styles.article}>
                     <div className={styles.input_box}>
-                        <input className={styles.input} autoComplete="off" required></input>
+                        <input className={styles.input} autoComplete="new-password" required></input>
                         <label className={styles.label}>
                             <span className={styles.span}>Nom *</span>
                         </label>
                     </div>
                     <div className={styles.input_box}>
-                        <input className={styles.input} autoComplete="off" required ></input>
+                        <input className={styles.input} autoComplete="new-password" required ></input>
                         <label className={styles.label}>
                             <span className={styles.span}>Prénom *</span>
                         </label>
                     </div>
                     <div className={styles.input_box}>
-                        <input className={styles.input} autoComplete="off" required ></input>
+                        <input className={styles.input} required autoComplete="new-password" ></input>
                         <label className={styles.label}>
                             <span className={styles.span}>Mail *</span>
                         </label>
@@ -32,13 +39,13 @@ export default function CreateUser() {
                 </article>
                 <article className={styles.article} id={styles.last_inputs}>
                     <div className={styles.input_box}>
-                        <input type="password" className={styles.input} autoComplete="off" required></input>
+                        <input type="password" className={styles.input} autoComplete="new-password" required></input>
                         <label className={styles.label}>
                             <span className={styles.span}>Mot de passe *</span>
                         </label>
                     </div>
                     <div className={styles.input_box}>
-                        <input type="password" className={styles.input} autoComplete="off" required ></input>
+                        <input type="password" className={styles.input} autoComplete="new-password" required ></input>
                         <label className={styles.label}>
                             <span className={styles.span} >Confirmation mot de passe *</span>
                         </label>
@@ -56,6 +63,6 @@ export default function CreateUser() {
                 </article>
                 <button className={styles.button}><GrLogin className={styles.icon} /></button>
             </div>
-        </section>
+        </form>
     )
 }

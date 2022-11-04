@@ -189,7 +189,7 @@ export default function UsersList({ users, candidates, companies, setMonitorChan
                     localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
                 />
             </> : ''}
-            <CreateModal />
+            <CreateModal monitorChange={monitorChange} setMonitorChange={setMonitorChange} />
         </>
     );
 }

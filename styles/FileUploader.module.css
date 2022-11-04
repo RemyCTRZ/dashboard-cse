@@ -1,0 +1,62 @@
+.input {
+    display: none;
+}
+
+.avatar_shake {
+    animation: shake .2s;
+    border: 3px solid rgba(255, 0, 0, 0.4);
+}
+
+@keyframes shake {
+    0% {
+        margin-left: 0rem;
+    }
+
+    25% {
+        margin-left: 0.5rem;
+    }
+
+    75% {
+        margin-left: -0.5rem;
+    }
+
+    100% {
+        margin-left: 0rem;
+    }
+}
+
+.label {
+    position: absolute;
+    transform: translateY(-12rem);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 12rem;
+    width: 12rem;
+    border-radius: 50%;
+    background-color: transparent;
+    color: #fff;
+    font-size: 0;
+    font-weight: 500;
+    cursor: pointer;
+    border: 3px solid transparent;
+    transition: font-size .3s ease-in-out, background-color .3s ease-in-out;
+}
+
+.label:hover {
+    font-size: 1.3em;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.avatar,
+.avatar_shake {
+    height: 12rem;
+    width: 12rem;
+    z-index: 1;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.avatar {
+    border: 3px solid #2222220f;
+}

@@ -18,39 +18,6 @@
     width: 100%;
 }
 
-.avatar_box {
-    position: relative;
-}
-
-.avatar {
-    position: relative;
-    height: 12rem;
-    aspect-ratio: 1/1;
-    border-radius: 50%;
-    object-fit: cover;
-}
-
-.avatar_box::after {
-    position: absolute;
-    display: grid;
-    place-content: center;
-    content: "🖼️";
-    font-size: 0;
-    height: 12rem;
-    width: 12rem;
-    border-radius: 50%;
-    background-color: transparent;
-    top: 0;
-    left: 0;
-    cursor: pointer;
-    transition: background-color .3s ease-in-out, font-size .3s ease-in-out;
-}
-
-.avatar_box:hover.avatar_box::after {
-    font-size: 5rem;
-    background-color: rgba(0, 0, 0, 0.5);
-}
-
 .container {
     position: relative;
     padding: 3rem 2rem;

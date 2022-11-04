@@ -21,7 +21,6 @@ export default function UpdateModal({ user, candidates, companies, setMonitorCha
         siret: '',
         city: '',
         mail: '',
-        // password: user.password,
         phone_number: '',
         zip_code: '',
         is_active: '',
@@ -186,7 +185,7 @@ export default function UpdateModal({ user, candidates, companies, setMonitorCha
                             className={styles.text_field}
                             autoFocus
                             margin="dense"
-                            type="text"
+                            type="tel"
                             fullWidth
                             name="phone_number"
                             variant="standard"

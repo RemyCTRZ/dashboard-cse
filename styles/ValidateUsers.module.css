@@ -19,6 +19,7 @@
     width: 100%;
     gap: 1rem;
     padding: 1rem;
+    overflow-y: scroll;
 }
 
 .title {
@@ -38,16 +39,16 @@
 .info_container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     width: 100%;
 }
 
-.nb {
+.nb,
+.nb_zero {
     font-size: 3rem;
 }
 
-.nb[data-empty] {
+.nb_zero {
     color: green;
 }
 

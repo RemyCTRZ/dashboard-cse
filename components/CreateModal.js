@@ -9,24 +9,32 @@ import styles from '../styles/CreateModal.module.css'
 import { apiService } from '../services/APIService';
 import { FaUserPlus } from 'react-icons/fa';
 
-export default function CreateModal() {
+export default function CreateModal({ setMonitorChange, monitorChange }) {
 
     const [open, setOpen] = useState(false);
     const [selectedRole, setSelectedRole] = useState('candidate')
     const [userInfo, setUserInfo] = useState({
         mail: null,
         password: null,
-        is_active: null,
-        is_pending: null,
+        is_active: false,
+        is_pending: true,
         zip_code: null,
         city: null,
         address: null,
         phone_number: null,
-        role: null,
+        role: "candidat",
         lastname: null,
         firstname: null,
-        birthdate: null
+        birthdate: null,
+        name: null,
+        siret: null,
     })
+
+    const createUser = () => {
+        if (userInfo.role == 'candidat') apiService.post(`candidates/`, userInfo).then(response => setMonitorChange(!monitorChange))
+        if (userInfo.role == 'entreprise') apiService.post(`companies/`, userInfo).then(response => setMonitorChange(!monitorChange))
+        if (userInfo.role == 'admin') apiService.post(`admins/`, userInfo).then(response => setMonitorChange(!monitorChange))
+    }
 
     const handleChange = (e) => {
         const value = e.target.value
@@ -51,14 +59,14 @@ export default function CreateModal() {
                             <label className={styles.label}>
                                 <span className={styles.span_role} >Rôle :</span>
                             </label>
-                            <select className={styles.select} required name="role" onChange={(e) => setSelectedRole(e.target.value)}>
-                                <option value="candidate">Candidat</option>
-                                <option value="company">Recruteur</option>
+                            <select className={styles.select} required name="role" onChange={(e) => { handleChange(e); setSelectedRole(e.target.value) }}>
+                                <option value="candidat">Candidat</option>
+                                <option value="recruteur">Recruteur</option>
                                 <option value="admin">Administrateur</option>
                             </select>
                         </div>
 
-                        {selectedRole == "candidate" ? (
+                        {selectedRole == "candidat" &&
                             <>
                                 <div className={styles.div}>
                                     <label className={styles.label}>Nom :</label>
@@ -100,12 +108,12 @@ export default function CreateModal() {
                                     />
                                 </div>
                             </>
-                        ) : ''}
+                        }
 
-                        {selectedRole == "company" ? (
+                        {selectedRole == "recruteur" &&
                             <>
                                 <div className={styles.div}>
-                                    <label className={styles.label}>Nom :</label>
+                                    <label className={styles.label}>Nom de l'entreprise :</label>
                                     <TextField
                                         className={styles.text_field}
                                         autoFocus
@@ -128,12 +136,13 @@ export default function CreateModal() {
                                         name="siret"
                                         variant="standard"
                                         onChange={handleChange}
+                                        inputProps={{ maxLength: 14 }}
                                     />
                                 </div>
                             </>
-                        ) : ''}
+                        }
 
-                        {selectedRole == "admin" ? (
+                        {selectedRole == "admin" &&
                             <>
                                 <div className={styles.div}>
                                     <label className={styles.label}>Nom :</label>
@@ -162,8 +171,7 @@ export default function CreateModal() {
                                     />
                                 </div>
                             </>
-                        ) : ''}
-
+                        }
                     </div>
 
                     <div className={styles.second_row}>
@@ -177,6 +185,32 @@ export default function CreateModal() {
                                 type="email"
                                 fullWidth
                                 name="mail"
+                                variant="standard"
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <div className={styles.div}>
+                            <label className={styles.label}>Mot de passe :</label>
+                            <TextField
+                                className={styles.text_field}
+                                autoFocus
+                                margin="dense"
+                                type="password"
+                                fullWidth
+                                name="password"
+                                variant="standard"
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <div className={styles.div}>
+                            <label className={styles.label}>Adresse :</label>
+                            <TextField
+                                className={styles.text_field}
+                                autoFocus
+                                margin="dense"
+                                type="text"
+                                fullWidth
+                                name="address"
                                 variant="standard"
                                 onChange={handleChange}
                             />
@@ -214,19 +248,22 @@ export default function CreateModal() {
                                 className={styles.text_field}
                                 autoFocus
                                 margin="dense"
-                                type="text"
+                                type="tel"
                                 fullWidth
                                 name="phone_number"
                                 variant="standard"
                                 onChange={handleChange}
-                                inputProps={{ maxLength: 10 }}
+                                inputProps={{ maxLength: 10, pattern: "[0-9]" }}
                             />
                         </div>
                     </div>
                 </DialogContent>
 
                 <DialogActions>
-                    <Button onClick={() => { handleModal(false) }}>Créer</Button>
+                    <Button onClick={() => {
+                        handleModal(false)
+                        createUser()
+                    }}>Créer</Button>
                     <Button onClick={() => { handleModal(false) }}>Annuler</Button>
                 </DialogActions>
             </Dialog >

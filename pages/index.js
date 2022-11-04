@@ -136,7 +136,7 @@ export default function DashboardAdmin() {
             {dashboardWindow.dashboard ? (
               <Dashboard companies={companies} candidates={candidates} users={users} />) : ('')}
             {dashboardWindow.createUser ? (<CreateUser />) : ('')}
-            {dashboardWindow.validateUsers ? (<ValidateUsers />) : ('')}
+            {dashboardWindow.validateUsers ? (<ValidateUsers companies={companies} candidates={candidates} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />) : ('')}
             {dashboardWindow.usersList ? (<UsersList users={users} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />) : ('')}
             {dashboardWindow.candidatesList ? (<UsersList candidates={candidates} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />) : ('')}
             {dashboardWindow.companiesList ? (<UsersList companies={companies} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />) : ('')}
