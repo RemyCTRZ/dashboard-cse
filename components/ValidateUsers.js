@@ -38,16 +38,16 @@ export default function ValidateUsers({ companies, candidates, setMonitorChange,
                         <h3 className={styles.title_sub}>Recruteurs</h3>
                         <p className={pendingCompaniesCounter != 0 ? styles.nb : styles.nb_zero}>{pendingCompaniesCounter}</p>
                         <hr className={styles.hr} />
-                        {companies.map(company => {
-                            if (company.is_pending) return <Profil user={company} role='recruteur' />
+                        {companies.map((company, i) => {
+                            if (company.is_pending) return <Profil key={i} user={company} monitorChange={monitorChange} setMonitorChange={setMonitorChange} role='recruteur' />
                         })}
                     </div>
                     <div className={styles.info_container}>
                         <h3 className={styles.title_sub}>Candidats</h3>
                         <p className={pendingCandidatesCounter != 0 ? styles.nb : styles.nb_zero}>{pendingCandidatesCounter}</p>
                         <hr className={styles.hr} />
-                        {candidates.map(candidate => {
-                            if (candidate.is_pending) return <Profil user={candidate} role='candidat' />
+                        {candidates.map((candidate, i) => {
+                            if (candidate.is_pending) return <Profil key={i} user={candidate} monitorChange={monitorChange} setMonitorChange={setMonitorChange} role='candidat' />
                         })}
                     </div>
                 </article>

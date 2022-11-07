@@ -1,14 +1,23 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styles from '../styles/Profil.module.css'
 import { AiFillCheckCircle, AiFillCloseCircle } from 'react-icons/ai'
+import { apiService } from '../services/APIService'
 
-export default function Profil({ user, role }) {
+export default function Profil({ user, role, monitorChange, setMonitorChange }) {
+
+    const updateUser = () => {
+        let updatedUserInfo = {
+            is_active: true,
+            is_pending: false
+        }
+        apiService.put(`users/${user.user_id}`, updatedUserInfo).then(response => setMonitorChange(!monitorChange))
+    }
 
     return (
         <>
             <article className={styles.article}>
                 <div className={styles.btn_container}>
-                    <button className={styles.btn}><AiFillCheckCircle className={styles.icon} /></button>
+                    <button className={styles.btn} onClick={() => updateUser()}><AiFillCheckCircle className={styles.icon} /></button>
                     <button className={styles.btn}><AiFillCloseCircle className={styles.icon} /></button>
                 </div>
                 <div className={styles.container}>
