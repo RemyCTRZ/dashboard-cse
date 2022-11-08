@@ -3,7 +3,7 @@ import { AiFillHome } from 'react-icons/ai'
 import { FaUserCheck, FaUserPlus, FaUsers, FaArrowRight, FaPowerOff, FaUserTie, FaUser } from 'react-icons/fa'
 import styles from '../styles/Navbar.module.css'
 
-export default function Navbar({ switchToDashboard, switchToCreateUser, switchToValidateUsers, switchToUsersList, switchToCandidatesList, switchToCompaniesList, isConnected, setIsConnected }) {
+export default function Navbar({ switchToDashboard, switchToValidateUsers, switchToUsersList, switchToCandidatesList, switchToCompaniesList, isConnected, setIsConnected }) {
 
     const [isNavbarActive, setIsNavbarActive] = useState(true)
 
@@ -27,12 +27,6 @@ export default function Navbar({ switchToDashboard, switchToCreateUser, switchTo
                 <span className={styles.span}>
                     <AiFillHome className={styles.icon} />
                     {isNavbarActive ? (<p className={styles.txt}>Accueil </p>) : ('')}
-                </span>
-            </button>
-            <button className={styles.link} onClick={switchToCreateUser}>
-                <span className={styles.span}>
-                    <FaUserPlus className={styles.icon} />
-                    {isNavbarActive ? (<p className={styles.txt}>Création d&apos;utilisateur </p>) : ('')}
                 </span>
             </button>
             <button className={styles.link} onClick={switchToValidateUsers}>

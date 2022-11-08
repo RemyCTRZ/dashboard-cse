@@ -8,9 +8,11 @@ import { useEffect, useState } from 'react';
 import { FiEdit2 } from 'react-icons/fi'
 import styles from '../styles/UpdateModal.module.css'
 import { apiService } from '../services/APIService';
+import FileUploader from './FileUploader';
 
 export default function UpdateModal({ user, candidates, companies, setMonitorChange, monitorChange }) {
 
+    const [selectedAvatar, setSelectedAvatar] = useState()
     const [open, setOpen] = useState(false);
     const [userInfo, setUserInfo] = useState({
         lastname: '',
@@ -32,7 +34,9 @@ export default function UpdateModal({ user, candidates, companies, setMonitorCha
     }, [])
 
     const updateUser = () => {
-        apiService.put(`users/${user.user_id}`, userInfo).then(response => setMonitorChange(!monitorChange))
+        if (userInfo.role == 'candidat') apiService.put(`candidates/${user.id}`, userInfo).then(response => setMonitorChange(!monitorChange))
+        if (userInfo.role == 'entreprise') apiService.put(`companies/${user.id}`, userInfo).then(response => setMonitorChange(!monitorChange))
+        if (userInfo.role == 'admin') apiService.put(`admins/${user.id}`, userInfo).then(response => setMonitorChange(!monitorChange))
     }
 
     const handleChange = (e) => {
@@ -55,7 +59,10 @@ export default function UpdateModal({ user, candidates, companies, setMonitorCha
             <Dialog open={open} onClose={() => { handleModal(false) }}>
                 <DialogTitle className={styles.dialog_title}>Modification de profil</DialogTitle>
                 <DialogContent className={styles.dialog_content}>
-
+                    <FileUploader
+                        onFileSelectSuccess={(file) => setSelectedAvatar(file)}
+                        onFileSelectError={({ error }) => alert(error)}
+                    />
                     {candidates ? (
                         <>
                             <div className={styles.div}>

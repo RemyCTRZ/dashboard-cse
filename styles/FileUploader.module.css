@@ -1,3 +1,7 @@
+.div {
+    align-self: center;
+}
+
 .input {
     display: none;
 }
@@ -52,7 +56,6 @@
 .avatar_shake {
     height: 12rem;
     width: 12rem;
-    z-index: 1;
     object-fit: cover;
     border-radius: 50%;
 }

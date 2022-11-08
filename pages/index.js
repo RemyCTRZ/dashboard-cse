@@ -3,7 +3,6 @@ import styles from '../styles/Home.module.css'
 import Header from '../components/Header'
 import Navbar from '../components/Navbar'
 import Dashboard from '../components/Dashboard'
-import CreateUser from '../components/CreateUser'
 import { useState, useEffect } from 'react'
 import ValidateUsers from '../components/ValidateUsers'
 import UsersList from '../components/UsersList'
@@ -14,7 +13,6 @@ export default function DashboardAdmin() {
 
   const [dashboardWindow, setDashboardWindow] = useState({
     dashboard: true,
-    createUser: false,
     validateUsers: false,
     usersList: false,
     candidatesList: false,
@@ -40,18 +38,6 @@ export default function DashboardAdmin() {
   const switchToDashboard = () => {
     setDashboardWindow({
       dashboard: true,
-      createUser: false,
-      validateUsers: false,
-      usersList: false,
-      candidatesList: false,
-      companiesList: false,
-    })
-  }
-
-  const switchToCreateUser = () => {
-    setDashboardWindow({
-      dashboard: false,
-      createUser: true,
       validateUsers: false,
       usersList: false,
       candidatesList: false,
@@ -62,7 +48,6 @@ export default function DashboardAdmin() {
   const switchToValidateUsers = () => {
     setDashboardWindow({
       dashboard: false,
-      createUser: false,
       validateUsers: true,
       usersList: false,
       candidatesList: false,
@@ -73,7 +58,6 @@ export default function DashboardAdmin() {
   const switchToUsersList = () => {
     setDashboardWindow({
       dashboard: false,
-      createUser: false,
       validateUsers: false,
       usersList: true,
       candidatesList: false,
@@ -84,7 +68,6 @@ export default function DashboardAdmin() {
   const switchToCandidatesList = () => {
     setDashboardWindow({
       dashboard: false,
-      createUser: false,
       validateUsers: false,
       usersList: false,
       candidatesList: true,
@@ -95,7 +78,6 @@ export default function DashboardAdmin() {
   const switchToCompaniesList = () => {
     setDashboardWindow({
       dashboard: false,
-      createUser: false,
       validateUsers: false,
       usersList: false,
       candidatesList: false,
@@ -127,7 +109,6 @@ export default function DashboardAdmin() {
               isConnected={isConnected}
               setIsConnected={setIsConnected}
               switchToDashboard={switchToDashboard}
-              switchToCreateUser={switchToCreateUser}
               switchToValidateUsers={switchToValidateUsers}
               switchToUsersList={switchToUsersList}
               switchToCandidatesList={switchToCandidatesList}
@@ -135,7 +116,6 @@ export default function DashboardAdmin() {
             />
             {dashboardWindow.dashboard ? (
               <Dashboard companies={companies} candidates={candidates} users={users} />) : ('')}
-            {dashboardWindow.createUser ? (<CreateUser />) : ('')}
             {dashboardWindow.validateUsers ? (<ValidateUsers companies={companies} candidates={candidates} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />) : ('')}
             {dashboardWindow.usersList ? (<UsersList users={users} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />) : ('')}
             {dashboardWindow.candidatesList ? (<UsersList candidates={candidates} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />) : ('')}

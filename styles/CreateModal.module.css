@@ -43,6 +43,13 @@
     font-weight: 500;
 }
 
+.first_row,
+.second_row {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 .create_btn {
     position: absolute;
     background-color: green;

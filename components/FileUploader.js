@@ -25,13 +25,11 @@ export default function FileUploader({ onFileSelectError, onFileSelectSuccess })
         }
     }
 
-    console.log(imgSource)
-
     return (
-        <>
+        <div className={styles.div}>
             <img className={!invalidFile ? styles.avatar : styles.avatar_shake} label='avatar' src={imgSource == null ? '../assets/images/profile_pic.png' : imgSource} />
             <input className={styles.input} type='file' id="selectedFile" onChange={handleFileInput} />
             <label className={styles.label} htmlFor="selectedFile">Parcourir...</label>
-        </>
+        </div>
     )
 }

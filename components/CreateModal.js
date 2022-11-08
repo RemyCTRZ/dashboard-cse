@@ -8,11 +8,13 @@ import { useState } from 'react';
 import styles from '../styles/CreateModal.module.css'
 import { apiService } from '../services/APIService';
 import { FaUserPlus } from 'react-icons/fa';
+import FileUploader from './FileUploader';
 
 export default function CreateModal({ setMonitorChange, monitorChange }) {
 
+    const [selectedAvatar, setSelectedAvatar] = useState()
     const [open, setOpen] = useState(false);
-    const [selectedRole, setSelectedRole] = useState('candidate')
+    const [selectedRole, setSelectedRole] = useState('candidat')
     const [userInfo, setUserInfo] = useState({
         mail: null,
         password: null,
@@ -55,6 +57,10 @@ export default function CreateModal({ setMonitorChange, monitorChange }) {
                 <DialogTitle className={styles.dialog_title}>Création d'utilisateur</DialogTitle>
                 <DialogContent className={styles.dialog_content}>
                     <div className={styles.first_row}>
+                        <FileUploader
+                            onFileSelectSuccess={(file) => setSelectedAvatar(file)}
+                            onFileSelectError={({ error }) => alert(error)}
+                        />
                         <div className={styles.div}>
                             <label className={styles.label}>
                                 <span className={styles.span_role} >Rôle :</span>

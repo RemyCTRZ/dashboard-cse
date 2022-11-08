@@ -92,12 +92,12 @@ export default function Dashboard({ companies, candidates, users }) {
                     <div className={styles.info_container}>
                         <h3 className={styles.title_sub}>{activeCompaniesCounter == 0 || activeCompaniesCounter == 1 ? "Recruteur" : "Recruteurs"}</h3>
                         <p className={styles.nb}>{activeCompaniesCounter}</p>
-                        <p className={styles.nb_new}> + 2 </p>
+                        {/* <p className={styles.nb_new}> + 2 </p> */}
                     </div>
                     <div className={styles.info_container}>
                         <h3 className={styles.title_sub}>{activeCandidatesCounter == 0 || activeCandidatesCounter == 1 ? "Candidat" : "Candidats"}</h3>
                         <p className={styles.nb}>{activeCandidatesCounter}</p>
-                        <p className={styles.nb_new}> + 28 </p>
+                        {/* <p className={styles.nb_new}> + 28 </p> */}
                     </div>
                 </article>
             </section>
@@ -107,12 +107,12 @@ export default function Dashboard({ companies, candidates, users }) {
                     <div className={styles.info_container}>
                         <h3 className={styles.title_sub}>{pendingCompaniesCounter == 0 || pendingCompaniesCounter == 1 ? "Recruteur" : "Recruteurs"}</h3>
                         <p className={styles.nb}>{pendingCompaniesCounter}</p>
-                        <p className={styles.nb_new}> + 1 </p>
+                        {/* <p className={styles.nb_new}> + 1 </p> */}
                     </div>
                     <div className={styles.info_container}>
                         <h3 className={styles.title_sub}>{pendingCandidatesCounter == 0 || pendingCandidatesCounter == 1 ? "Candidat" : "Candidats"}</h3>
                         <p className={styles.nb}>{pendingCandidatesCounter}</p>
-                        <p className={styles.nb_new}> + 5 </p>
+                        {/* <p className={styles.nb_new}> + 5 </p> */}
                     </div>
                 </article>
             </section>
@@ -122,12 +122,12 @@ export default function Dashboard({ companies, candidates, users }) {
                     <div className={styles.info_container}>
                         <h3 className={styles.title_sub}>{inactiveCompaniesCounter == 0 || inactiveCompaniesCounter == 1 ? "Recruteur" : "Recruteurs"}</h3>
                         <p className={styles.nb}>{inactiveCompaniesCounter}</p>
-                        <p className={styles.nb_new}> - </p>
+                        {/* <p className={styles.nb_new}> - </p> */}
                     </div>
                     <div className={styles.info_container}>
                         <h3 className={styles.title_sub}>{inactiveCandidatesCounter == 0 || inactiveCandidatesCounter == 1 ? "Candidat" : "Candidats"}</h3>
                         <p className={styles.nb}>{inactiveCandidatesCounter}</p>
-                        <p className={styles.nb_new}> - </p>
+                        {/* <p className={styles.nb_new}> - </p> */}
                     </div>
                 </article>
             </section>

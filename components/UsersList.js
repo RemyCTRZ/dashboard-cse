@@ -1,5 +1,6 @@
-import { DataGrid, frFR } from '@mui/x-data-grid';
+import { useState } from 'react';
 import styles from '../styles/UsersList.module.css'
+import { DataGrid, frFR } from '@mui/x-data-grid';
 import UpdateModal from './UpdateModal';
 import DeleteModal from './DeleteModal';
 import { IoClose } from 'react-icons/io5'
@@ -10,7 +11,7 @@ import CreateModal from './CreateModal';
 export default function UsersList({ users, candidates, companies, setMonitorChange, monitorChange }) {
 
     const usersColumns = [
-        { field: 'user_id', headerName: 'ID', width: 70 },
+        { field: 'user_id', headerName: 'ID', width: 40 },
         { field: 'mail', headerName: 'Email', width: 180 },
         { field: 'city', headerName: 'Ville', width: 200 },
         { field: 'zip_code', headerName: 'Code postal', width: 120 },
@@ -41,10 +42,10 @@ export default function UsersList({ users, candidates, companies, setMonitorChan
     ];
 
     const candidatesColumns = [
-        { field: 'id', headerName: 'ID', width: 70 },
+        { field: 'id', headerName: 'ID', width: 40 },
         { field: 'lastname', headerName: 'Nom', width: 180 },
         { field: 'firstname', headerName: 'Prénom', width: 180 },
-        { field: 'birthdate', headerName: 'Date de naissance', width: 180 },
+        { field: 'birthdate', headerName: 'Date de naissance', width: 110 },
         { field: 'mail', headerName: 'Email', width: 180 },
         { field: 'city', headerName: 'Ville', width: 200 },
         { field: 'zip_code', headerName: 'Code postal', width: 120 },
@@ -74,7 +75,7 @@ export default function UsersList({ users, candidates, companies, setMonitorChan
     ];
 
     const companiesColumns = [
-        { field: 'id', headerName: 'ID', width: 70 },
+        { field: 'id', headerName: 'ID', width: 40 },
         { field: 'name', headerName: 'Nom', width: 180 },
         { field: 'siret', headerName: 'SIRET', width: 130 },
         { field: 'mail', headerName: 'Email', width: 180 },
