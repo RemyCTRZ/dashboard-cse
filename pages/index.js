@@ -114,12 +114,11 @@ export default function DashboardAdmin() {
               switchToCandidatesList={switchToCandidatesList}
               switchToCompaniesList={switchToCompaniesList}
             />
-            {dashboardWindow.dashboard ? (
-              <Dashboard companies={companies} candidates={candidates} users={users} />) : ('')}
-            {dashboardWindow.validateUsers ? (<ValidateUsers companies={companies} candidates={candidates} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />) : ('')}
-            {dashboardWindow.usersList ? (<UsersList users={users} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />) : ('')}
-            {dashboardWindow.candidatesList ? (<UsersList candidates={candidates} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />) : ('')}
-            {dashboardWindow.companiesList ? (<UsersList companies={companies} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />) : ('')}
+            {dashboardWindow.dashboard && <Dashboard companies={companies} candidates={candidates} users={users} />}
+            {dashboardWindow.validateUsers && <ValidateUsers companies={companies} candidates={candidates} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />}
+            {dashboardWindow.usersList && <UsersList users={users} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />}
+            {dashboardWindow.candidatesList &&<UsersList candidates={candidates} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />}
+            {dashboardWindow.companiesList && <UsersList companies={companies} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />}
           </main>
         </>
       ) : (
