@@ -42,7 +42,7 @@ export default function UsersList({ users, candidates, companies, setMonitorChan
     ];
 
     const candidatesColumns = [
-        { field: 'id', headerName: 'ID', width: 40 },
+        { field: 'user_id', headerName: 'ID', width: 40 },
         { field: 'lastname', headerName: 'Nom', width: 180 },
         { field: 'firstname', headerName: 'Prénom', width: 180 },
         { field: 'birthdate', headerName: 'Date de naissance', width: 110 },
@@ -75,7 +75,7 @@ export default function UsersList({ users, candidates, companies, setMonitorChan
     ];
 
     const companiesColumns = [
-        { field: 'id', headerName: 'ID', width: 40 },
+        { field: 'user_id', headerName: 'ID', width: 40 },
         { field: 'name', headerName: 'Nom', width: 180 },
         { field: 'siret', headerName: 'SIRET', width: 130 },
         { field: 'mail', headerName: 'Email', width: 180 },
@@ -109,7 +109,7 @@ export default function UsersList({ users, candidates, companies, setMonitorChan
 
     return (
         <>
-            {users ? <>
+            {users &&
                 <DataGrid
                     sx={{
                         '& .MuiDataGrid-columnHeaders': {
@@ -135,9 +135,9 @@ export default function UsersList({ users, candidates, companies, setMonitorChan
                     disableColumnSelector
                     localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
                 />
+            }
 
-            </> : ''}
-            {candidates ? <>
+            {candidates &&
                 <DataGrid
                     sx={{
                         '& .MuiDataGrid-columnHeaders': {
@@ -152,6 +152,7 @@ export default function UsersList({ users, candidates, companies, setMonitorChan
                         },
                     }}
                     className={styles.list}
+                    getRowId={(row) => row.user_id}
                     rows={candidates}
                     columns={candidatesColumns}
                     pageSize={20}
@@ -162,9 +163,9 @@ export default function UsersList({ users, candidates, companies, setMonitorChan
                     disableColumnSelector
                     localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
                 />
+            }
 
-            </> : ''}
-            {companies ? <>
+            {companies &&
                 <DataGrid
                     sx={{
                         '& .MuiDataGrid-columnHeaders': {
@@ -179,6 +180,7 @@ export default function UsersList({ users, candidates, companies, setMonitorChan
                         },
                     }}
                     className={styles.list}
+                    getRowId={(row) => row.user_id}
                     rows={companies}
                     columns={companiesColumns}
                     pageSize={20}
@@ -189,7 +191,7 @@ export default function UsersList({ users, candidates, companies, setMonitorChan
                     disableColumnSelector
                     localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
                 />
-            </> : ''}
+            }
             <CreateModal monitorChange={monitorChange} setMonitorChange={setMonitorChange} />
         </>
     );
