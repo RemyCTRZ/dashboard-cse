@@ -14,16 +14,18 @@ export default function Login({ isConnected, setIsConnected, setCurrentUser }) {
             password: passwordRef.current.value
         })
             .then(response => {
-                setIsConnected(true)
-                console.log(isConnected)
                 apiService.get(`/admins/${response.data.user_id}`)
-                    .then(response => setCurrentUser({
-                        firstname: response.data.firstname,
-                        role: response.data.role
-                    }))
-                    .catch(error => console.log('Not an admin'))
+                    .then(response => {
+                        setCurrentUser({
+                            firstname: response.data.firstname,
+                            role: response.data.role
+
+                        })
+                        setIsConnected(true)
+                    })
+                    .catch(error => alert(error.response.data.message == "Requested admin does not exist." && "Cet utilisateur n'est pas un administrateur"))
             })
-            .catch(error => console.log(error.response.data.message))
+            .catch(error => alert(error.response.data.message))
     }
 
 
