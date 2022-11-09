@@ -3,7 +3,7 @@ import styles from '../styles/Login.module.css'
 import { IoLogInSharp } from 'react-icons/io5'
 import { apiService } from '../services/APIService'
 
-export default function Login({ setIsConnected, isConnected }) {
+export default function Login({ isConnected, setIsConnected, setCurrentUser }) {
 
     const mailRef = useRef(null)
     const passwordRef = useRef(null)
@@ -13,8 +13,19 @@ export default function Login({ setIsConnected, isConnected }) {
             mail: mailRef.current.value,
             password: passwordRef.current.value
         })
-            .then(response => console.log(response.data))
+            .then(response => {
+                setIsConnected(true)
+                console.log(isConnected)
+                apiService.get(`/admins/${response.data.user_id}`)
+                    .then(response => setCurrentUser({
+                        firstname: response.data.firstname,
+                        role: response.data.role
+                    }))
+                    .catch(error => console.log('Not an admin'))
+            })
+            .catch(error => console.log(error.response.data.message))
     }
+
 
     return (
         <section className={styles.section}>
@@ -27,22 +38,21 @@ export default function Login({ setIsConnected, isConnected }) {
                     <form className={styles.form}>
                         <h2 className={styles.title}>Bienvenue</h2>
                         <div className={styles.input_box}>
-                            <input className={styles.input} ref={mailRef} type="email" placeholder='' name="email" autoComplete="off" required ></input>
+                            <input className={styles.input} ref={mailRef} type="email" name="email" autoComplete="off" required ></input>
                             <label className={styles.label}>
                                 <span className={styles.span}>Mail *</span>
                             </label>
                         </div>
                         <div className={styles.input_box}>
-                            <input type="password" className={styles.input} ref={passwordRef} placeholder='' autoComplete="off" required></input>
+                            <input type="password" className={styles.input} ref={passwordRef} autoComplete="off" required></input>
                             <label className={styles.label}>
                                 <span className={styles.span}>Mot de passe *</span>
                             </label>
                         </div>
-                        <button className={styles.btn} onClick={() => setIsConnected(!isConnected)}><IoLogInSharp className={styles.icon} /></button>
                     </form>
-                    <button onClick={() => Login()}>TEST</button>
+                    <button className={styles.btn} onClick={() => Login()}><IoLogInSharp className={styles.icon} /></button>
                 </article>
             </div>
-        </section>
+        </section >
     )
 }

@@ -11,6 +11,13 @@ import Login from '../components/Login'
 
 export default function DashboardAdmin() {
 
+  const [isConnected, setIsConnected] = useState(false)
+
+  const [currentUser, setCurrentUser] = useState({
+    firstname: '',
+    role: ''
+  })
+
   const [dashboardWindow, setDashboardWindow] = useState({
     dashboard: true,
     validateUsers: false,
@@ -26,7 +33,6 @@ export default function DashboardAdmin() {
   const [companies, setCompanies] = useState([])
 
   const [monitorChange, setMonitorChange] = useState(false)
-  const [isConnected, setIsConnected] = useState(false)
 
   useEffect(() => {
     apiService.get('users').then(response => setUsers(response.data))
@@ -85,12 +91,6 @@ export default function DashboardAdmin() {
     })
   }
 
-  const user = {
-    name: "Rémy",
-    role: "Super Administrateur",
-    isConnected: true,
-  }
-
   return (
     <>
       <Head>
@@ -102,11 +102,13 @@ export default function DashboardAdmin() {
       {isConnected ? (
         <>
           <Header
-            user={user}
+            user={currentUser}
           />
           <main className={styles.main}>
             <Navbar
               isConnected={isConnected}
+              currentUser={currentUser}
+              setCurrentUser={setCurrentUser}
               setIsConnected={setIsConnected}
               switchToDashboard={switchToDashboard}
               switchToValidateUsers={switchToValidateUsers}
@@ -117,12 +119,12 @@ export default function DashboardAdmin() {
             {dashboardWindow.dashboard && <Dashboard companies={companies} candidates={candidates} users={users} />}
             {dashboardWindow.validateUsers && <ValidateUsers companies={companies} candidates={candidates} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />}
             {dashboardWindow.usersList && <UsersList users={users} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />}
-            {dashboardWindow.candidatesList &&<UsersList candidates={candidates} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />}
+            {dashboardWindow.candidatesList && <UsersList candidates={candidates} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />}
             {dashboardWindow.companiesList && <UsersList companies={companies} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />}
           </main>
         </>
       ) : (
-        <Login setIsConnected={setIsConnected} isConnected={isConnected} />
+        <Login setCurrentUser={setCurrentUser} isConnected={isConnected} setIsConnected={setIsConnected} />
       )}
     </>
   )

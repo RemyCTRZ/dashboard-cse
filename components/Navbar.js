@@ -3,10 +3,17 @@ import { AiFillHome } from 'react-icons/ai'
 import { FaUserCheck, FaUserPlus, FaUsers, FaArrowRight, FaPowerOff, FaUserTie, FaUser } from 'react-icons/fa'
 import styles from '../styles/Navbar.module.css'
 
-export default function Navbar({ switchToDashboard, switchToValidateUsers, switchToUsersList, switchToCandidatesList, switchToCompaniesList, isConnected, setIsConnected }) {
+export default function Navbar({ switchToDashboard, switchToValidateUsers, switchToUsersList, switchToCandidatesList, switchToCompaniesList, isConnected, setIsConnected, setCurrentUser }) {
 
     const [isNavbarActive, setIsNavbarActive] = useState(true)
 
+    function logout() {
+        setIsConnected(!isConnected)
+        setCurrentUser({
+            lastname: null,
+            role: null
+        })
+    }
 
     async function navbar_activate() {
 
@@ -53,7 +60,7 @@ export default function Navbar({ switchToDashboard, switchToValidateUsers, switc
                     {isNavbarActive ? (<p className={styles.txt}>Liste de recruteurs</p>) : ('')}
                 </span>
             </button>
-            <button className={styles.logout} onClick={() => setIsConnected(!isConnected)}>
+            <button className={styles.logout} onClick={() => logout()}>
                 <span className={styles.span} id={styles.logout}>
                     <FaPowerOff className={styles.icon} />
                     {isNavbarActive ? (<p className={styles.txt}>Déconnexion </p>) : ('')}

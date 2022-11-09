@@ -150,6 +150,7 @@
     background-color: var(--blue);
     border-radius: 50%;
     color: var(--white);
+    margin: 1rem;
     padding: .5rem;
     cursor: pointer;
     border: 2px solid transparent;
