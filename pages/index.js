@@ -39,7 +39,7 @@ export default function DashboardAdmin() {
     apiService.get('users').then(response => setUsers(response.data))
     apiService.get('candidates').then(response => setCandidates(response.data))
     apiService.get('companies').then(response => setCompanies(response.data))
-  }, [dashboardWindow, monitorChange])
+  }, [dashboardWindow, monitorChange, isConnected])
 
   const switchToDashboard = () => {
     setDashboardWindow({

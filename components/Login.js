@@ -9,6 +9,9 @@ export default function Login({ setIsConnected, setCurrentUser }) {
     const passwordRef = useRef(null)
 
     function Login() {
+        if (!mailRef.current.value || !passwordRef.current.value) return alert("Veuillez rentrer vos identifiants")
+        console.log(mailRef.current.value)
+        console.log(passwordRef.current.value)
         apiService.login({
             mail: mailRef.current.value,
             password: passwordRef.current.value
@@ -28,6 +31,11 @@ export default function Login({ setIsConnected, setCurrentUser }) {
             .catch(error => alert(error.response.data.message))
     }
 
+    if (typeof window != "undefined") {
+        window.addEventListener('keydown', (e) => {
+            if (e.keyCode == 13) Login()
+        })
+    }
 
     return (
         <section className={styles.section}>
