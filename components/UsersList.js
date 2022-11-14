@@ -49,7 +49,7 @@ export default function UsersList({ users, candidates, companies, setMonitorChan
             }
         },
         {
-            field: 'is_to_be_completed', headerName: 'Dossier complet', width: 80,
+            field: 'is_to_be_completed', headerName: 'Dossier valide', width: 80,
             renderCell: (params) => (
                 params.value ? params.value = <BiDotsHorizontalRounded className={styles.pending} /> : params.value = <BsCheckLg className={styles.true} />
             )
@@ -110,7 +110,7 @@ export default function UsersList({ users, candidates, companies, setMonitorChan
             )
         },
         {
-            field: 'is_to_be_completed', headerName: 'Dossier complet', width: 80,
+            field: 'is_to_be_completed', headerName: 'Dossier valide', width: 80,
             renderCell: (params) => (
                 params.value ? params.value = <BiDotsHorizontalRounded className={styles.pending} /> : params.value = <BsCheckLg className={styles.true} />
             )
@@ -173,7 +173,7 @@ export default function UsersList({ users, candidates, companies, setMonitorChan
             )
         },
         {
-            field: 'is_to_be_completed', headerName: 'Dossier complet', width: 80,
+            field: 'is_to_be_completed', headerName: 'Dossier valide', width: 80,
             renderCell: (params) => (
                 params.value ? params.value = <BiDotsHorizontalRounded className={styles.pending} /> : params.value = <BsCheckLg className={styles.true} />
             )

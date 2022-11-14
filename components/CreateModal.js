@@ -14,10 +14,6 @@ export default function CreateModal({ setMonitorChange, monitorChange }) {
 
     const [imgSource, setImgSource] = useState('../assets/images/profile_pic.png')
 
-    useEffect(() => {
-        console.log(imgSource)
-    }, [imgSource])
-
     const [open, setOpen] = useState(false);
     const [selectedRole, setSelectedRole] = useState('candidat')
 
@@ -43,7 +39,9 @@ export default function CreateModal({ setMonitorChange, monitorChange }) {
             city: cityRef.current.value,
             address: addressRef.current.value,
             phone_number: phoneRef.current.value,
-            role: selectedRole
+            role: selectedRole,
+            availabilities: ['Janvier'],
+            avatar: imgSource
         }
 
         if (selectedRole == 'candidat') {
