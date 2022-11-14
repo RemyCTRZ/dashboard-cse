@@ -39,3 +39,32 @@
 .pending {
     margin: auto;
 }
+
+.copy,
+.copy_active {
+    position: absolute;
+    background-color: green;
+    padding: 1rem 2rem;
+    border-radius: 5px;
+    color: #fff;
+    bottom: 15%;
+    left: 50%;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.copy_active {
+    animation: fade-out 1s linear;
+}
+
+@keyframes fade-out {
+    from {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    to {
+        opacity: 0;
+        visibility: hidden;
+    }
+}

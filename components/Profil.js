@@ -8,16 +8,25 @@ export default function Profil({ user, role, monitorChange, setMonitorChange }) 
     const updateUser = () => {
         let updatedUserInfo = {
             is_active: true,
-            is_pending: false
+            is_pending: false,
+            is_to_be_completed: false,
         }
         apiService.put(`users/${user.user_id}`, updatedUserInfo).then(response => setMonitorChange(!monitorChange))
+    }
+
+    const toComplete = () => {
+        let deniedUserInfo = {
+            is_active: false,
+            is_pending: false,
+            is_to_be_completed: true,
+        }
     }
 
     return (
         <article className={styles.article}>
             <div className={styles.btn_container}>
                 <button className={styles.btn} onClick={() => updateUser()}><AiFillCheckCircle className={styles.icon} /></button>
-                <button className={styles.btn}><AiFillCloseCircle className={styles.icon} /></button>
+                <button className={styles.btn} onClick={() => toComplete()}><AiFillCloseCircle className={styles.icon} /></button>
             </div>
             <div className={styles.container}>
                 <div className={styles.info_box}>

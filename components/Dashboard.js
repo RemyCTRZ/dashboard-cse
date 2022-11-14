@@ -21,6 +21,8 @@ export default function Dashboard({ companies, candidates, users }) {
         let inactiveCounter = 0;
 
         users.map(user => {
+            if (user.role == 'admin') return
+            
             if (user.is_active) {
                 activeCounter += 1
             }

@@ -35,11 +35,11 @@ export default function DashboardAdmin() {
   const [monitorChange, setMonitorChange] = useState(false)
 
   useEffect(() => {
+    if (!isConnected) return
     apiService.get('users').then(response => setUsers(response.data))
     apiService.get('candidates').then(response => setCandidates(response.data))
     apiService.get('companies').then(response => setCompanies(response.data))
   }, [dashboardWindow, monitorChange])
-
 
   const switchToDashboard = () => {
     setDashboardWindow({

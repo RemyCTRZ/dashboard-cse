@@ -3,7 +3,7 @@ import styles from '../styles/Login.module.css'
 import { IoLogInSharp } from 'react-icons/io5'
 import { apiService } from '../services/APIService'
 
-export default function Login({ isConnected, setIsConnected, setCurrentUser }) {
+export default function Login({ setIsConnected, setCurrentUser }) {
 
     const mailRef = useRef(null)
     const passwordRef = useRef(null)
