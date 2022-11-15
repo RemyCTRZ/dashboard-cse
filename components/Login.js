@@ -26,7 +26,7 @@ export default function Login({ setIsConnected, setCurrentUser }) {
                         })
                         setIsConnected(true)
                     })
-                    .catch(error => alert(error.response.data.message == "Requested admin does not exist." && "Cet utilisateur n'est pas un administrateur"))
+                    .catch(error => alert(error.response.data.message))
             })
             .catch(error => alert(error.response.data.message))
     }
