@@ -3,21 +3,25 @@ import styles from '../styles/Login.module.css'
 import { IoLogInSharp } from 'react-icons/io5'
 import { apiService } from '../services/APIService'
 
-export default function Login({ setIsConnected, setCurrentUser }) {
+export default function Login({ setIsConnected, setCurrentUser, setAccessToken }) {
 
     const mailRef = useRef(null)
     const passwordRef = useRef(null)
 
     function Login() {
         if (!mailRef.current.value || !passwordRef.current.value) return alert("Veuillez rentrer vos identifiants")
-        console.log(mailRef.current.value)
-        console.log(passwordRef.current.value)
         apiService.login({
             mail: mailRef.current.value,
             password: passwordRef.current.value
         })
             .then(response => {
-                apiService.get(`/admins/${response.data.user_id}`)
+                const options = {
+                    headers: {
+                        Authorization: `Bearer ${response.data.accessToken}`
+                    }
+                }
+                setAccessToken(response.data.accessToken)
+                apiService.get(`admins/${response.data.user_id}`, options)
                     .then(response => {
                         setCurrentUser({
                             firstname: response.data.firstname,
@@ -26,9 +30,9 @@ export default function Login({ setIsConnected, setCurrentUser }) {
                         })
                         setIsConnected(true)
                     })
-                    .catch(error => alert(error.response.data.message))
+                    .catch(error => alert(error))
             })
-            .catch(error => alert(error.response.data.message))
+            .catch(error => alert(error))
     }
 
     if (typeof window != "undefined") {

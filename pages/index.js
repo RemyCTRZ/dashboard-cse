@@ -34,11 +34,19 @@ export default function DashboardAdmin() {
 
   const [monitorChange, setMonitorChange] = useState(false)
 
+  const [accessToken, setAccessToken] = useState('')
+
+  const optionsAxios = {
+    headers: {
+      Authorization: `Bearer ${accessToken}`
+    }
+  }
+
   useEffect(() => {
     if (!isConnected) return
-    apiService.get('users').then(response => setUsers(response.data))
-    apiService.get('candidates').then(response => setCandidates(response.data))
-    apiService.get('companies').then(response => setCompanies(response.data))
+    apiService.get('users', optionsAxios).then(response => setUsers(response.data))
+    apiService.get('candidates', optionsAxios).then(response => setCandidates(response.data))
+    apiService.get('companies', optionsAxios).then(response => setCompanies(response.data))
   }, [dashboardWindow, monitorChange, isConnected])
 
   const switchToDashboard = () => {
@@ -118,13 +126,13 @@ export default function DashboardAdmin() {
             />
             {dashboardWindow.dashboard && <Dashboard companies={companies} candidates={candidates} users={users} />}
             {dashboardWindow.validateUsers && <ValidateUsers companies={companies} candidates={candidates} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />}
-            {dashboardWindow.usersList && <UsersList users={users} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />}
-            {dashboardWindow.candidatesList && <UsersList candidates={candidates} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />}
-            {dashboardWindow.companiesList && <UsersList companies={companies} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />}
+            {dashboardWindow.usersList && <UsersList optionsAxios={optionsAxios} users={users} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />}
+            {dashboardWindow.candidatesList && <UsersList optionsAxios={optionsAxios} candidates={candidates} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />}
+            {dashboardWindow.companiesList && <UsersList optionsAxios={optionsAxios} companies={companies} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />}
           </main>
         </>
       ) : (
-        <Login setCurrentUser={setCurrentUser} isConnected={isConnected} setIsConnected={setIsConnected} />
+        <Login setAccessToken={setAccessToken} setCurrentUser={setCurrentUser} isConnected={isConnected} setIsConnected={setIsConnected} />
       )}
     </>
   )

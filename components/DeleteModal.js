@@ -10,7 +10,7 @@ import styles from '../styles/DeleteModal.module.css'
 import { FiTrash2 } from 'react-icons/fi'
 import { apiService } from '../services/APIService'
 
-export default function DeleteModal({ user, setMonitorChange, monitorChange }) {
+export default function DeleteModal({ user, setMonitorChange, monitorChange, optionsAxios }) {
 
     const [open, setOpen] = useState(false);
 
@@ -19,7 +19,7 @@ export default function DeleteModal({ user, setMonitorChange, monitorChange }) {
     };
 
     const deleteUser = () => {
-        apiService.delete('users', user.user_id)
+        apiService.delete('users', user.user_id, optionsAxios)
             .then(
                 response => {
                     apiService.get('users')

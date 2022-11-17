@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styles from '../styles/FileUploader.module.css'
 
-export default function FileUploader({ onFileSelectError, onFileSelectSuccess, imgSource, setImgSource }) {
+export default function FileUploader({ onFileSelectError, onFileSelectSuccess, selectedAvatar }) {
 
     const [invalidFile, setInvalidFile] = useState(false)
 
@@ -19,14 +19,13 @@ export default function FileUploader({ onFileSelectError, onFileSelectSuccess, i
         }
         else {
             onFileSelectSuccess(file)
-            setImgSource(URL.createObjectURL(file))
             setInvalidFile(false)
         }
     }
 
     return (
         <div className={styles.div}>
-            <img className={styles.avatar} label='avatar' src={imgSource == '../assets/images/profile_pic.png' ? '../assets/images/profile_pic.png' : imgSource} />
+            <img className={styles.avatar} label='avatar' src={!selectedAvatar ? '../assets/images/profile_pic.png' : selectedAvatar} />
             <input className={styles.input} type='file' id="selectedFile" onChange={handleFileInput} />
             <label className={styles.label} htmlFor="selectedFile">Parcourir...</label>
         </div>

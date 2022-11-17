@@ -10,7 +10,7 @@ import CreateModal from './CreateModal'
 import dayjs from 'dayjs'
 
 
-export default function UsersList({ users, candidates, companies, setMonitorChange, monitorChange }) {
+export default function UsersList({ users, candidates, companies, setMonitorChange, monitorChange, optionsAxios }) {
 
     const [copy, setCopy] = useState(false)
 
@@ -45,7 +45,7 @@ export default function UsersList({ users, candidates, companies, setMonitorChan
         {
             field: 'is_pending', headerName: 'Validé', width: 80,
             renderCell: (params) => {
-                return params.value || params.row.is_to_be_completed  ? params.value = <BiDotsHorizontalRounded className={styles.pending} /> : params.value = <BsCheckLg className={styles.true} />
+                return params.value || params.row.is_to_be_completed ? params.value = <BiDotsHorizontalRounded className={styles.pending} /> : params.value = <BsCheckLg className={styles.true} />
             }
         },
         {
@@ -65,8 +65,8 @@ export default function UsersList({ users, candidates, companies, setMonitorChan
             field: 'actions', headerName: 'Actions', width: 100,
             renderCell: (params) => (
                 <div className={styles.container}>
-                    <UpdateModal user={params.row} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />
-                    <DeleteModal user={params.row} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />
+                    <UpdateModal optionsAxios={optionsAxios} user={params.row} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />
+                    <DeleteModal optionsAxios={optionsAxios} user={params.row} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />
                 </div>
             ),
         },
@@ -125,8 +125,8 @@ export default function UsersList({ users, candidates, companies, setMonitorChan
             field: 'actions', headerName: 'Actions', width: 100,
             renderCell: (params) => (
                 <div className={styles.container}>
-                    <UpdateModal user={params.row} setMonitorChange={setMonitorChange} monitorChange={monitorChange} candidates={candidates} />
-                    <DeleteModal user={params.row} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />
+                    <UpdateModal optionsAxios={optionsAxios} user={params.row} setMonitorChange={setMonitorChange} monitorChange={monitorChange} candidates={candidates} />
+                    <DeleteModal optionsAxios={optionsAxios} user={params.row} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />
                 </div>
             ),
         },
@@ -188,8 +188,8 @@ export default function UsersList({ users, candidates, companies, setMonitorChan
             field: 'actions', headerName: 'Actions', width: 100,
             renderCell: (params) => (
                 <div className={styles.container}>
-                    <UpdateModal user={params.row} setMonitorChange={setMonitorChange} monitorChange={monitorChange} companies={companies} />
-                    <DeleteModal user={params.row} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />
+                    <UpdateModal optionsAxios={optionsAxios} user={params.row} setMonitorChange={setMonitorChange} monitorChange={monitorChange} companies={companies} />
+                    <DeleteModal optionsAxios={optionsAxios} user={params.row} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />
                 </div>
             ),
         },

@@ -10,9 +10,9 @@ import styles from '../styles/UpdateModal.module.css'
 import { apiService } from '../services/APIService';
 import FileUploader from './FileUploader';
 
-export default function UpdateModal({ user, candidates, companies, setMonitorChange, monitorChange }) {
+export default function UpdateModal({ user, candidates, companies, setMonitorChange, monitorChange, optionsAxios }) {
 
-    const [selectedAvatar, setSelectedAvatar] = useState()
+    const [selectedAvatar, setSelectedAvatar] = useState('./assets/images/profile_pic.png')
     const [open, setOpen] = useState(false);
     const [userInfo, setUserInfo] = useState({
         lastname: '',
@@ -24,19 +24,19 @@ export default function UpdateModal({ user, candidates, companies, setMonitorCha
         mail: '',
         phone_number: '',
         zip_code: '',
-        is_active: '',
-        is_pending: '',
         role: '',
     })
 
     useEffect(() => {
         setUserInfo(user)
+        console.log(user)
     }, [])
 
     const updateUser = () => {
-        if (userInfo.role == 'candidat') apiService.put(`candidates/${user.id}`, userInfo).then(response => setMonitorChange(!monitorChange))
-        if (userInfo.role == 'entreprise') apiService.put(`companies/${user.id}`, userInfo).then(response => setMonitorChange(!monitorChange))
-        if (userInfo.role == 'admin') apiService.put(`admins/${user.id}`, userInfo).then(response => setMonitorChange(!monitorChange))
+        console.log(userInfo)
+        if (userInfo.role == 'candidat') apiService.put(`candidates/${user.user_id}`, userInfo, optionsAxios).then(response => setMonitorChange(!monitorChange))
+        if (userInfo.role == 'entreprise') apiService.put(`companies/${user.user_id}`, userInfo, optionsAxios).then(response => setMonitorChange(!monitorChange))
+        if (userInfo.role == 'admin') apiService.put(`admins/${user.user_id}`, userInfo, optionsAxios).then(response => setMonitorChange(!monitorChange))
     }
 
     const handleChange = (e) => {
@@ -60,10 +60,11 @@ export default function UpdateModal({ user, candidates, companies, setMonitorCha
                 <DialogTitle className={styles.dialog_title}>Modification de profil</DialogTitle>
                 <DialogContent className={styles.dialog_content}>
                     <FileUploader
-                        onFileSelectSuccess={(file) => setSelectedAvatar(file)}
+                        selectedAvatar={selectedAvatar}
+                        onFileSelectSuccess={(file) => setSelectedAvatar(URL.createObjectURL(file))}
                         onFileSelectError={({ error }) => alert(error)}
                     />
-                    {candidates ? (
+                    {candidates &&
                         <>
                             <div className={styles.div}>
                                 <label className={styles.label}>Nom :</label>
@@ -107,10 +108,10 @@ export default function UpdateModal({ user, candidates, companies, setMonitorCha
                                     onChange={handleChange}
                                 />
                             </div>
-                        </>
-                    ) : ''}
+                        </>}
 
-                    {companies ? (
+
+                    {companies &&
                         <>
                             <div className={styles.div}>
                                 <label className={styles.label}>Nom :</label>
@@ -140,8 +141,7 @@ export default function UpdateModal({ user, candidates, companies, setMonitorCha
                                     onChange={handleChange}
                                 />
                             </div>
-                        </>
-                    ) : ''}
+                        </>}
 
                     <div className={styles.div}>
                         <label className={styles.label}>Adresse mail :</label>
