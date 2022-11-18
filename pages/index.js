@@ -4,6 +4,7 @@ import Header from '../components/Header'
 import Navbar from '../components/Navbar'
 import Dashboard from '../components/Dashboard'
 import { useState, useEffect } from 'react'
+import { getCookie, hasCookie } from 'cookies-next'
 import ValidateUsers from '../components/ValidateUsers'
 import UsersList from '../components/UsersList'
 import { apiService } from '../services/APIService'
@@ -11,12 +12,13 @@ import Login from '../components/Login'
 
 export default function DashboardAdmin() {
 
-  const [isConnected, setIsConnected] = useState(false)
+  const [currentUser, setCurrentUser] = useState(null)
 
-  const [currentUser, setCurrentUser] = useState({
-    firstname: '',
-    role: ''
-  })
+  useEffect(() => {
+    if (hasCookie('userFirstName')) {
+      setCurrentUser(getCookie('userFirstname'))
+    }
+  }, [hasCookie('userFirstName')])
 
   const [dashboardWindow, setDashboardWindow] = useState({
     dashboard: true,
@@ -38,21 +40,24 @@ export default function DashboardAdmin() {
 
   const [monitorChange, setMonitorChange] = useState(false)
 
-  const [accessToken, setAccessToken] = useState('')
+  const [accessToken, setAccessToken] = useState()
 
   const optionsAxios = {
     headers: {
-      Authorization: `Bearer ${accessToken}`
+      Authorization: hasCookie('accessToken') ? `Bearer ${getCookie('accessToken')}` : `Bearer ${accessToken}`
     }
   }
 
+  const [isConnected, setIsConnected] = useState(false)
+
   useEffect(() => {
-    if (!isConnected) return
+    if (!hasCookie('refreshToken')) return
+    setIsConnected(true)
     apiService.get('users', optionsAxios).then(response => setUsers(response.data))
     apiService.get('admins', optionsAxios).then(response => setAdmins(response.data))
     apiService.get('candidates', optionsAxios).then(response => setCandidates(response.data))
     apiService.get('companies', optionsAxios).then(response => setCompanies(response.data))
-  }, [dashboardWindow, monitorChange, isConnected])
+  }, [dashboardWindow, monitorChange, hasCookie('refreshToken')])
 
   const switchToDashboard = () => {
     setDashboardWindow({
@@ -112,17 +117,17 @@ export default function DashboardAdmin() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {isConnected ? (
+      {!isConnected ? (
+        <Login optionsAxios={optionsAxios} setAccessToken={setAccessToken} setCurrentUser={setCurrentUser} />
+      ) : (
         <>
           <Header
             currentPage={currentPage} user={currentUser}
           />
           <main className={styles.main}>
             <Navbar
-              isConnected={isConnected}
               currentUser={currentUser}
               setCurrentUser={setCurrentUser}
-              setIsConnected={setIsConnected}
               switchToDashboard={switchToDashboard}
               switchToValidateUsers={switchToValidateUsers}
               switchToAdminsList={switchToAdminsList}
@@ -130,6 +135,7 @@ export default function DashboardAdmin() {
               switchToCompaniesList={switchToCompaniesList}
               dashboardWindow={dashboardWindow}
               setCurrentPage={setCurrentPage}
+              setIsConnected={setIsConnected}
             />
             {dashboardWindow.dashboard && <Dashboard companies={companies} candidates={candidates} users={users} />}
             {dashboardWindow.validateUsers && <ValidateUsers companies={companies} candidates={candidates} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />}
@@ -138,9 +144,8 @@ export default function DashboardAdmin() {
             {dashboardWindow.companiesList && <UsersList optionsAxios={optionsAxios} companies={companies} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />}
           </main>
         </>
-      ) : (
-        <Login setAccessToken={setAccessToken} setCurrentUser={setCurrentUser} isConnected={isConnected} setIsConnected={setIsConnected} />
-      )}
+      )
+      }
     </>
   )
 }

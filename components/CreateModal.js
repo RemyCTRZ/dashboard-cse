@@ -29,6 +29,11 @@ export default function CreateModal({ setMonitorChange, monitorChange }) {
     const nameRef = useRef(null)
     const siretRef = useRef(null)
 
+    const handleModal = (bool) => {
+        setOpen(bool);
+        setMonitorChange(!monitorChange)
+    };
+
     const createUser = () => {
         const formInfo = {
             mail: mailRef.current.value,
@@ -46,23 +51,25 @@ export default function CreateModal({ setMonitorChange, monitorChange }) {
 
         if (selectedRole == 'candidat') {
             Object.assign(formInfo, { lastname: lastnameRef.current.value, firstname: firstnameRef.current.value, birthdate: birthRef.current.value })
-            apiService.post(`candidates/`, formInfo).then(response => setMonitorChange(!monitorChange))
+            apiService.post(`candidates/`, formInfo)
+                .then(response => handleModal(false))
+                .catch(error => alert(error.response.data.error.errors[0].message))
         }
 
         if (selectedRole == 'entreprise') {
             Object.assign(formInfo, { name: nameRef.current.value, siret: siretRef.current.value })
-            apiService.post(`companies/`, formInfo).then(response => setMonitorChange(!monitorChange))
+            apiService.post(`companies/`, formInfo)
+                .then(response => handleModal(false))
+                .catch(error => alert(error.response.data.error.errors[0].message))
         }
 
         if (selectedRole == 'admin') {
             Object.assign(formInfo, { lastname: lastnameRef.current.value, firstname: firstnameRef.current.value })
-            apiService.post(`admins/`, formInfo).then(response => setMonitorChange(!monitorChange))
+            apiService.post(`admins/`, formInfo)
+                .then(response => handleModal(false))
+                .catch(error => alert(error.response.data.error.errors[0].message))
         }
     }
-
-    const handleModal = (bool) => {
-        setOpen(bool);
-    };
 
     return (
         <div>
@@ -283,7 +290,6 @@ export default function CreateModal({ setMonitorChange, monitorChange }) {
 
                 <DialogActions>
                     <Button onClick={() => {
-                        handleModal(false)
                         createUser()
                     }}>Créer</Button>
                     <Button onClick={() => { handleModal(false) }}>Annuler</Button>

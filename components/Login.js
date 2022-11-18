@@ -2,8 +2,9 @@ import React, { useRef } from 'react'
 import styles from '../styles/Login.module.css'
 import { IoLogInSharp } from 'react-icons/io5'
 import { apiService } from '../services/APIService'
+import { setCookie } from 'cookies-next'
 
-export default function Login({ setIsConnected, setCurrentUser, setAccessToken }) {
+export default function Login({ setCurrentUser, setAccessToken, optionsAxios }) {
 
     const mailRef = useRef(null)
     const passwordRef = useRef(null)
@@ -15,20 +16,14 @@ export default function Login({ setIsConnected, setCurrentUser, setAccessToken }
             password: passwordRef.current.value
         })
             .then(response => {
-                const options = {
-                    headers: {
-                        Authorization: `Bearer ${response.data.accessToken}`
-                    }
-                }
                 setAccessToken(response.data.accessToken)
-                apiService.get(`admins/${response.data.user_id}`, options)
+                setCookie('accessToken', response.data.accessToken)
+                setCookie('refreshToken', response.data.refreshToken)
+                console.log(optionsAxios)
+                apiService.get(`admins/${response.data.user_id}`, optionsAxios)
                     .then(response => {
-                        setCurrentUser({
-                            firstname: response.data.firstname,
-                            role: response.data.role
-
-                        })
-                        setIsConnected(true)
+                        setCurrentUser(response.data.firstname)
+                        setCookie('userFirstName', response.data.firstname)
                     })
                     .catch(error => alert(error))
             })

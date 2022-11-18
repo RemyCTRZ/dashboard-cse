@@ -3,17 +3,17 @@ import { AiFillHome } from 'react-icons/ai'
 import { RiAdminFill } from 'react-icons/ri'
 import { FaUserCheck, FaArrowRight, FaPowerOff, FaUserTie, FaUser } from 'react-icons/fa'
 import styles from '../styles/Navbar.module.css'
+import { deleteCookie } from 'cookies-next'
 
-export default function Navbar({ switchToDashboard, switchToValidateUsers, switchToAdminsList, switchToCandidatesList, switchToCompaniesList, isConnected, setIsConnected, setCurrentUser, dashboardWindow, setCurrentPage }) {
+export default function Navbar({ switchToDashboard, switchToValidateUsers, switchToAdminsList, switchToCandidatesList, switchToCompaniesList, setCurrentUser, dashboardWindow, setCurrentPage, setIsConnected }) {
 
     const [isNavbarActive, setIsNavbarActive] = useState(true)
 
     function logout() {
-        setIsConnected(!isConnected)
-        setCurrentUser({
-            lastname: null,
-            role: null
-        })
+        setCurrentUser(null)
+        deleteCookie('accessToken')
+        deleteCookie('refreshToken')
+        setIsConnected(false)
     }
 
     async function navbar_activate() {

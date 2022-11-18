@@ -21,6 +21,8 @@ export default function AdminsList({ admins, candidates, companies, setMonitorCh
 
     const adminsColumn = [
         { field: 'user_id', headerName: 'ID', width: 40 },
+        { field: 'lastname', headerName: 'Nom', width: 180 },
+        { field: 'firstname', headerName: 'Prénom', width: 180 },
         { field: 'mail', headerName: 'Email', width: 180 },
         { field: 'city', headerName: 'Ville', width: 200 },
         { field: 'zip_code', headerName: 'Code postal', width: 120 },
