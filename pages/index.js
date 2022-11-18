@@ -21,12 +21,16 @@ export default function DashboardAdmin() {
   const [dashboardWindow, setDashboardWindow] = useState({
     dashboard: true,
     validateUsers: false,
-    usersList: false,
+    adminsList: false,
     candidatesList: false,
     companiesList: false,
   })
 
+  const [currentPage, setCurrentPage] = useState('Accueil')
+
   const [users, setUsers] = useState([])
+
+  const [admins, setAdmins] = useState([])
 
   const [candidates, setCandidates] = useState([])
 
@@ -45,6 +49,7 @@ export default function DashboardAdmin() {
   useEffect(() => {
     if (!isConnected) return
     apiService.get('users', optionsAxios).then(response => setUsers(response.data))
+    apiService.get('admins', optionsAxios).then(response => setAdmins(response.data))
     apiService.get('candidates', optionsAxios).then(response => setCandidates(response.data))
     apiService.get('companies', optionsAxios).then(response => setCompanies(response.data))
   }, [dashboardWindow, monitorChange, isConnected])
@@ -53,7 +58,7 @@ export default function DashboardAdmin() {
     setDashboardWindow({
       dashboard: true,
       validateUsers: false,
-      usersList: false,
+      adminsList: false,
       candidatesList: false,
       companiesList: false,
     })
@@ -63,17 +68,17 @@ export default function DashboardAdmin() {
     setDashboardWindow({
       dashboard: false,
       validateUsers: true,
-      usersList: false,
+      adminsList: false,
       candidatesList: false,
       companiesList: false,
     })
   }
 
-  const switchToUsersList = () => {
+  const switchToAdminsList = () => {
     setDashboardWindow({
       dashboard: false,
       validateUsers: false,
-      usersList: true,
+      adminsList: true,
       candidatesList: false,
       companiesList: false,
     })
@@ -83,7 +88,7 @@ export default function DashboardAdmin() {
     setDashboardWindow({
       dashboard: false,
       validateUsers: false,
-      usersList: false,
+      adminsList: false,
       candidatesList: true,
       companiesList: false,
     })
@@ -93,7 +98,7 @@ export default function DashboardAdmin() {
     setDashboardWindow({
       dashboard: false,
       validateUsers: false,
-      usersList: false,
+      adminsList: false,
       candidatesList: false,
       companiesList: true,
     })
@@ -110,7 +115,7 @@ export default function DashboardAdmin() {
       {isConnected ? (
         <>
           <Header
-            user={currentUser}
+            currentPage={currentPage} user={currentUser}
           />
           <main className={styles.main}>
             <Navbar
@@ -120,13 +125,15 @@ export default function DashboardAdmin() {
               setIsConnected={setIsConnected}
               switchToDashboard={switchToDashboard}
               switchToValidateUsers={switchToValidateUsers}
-              switchToUsersList={switchToUsersList}
+              switchToAdminsList={switchToAdminsList}
               switchToCandidatesList={switchToCandidatesList}
               switchToCompaniesList={switchToCompaniesList}
+              dashboardWindow={dashboardWindow}
+              setCurrentPage={setCurrentPage}
             />
             {dashboardWindow.dashboard && <Dashboard companies={companies} candidates={candidates} users={users} />}
             {dashboardWindow.validateUsers && <ValidateUsers companies={companies} candidates={candidates} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />}
-            {dashboardWindow.usersList && <UsersList optionsAxios={optionsAxios} users={users} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />}
+            {dashboardWindow.adminsList && <UsersList optionsAxios={optionsAxios} admins={admins} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />}
             {dashboardWindow.candidatesList && <UsersList optionsAxios={optionsAxios} candidates={candidates} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />}
             {dashboardWindow.companiesList && <UsersList optionsAxios={optionsAxios} companies={companies} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />}
           </main>

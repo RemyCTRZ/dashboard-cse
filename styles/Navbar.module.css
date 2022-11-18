@@ -18,6 +18,7 @@
 }
 
 .span,
+.span_active,
 .button {
     display: flex;
     justify-content: flex-start;
@@ -29,12 +30,20 @@
     cursor: pointer;
 }
 
-.span {
+.span,
+.span_active {
     transition: background-color .2s ease-in-out;
 }
 
 .span:hover {
     background-color: rgba(255, 255, 255, 0.1);
+}
+
+.span_active {
+    background-color: var(--white);
+    color: #004C6F;
+    transform: scale(1.1);
+    transition: transform .2s ease-in-out;
 }
 
 .icon,

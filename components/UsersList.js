@@ -10,7 +10,7 @@ import CreateModal from './CreateModal'
 import dayjs from 'dayjs'
 
 
-export default function UsersList({ users, candidates, companies, setMonitorChange, monitorChange, optionsAxios }) {
+export default function AdminsList({ admins, candidates, companies, setMonitorChange, monitorChange, optionsAxios }) {
 
     const [copy, setCopy] = useState(false)
 
@@ -19,7 +19,7 @@ export default function UsersList({ users, candidates, companies, setMonitorChan
         navigator.clipboard.writeText(params.value)
     }
 
-    const usersColumns = [
+    const adminsColumn = [
         { field: 'user_id', headerName: 'ID', width: 40 },
         { field: 'mail', headerName: 'Email', width: 180 },
         { field: 'city', headerName: 'Ville', width: 200 },
@@ -61,15 +61,15 @@ export default function UsersList({ users, candidates, companies, setMonitorChan
                 dayjs(params.value).format('DD/MM/YYYY')
             )
         },
-        {
-            field: 'actions', headerName: 'Actions', width: 100,
-            renderCell: (params) => (
-                <div className={styles.container}>
-                    <UpdateModal optionsAxios={optionsAxios} user={params.row} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />
-                    <DeleteModal optionsAxios={optionsAxios} user={params.row} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />
-                </div>
-            ),
-        },
+        // {
+        //     field: 'actions', headerName: 'Actions', width: 100,
+        //     renderCell: (params) => (
+        //         <div className={styles.container}>
+        //             <UpdateModal optionsAxios={optionsAxios} user={params.row} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />
+        //             <DeleteModal optionsAxios={optionsAxios} user={params.row} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />
+        //         </div>
+        //     ),
+        // },
     ];
 
     const candidatesColumns = [
@@ -198,7 +198,7 @@ export default function UsersList({ users, candidates, companies, setMonitorChan
 
     return (
         <>
-            {users &&
+            {admins &&
                 <DataGrid
                     sx={{
                         '& .MuiDataGrid-columnHeaders': {
@@ -214,8 +214,8 @@ export default function UsersList({ users, candidates, companies, setMonitorChan
                     }}
                     getRowId={(row) => row.user_id}
                     className={styles.list}
-                    rows={users}
-                    columns={usersColumns}
+                    rows={admins}
+                    columns={adminsColumn}
                     pageSize={20}
                     rowsPerPageOptions={[20]}
                     onCellDoubleClick={handleClick}
