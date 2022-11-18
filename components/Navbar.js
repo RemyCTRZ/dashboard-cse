@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { AiFillHome } from 'react-icons/ai'
-import { FaUserCheck, FaUsers, FaArrowRight, FaPowerOff, FaUserTie, FaUser } from 'react-icons/fa'
+import { RiAdminFill } from 'react-icons/ri'
+import { FaUserCheck, FaArrowRight, FaPowerOff, FaUserTie, FaUser } from 'react-icons/fa'
 import styles from '../styles/Navbar.module.css'
 
 export default function Navbar({ switchToDashboard, switchToValidateUsers, switchToAdminsList, switchToCandidatesList, switchToCompaniesList, isConnected, setIsConnected, setCurrentUser, dashboardWindow, setCurrentPage }) {
@@ -53,7 +54,7 @@ export default function Navbar({ switchToDashboard, switchToValidateUsers, switc
                 setCurrentPage('Liste des administrateurs')
             }}>
                 <span className={dashboardWindow.adminsList ? styles.span_active : styles.span}>
-                    <FaUsers className={styles.icon} />
+                    <RiAdminFill className={styles.icon} />
                     {isNavbarActive && <p className={styles.txt}>Liste des administrateurs</p>}
                 </span>
             </button>
