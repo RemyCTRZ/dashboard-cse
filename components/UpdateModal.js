@@ -10,9 +10,8 @@ import styles from '../styles/UpdateModal.module.css'
 import { apiService } from '../services/APIService';
 import FileUploader from './FileUploader';
 
-export default function UpdateModal({ user, candidates, companies, setMonitorChange, monitorChange, optionsAxios }) {
+export default function UpdateModal({ user, candidates, companies, setMonitorChange, monitorChange, optionsAxios, imgSource, setImgSource }) {
 
-    const [selectedAvatar, setSelectedAvatar] = useState('./assets/images/profile_pic.png')
     const [open, setOpen] = useState(false);
     const [userInfo, setUserInfo] = useState({
         lastname: '',
@@ -60,9 +59,10 @@ export default function UpdateModal({ user, candidates, companies, setMonitorCha
                 <DialogTitle className={styles.dialog_title}>Modification de profil</DialogTitle>
                 <DialogContent className={styles.dialog_content}>
                     <FileUploader
-                        selectedAvatar={selectedAvatar}
-                        onFileSelectSuccess={(file) => setSelectedAvatar(URL.createObjectURL(file))}
+                        onFileSelectSuccess={(file) => (file)}
                         onFileSelectError={({ error }) => alert(error)}
+                        imgSource={imgSource}
+                        setImgSource={setImgSource}
                     />
                     {candidates &&
                         <>

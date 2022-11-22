@@ -13,6 +13,7 @@ import dayjs from 'dayjs'
 export default function AdminsList({ candidates, companies, setMonitorChange, monitorChange, optionsAxios }) {
 
     const [copy, setCopy] = useState(false)
+    const [imgSource, setImgSource] = useState('../assets/images/profile_pic.png')
 
     const handleClick = (params) => {
         setCopy(true)
@@ -31,7 +32,7 @@ export default function AdminsList({ candidates, companies, setMonitorChange, mo
         },
         { field: 'mail', headerName: 'Email', flex: 1 },
         { field: 'city', headerName: 'Ville', flex: 1 },
-        { field: 'zip_code', headerName: 'Code postal', flex: .7, align: 'center', headerAlign: 'center', minWidth: '40px' },
+        { field: 'zip_code', headerName: 'Code postal', flex: .7, align: 'center', headerAlign: 'center' },
         {
             field: 'phone_number', headerName: 'Téléphone', flex: .7, align: 'center', headerAlign: 'center',
             renderCell: (params) => {
@@ -60,7 +61,7 @@ export default function AdminsList({ candidates, companies, setMonitorChange, mo
             field: 'actions', headerName: 'Actions', flex: .7, align: 'center', headerAlign: 'center',
             renderCell: (params) => (
                 <div className={styles.container}>
-                    <UpdateModal optionsAxios={optionsAxios} user={params.row} setMonitorChange={setMonitorChange} monitorChange={monitorChange} candidates={candidates} />
+                    <UpdateModal imgSource={imgSource} setImgSource={setImgSource} optionsAxios={optionsAxios} user={params.row} setMonitorChange={setMonitorChange} monitorChange={monitorChange} candidates={candidates} />
                     <DeleteModal optionsAxios={optionsAxios} user={params.row} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />
                 </div>
             ),
@@ -82,7 +83,7 @@ export default function AdminsList({ candidates, companies, setMonitorChange, mo
         },
         { field: 'mail', headerName: 'Email', flex: 1 },
         { field: 'city', headerName: 'Ville', flex: 1 },
-        { field: 'zip_code', headerName: 'Code postal', flex: .3, align: 'center', headerAlign: 'center', minWidth: '40px' },
+        { field: 'zip_code', headerName: 'Code postal', flex: .3, align: 'center', headerAlign: 'center', },
         {
             field: 'phone_number', headerName: 'Téléphone', flex: .5,
             renderCell: (params) => {
@@ -111,7 +112,7 @@ export default function AdminsList({ candidates, companies, setMonitorChange, mo
             field: 'actions', headerName: 'Actions', flex: .5, align: 'center', headerAlign: 'center',
             renderCell: (params) => (
                 <div className={styles.container}>
-                    <UpdateModal optionsAxios={optionsAxios} user={params.row} setMonitorChange={setMonitorChange} monitorChange={monitorChange} companies={companies} />
+                    <UpdateModal imgSource={imgSource} setImgSource={setImgSource} optionsAxios={optionsAxios} user={params.row} setMonitorChange={setMonitorChange} monitorChange={monitorChange} companies={companies} />
                     <DeleteModal optionsAxios={optionsAxios} user={params.row} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />
                 </div>
             ),
@@ -178,7 +179,7 @@ export default function AdminsList({ candidates, companies, setMonitorChange, mo
                     localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
                 />
             }
-            <CreateModal monitorChange={monitorChange} setMonitorChange={setMonitorChange} />
+            <CreateModal imgSource={imgSource} setImgSource={setImgSource} monitorChange={monitorChange} setMonitorChange={setMonitorChange} />
             <div className={!copy ? styles.copy : styles.copy_active} onAnimationEnd={() => setCopy(false)}>
                 <p className={styles.copy_txt}>Copié avec succès</p>
             </div>

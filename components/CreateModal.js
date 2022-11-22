@@ -4,15 +4,15 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import styles from '../styles/CreateModal.module.css'
 import { apiService } from '../services/APIService';
 import { FaUserPlus } from 'react-icons/fa';
 import FileUploader from './FileUploader';
 
-export default function CreateModal({ setMonitorChange, monitorChange }) {
+var siret = require('siret');
 
-    const [imgSource, setImgSource] = useState('../assets/images/profile_pic.png')
+export default function CreateModal({ setMonitorChange, monitorChange, imgSource, setImgSource }) {
 
     const [open, setOpen] = useState(false);
     const [selectedRole, setSelectedRole] = useState('candidat')
@@ -56,16 +56,10 @@ export default function CreateModal({ setMonitorChange, monitorChange }) {
                 .catch(error => alert(error.response.data.error.errors[0].message))
         }
 
-        if (selectedRole == 'entreprise') {
+        if (selectedRole == 'recruteur') {
+            if (!siret.isSIRET(siretRef.current.value)) return alert("Le siret n'est pas valide")
             Object.assign(formInfo, { name: nameRef.current.value, siret: siretRef.current.value })
             apiService.post(`companies/`, formInfo)
-                .then(response => handleModal(false))
-                .catch(error => alert(error.response.data.error.errors[0].message))
-        }
-
-        if (selectedRole == 'admin') {
-            Object.assign(formInfo, { lastname: lastnameRef.current.value, firstname: firstnameRef.current.value })
-            apiService.post(`admins/`, formInfo)
                 .then(response => handleModal(false))
                 .catch(error => alert(error.response.data.error.errors[0].message))
         }
@@ -91,7 +85,6 @@ export default function CreateModal({ setMonitorChange, monitorChange }) {
                             <select className={styles.select} name="role" onChange={(e) => setSelectedRole(e.target.value)}>
                                 <option value="candidat">Candidat</option>
                                 <option value="recruteur">Recruteur</option>
-                                <option value="admin">Administrateur</option>
                             </select>
                         </div>
 
@@ -166,37 +159,6 @@ export default function CreateModal({ setMonitorChange, monitorChange }) {
                                         variant="standard"
                                         inputRef={siretRef}
                                         inputProps={{ maxLength: 14 }}
-                                    />
-                                </div>
-                            </>
-                        }
-
-                        {selectedRole == "admin" &&
-                            <>
-                                <div className={styles.div}>
-                                    <label className={styles.label}>Nom :</label>
-                                    <TextField
-                                        className={styles.text_field}
-                                        autoFocus
-                                        margin="dense"
-                                        type="name"
-                                        fullWidth
-                                        name="name"
-                                        variant="standard"
-                                        inputRef={lastnameRef}
-                                    />
-                                </div>
-                                <div className={styles.div}>
-                                    <label className={styles.label}>Prénom :</label>
-                                    <TextField
-                                        className={styles.text_field}
-                                        autoFocus
-                                        margin="dense"
-                                        type="text"
-                                        fullWidth
-                                        name="firstname"
-                                        variant="standard"
-                                        inputRef={firstnameRef}
                                     />
                                 </div>
                             </>
