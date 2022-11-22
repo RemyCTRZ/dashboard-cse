@@ -5,7 +5,6 @@ import Navbar from '../components/Navbar'
 import Dashboard from '../components/Dashboard'
 import { useState, useEffect } from 'react'
 import { getCookie, hasCookie } from 'cookies-next'
-import ValidateUsers from '../components/ValidateUsers'
 import UsersList from '../components/UsersList'
 import { apiService } from '../services/APIService'
 import Login from '../components/Login'
@@ -14,25 +13,13 @@ export default function DashboardAdmin() {
 
   const [currentUser, setCurrentUser] = useState(null)
 
-  useEffect(() => {
-    if (hasCookie('userFirstName')) {
-      setCurrentUser(getCookie('userFirstname'))
-    }
-  }, [hasCookie('userFirstName')])
-
   const [dashboardWindow, setDashboardWindow] = useState({
     dashboard: true,
-    validateUsers: false,
-    adminsList: false,
     candidatesList: false,
     companiesList: false,
   })
 
   const [currentPage, setCurrentPage] = useState('Accueil')
-
-  const [users, setUsers] = useState([])
-
-  const [admins, setAdmins] = useState([])
 
   const [candidates, setCandidates] = useState([])
 
@@ -42,19 +29,37 @@ export default function DashboardAdmin() {
 
   const [accessToken, setAccessToken] = useState()
 
-  const optionsAxios = {
+  let optionsAxios = {
     headers: {
-      Authorization: hasCookie('accessToken') ? `Bearer ${getCookie('accessToken')}` : `Bearer ${accessToken}`
+      Authorization: `Bearer ${accessToken}`
     }
   }
 
   const [isConnected, setIsConnected] = useState(false)
 
   useEffect(() => {
+    setCurrentUser(getCookie('userFirstname'))
+  }, [hasCookie('userFirstname')])
+
+  useEffect(() => {
+    if (hasCookie('currentPage')) {
+      if (getCookie('currentPage') == 'Home')
+        return switchToDashboard()
+      else if (getCookie('currentPage') == 'CandidatesList')
+        return switchToCandidatesList()
+      else if (getCookie('currentPage') == 'CompaniesList')
+        return switchToCompaniesList()
+    }
+  }, [hasCookie('currentPage')])
+
+  useEffect(() => {
     if (!hasCookie('refreshToken')) return
     setIsConnected(true)
-    apiService.get('users', optionsAxios).then(response => setUsers(response.data))
-    apiService.get('admins', optionsAxios).then(response => setAdmins(response.data))
+    if (hasCookie('accessToken')) optionsAxios = {
+      headers: {
+        Authorization: `Bearer ${getCookie('accessToken')}`
+      }
+    }
     apiService.get('candidates', optionsAxios).then(response => setCandidates(response.data))
     apiService.get('companies', optionsAxios).then(response => setCompanies(response.data))
   }, [dashboardWindow, monitorChange, hasCookie('refreshToken')])
@@ -62,28 +67,6 @@ export default function DashboardAdmin() {
   const switchToDashboard = () => {
     setDashboardWindow({
       dashboard: true,
-      validateUsers: false,
-      adminsList: false,
-      candidatesList: false,
-      companiesList: false,
-    })
-  }
-
-  const switchToValidateUsers = () => {
-    setDashboardWindow({
-      dashboard: false,
-      validateUsers: true,
-      adminsList: false,
-      candidatesList: false,
-      companiesList: false,
-    })
-  }
-
-  const switchToAdminsList = () => {
-    setDashboardWindow({
-      dashboard: false,
-      validateUsers: false,
-      adminsList: true,
       candidatesList: false,
       companiesList: false,
     })
@@ -92,8 +75,6 @@ export default function DashboardAdmin() {
   const switchToCandidatesList = () => {
     setDashboardWindow({
       dashboard: false,
-      validateUsers: false,
-      adminsList: false,
       candidatesList: true,
       companiesList: false,
     })
@@ -102,8 +83,6 @@ export default function DashboardAdmin() {
   const switchToCompaniesList = () => {
     setDashboardWindow({
       dashboard: false,
-      validateUsers: false,
-      adminsList: false,
       candidatesList: false,
       companiesList: true,
     })
@@ -129,17 +108,13 @@ export default function DashboardAdmin() {
               currentUser={currentUser}
               setCurrentUser={setCurrentUser}
               switchToDashboard={switchToDashboard}
-              switchToValidateUsers={switchToValidateUsers}
-              switchToAdminsList={switchToAdminsList}
               switchToCandidatesList={switchToCandidatesList}
               switchToCompaniesList={switchToCompaniesList}
               dashboardWindow={dashboardWindow}
               setCurrentPage={setCurrentPage}
               setIsConnected={setIsConnected}
             />
-            {dashboardWindow.dashboard && <Dashboard companies={companies} candidates={candidates} users={users} />}
-            {dashboardWindow.validateUsers && <ValidateUsers companies={companies} candidates={candidates} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />}
-            {dashboardWindow.adminsList && <UsersList optionsAxios={optionsAxios} admins={admins} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />}
+            {dashboardWindow.dashboard && <Dashboard companies={companies} candidates={candidates} />}
             {dashboardWindow.candidatesList && <UsersList optionsAxios={optionsAxios} candidates={candidates} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />}
             {dashboardWindow.companiesList && <UsersList optionsAxios={optionsAxios} companies={companies} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />}
           </main>

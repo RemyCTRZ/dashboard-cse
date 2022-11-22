@@ -106,6 +106,7 @@ export default function UpdateModal({ user, candidates, companies, setMonitorCha
                                     variant="standard"
                                     value={userInfo.birthdate}
                                     onChange={handleChange}
+                                    inputProps={{ maxLength: 8 }}
                                 />
                             </div>
                         </>}
@@ -139,6 +140,7 @@ export default function UpdateModal({ user, candidates, companies, setMonitorCha
                                     variant="standard"
                                     value={userInfo.siret}
                                     onChange={handleChange}
+                                    inputProps={{ maxLength: 14 }}
                                 />
                             </div>
                         </>}
@@ -183,6 +185,7 @@ export default function UpdateModal({ user, candidates, companies, setMonitorCha
                             variant="standard"
                             value={userInfo.zip_code}
                             onChange={handleChange}
+                            inputProps={{ maxLength: 5 }}
                         />
                     </div>
                     <div className={styles.div}>
@@ -197,6 +200,7 @@ export default function UpdateModal({ user, candidates, companies, setMonitorCha
                             variant="standard"
                             value={userInfo.phone_number}
                             onChange={handleChange}
+                            inputProps={{ maxLength: 10 }}
                         />
                     </div>
                     <div className={styles.div}>

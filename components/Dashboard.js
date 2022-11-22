@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styles from '../styles/Dashboard.module.css'
 
-export default function Dashboard({ companies, candidates, users }) {
-
-    const [activeUsersCounter, setActiveUsersCounter] = useState(0)
-    const [inactiveUsersCounter, setInactiveUsersCounter] = useState(0)
-    const [pendingUsersCounter, setPendingUsersCounter] = useState(0)
+export default function Dashboard({ companies, candidates }) {
 
     const [activeCandidatesCounter, setActiveCandidatesCounter] = useState(0)
     const [inactiveCandidatesCounter, setInactiveCandidatesCounter] = useState(0)
@@ -14,31 +10,6 @@ export default function Dashboard({ companies, candidates, users }) {
     const [activeCompaniesCounter, setActiveCompaniesCounter] = useState(0)
     const [inactiveCompaniesCounter, setInactiveCompaniesCounter] = useState(0)
     const [pendingCompaniesCounter, setPendingCompaniesCounter] = useState(0)
-
-    useEffect(() => {
-        let activeCounter = 0;
-        let pendingCounter = 0;
-        let inactiveCounter = 0;
-
-        users.map(user => {
-            if (user.role == 'admin') return
-            
-            if (user.is_active) {
-                activeCounter += 1
-            }
-            setActiveUsersCounter(activeCounter)
-
-            if (!user.is_active) {
-                inactiveCounter += 1
-            }
-            setInactiveUsersCounter(inactiveCounter)
-
-            if (user.is_pending) {
-                pendingCounter += 1
-            }
-            setPendingUsersCounter(pendingCounter)
-        })
-    }, [users])
 
     useEffect(() => {
         let activeCounter = 0;
@@ -89,40 +60,31 @@ export default function Dashboard({ companies, candidates, users }) {
     return (
         <>
             <section className={styles.section}>
-                <h2 className={styles.title}>{activeUsersCounter == 0 || activeUsersCounter == 1 ? "Utilisateur actif" : "Utilisateurs actifs"}<span className={styles.title_span}>{activeUsersCounter}</span></h2>
+                <h2 className={styles.title}>Utilisateurs actifs
+                    <span className={styles.title_span}>{activeCandidatesCounter + activeCompaniesCounter}</span>
+                </h2>
                 <article className={styles.article}>
                     <div className={styles.info_container}>
-                        <h3 className={styles.title_sub}>{activeCompaniesCounter == 0 || activeCompaniesCounter == 1 ? "Recruteur" : "Recruteurs"}</h3>
+                        <h3 className={styles.title_sub}>Recruteurs</h3>
                         <p className={styles.nb}>{activeCompaniesCounter}</p>
                     </div>
                     <div className={styles.info_container}>
-                        <h3 className={styles.title_sub}>{activeCandidatesCounter == 0 || activeCandidatesCounter == 1 ? "Candidat" : "Candidats"}</h3>
+                        <h3 className={styles.title_sub}>Candidats</h3>
                         <p className={styles.nb}>{activeCandidatesCounter}</p>
                     </div>
                 </article>
             </section>
             <section className={styles.section}>
-                <h2 className={styles.title}>A valider<span className={styles.title_span}>{pendingUsersCounter}</span></h2>
+                <h2 className={styles.title}>Utilisateurs inactifs
+                    <span className={styles.title_span}>{inactiveCandidatesCounter + inactiveCompaniesCounter}</span>
+                </h2>
                 <article className={styles.article}>
                     <div className={styles.info_container}>
-                        <h3 className={styles.title_sub}>{pendingCompaniesCounter == 0 || pendingCompaniesCounter == 1 ? "Recruteur" : "Recruteurs"}</h3>
-                        <p className={styles.nb}>{pendingCompaniesCounter}</p>
-                    </div>
-                    <div className={styles.info_container}>
-                        <h3 className={styles.title_sub}>{pendingCandidatesCounter == 0 || pendingCandidatesCounter == 1 ? "Candidat" : "Candidats"}</h3>
-                        <p className={styles.nb}>{pendingCandidatesCounter}</p>
-                    </div>
-                </article>
-            </section>
-            <section className={styles.section}>
-                <h2 className={styles.title}>{inactiveUsersCounter == 0 || inactiveUsersCounter == 1 ? "Utilisateur inactif" : "Utilisateurs inactifs"}<span className={styles.title_span}>{inactiveUsersCounter}</span></h2>
-                <article className={styles.article}>
-                    <div className={styles.info_container}>
-                        <h3 className={styles.title_sub}>{inactiveCompaniesCounter == 0 || inactiveCompaniesCounter == 1 ? "Recruteur" : "Recruteurs"}</h3>
+                        <h3 className={styles.title_sub}>Recruteurs</h3>
                         <p className={styles.nb}>{inactiveCompaniesCounter}</p>
                     </div>
                     <div className={styles.info_container}>
-                        <h3 className={styles.title_sub}>{inactiveCandidatesCounter == 0 || inactiveCandidatesCounter == 1 ? "Candidat" : "Candidats"}</h3>
+                        <h3 className={styles.title_sub}>Candidats</h3>
                         <p className={styles.nb}>{inactiveCandidatesCounter}</p>
                     </div>
                 </article>
