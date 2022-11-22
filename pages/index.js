@@ -4,10 +4,11 @@ import Header from '../components/Header'
 import Navbar from '../components/Navbar'
 import Dashboard from '../components/Dashboard'
 import { useState, useEffect } from 'react'
-import { getCookie, hasCookie } from 'cookies-next'
+import { getCookie, hasCookie, setCookie } from 'cookies-next'
 import UsersList from '../components/UsersList'
 import { apiService } from '../services/APIService'
 import Login from '../components/Login'
+import jwt_decode from "jwt-decode";
 
 export default function DashboardAdmin() {
 
@@ -35,6 +36,20 @@ export default function DashboardAdmin() {
     }
   }
 
+  async function renewToken() {
+    let token = getCookie('accessToken')
+    let decodedToken = jwt_decode(token)
+    let currentTime = new Date().getTime() / 1000
+    let isExpired = decodedToken.exp < currentTime
+
+    if (!isExpired) return
+
+    const refreshToken = getCookie('refreshToken')
+    const newToken = await apiService.refreshAccessToken({ "token": refreshToken })
+
+    setCookie('accessToken', newToken.data.accessToken)
+  }
+
   const [isConnected, setIsConnected] = useState(false)
 
   useEffect(() => {
@@ -54,6 +69,7 @@ export default function DashboardAdmin() {
 
   useEffect(() => {
     if (!hasCookie('refreshToken')) return
+    renewToken()
     setIsConnected(true)
     if (hasCookie('accessToken')) optionsAxios = {
       headers: {

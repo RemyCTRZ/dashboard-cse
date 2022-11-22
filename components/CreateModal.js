@@ -22,7 +22,7 @@ export default function CreateModal({ setMonitorChange, monitorChange }) {
     const zipRef = useRef(null)
     const cityRef = useRef(null)
     const addressRef = useRef(null)
-    const phoneRef = useRef('/')
+    const phoneRef = useRef(null)
     const lastnameRef = useRef(null)
     const firstnameRef = useRef(null)
     const birthRef = useRef(null)
@@ -88,7 +88,7 @@ export default function CreateModal({ setMonitorChange, monitorChange }) {
                             <label className={styles.label}>
                                 <span className={styles.span_role} >Rôle :</span>
                             </label>
-                            <select className={styles.select} required name="role" onChange={(e) => setSelectedRole(e.target.value)}>
+                            <select className={styles.select} name="role" onChange={(e) => setSelectedRole(e.target.value)}>
                                 <option value="candidat">Candidat</option>
                                 <option value="recruteur">Recruteur</option>
                                 <option value="admin">Administrateur</option>
