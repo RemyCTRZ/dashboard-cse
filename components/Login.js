@@ -1,8 +1,8 @@
-import React, { useRef } from 'react'
-import styles from '../styles/Login.module.css'
+import { hasCookie, getCookie, setCookie } from 'cookies-next'
 import { IoLogInSharp } from 'react-icons/io5'
 import { apiService } from '../services/APIService'
-import { hasCookie, getCookie, setCookie } from 'cookies-next'
+import { useRef } from 'react'
+import styles from '../styles/Login.module.css'
 
 export default function Login({ setCurrentUser, setAccessToken, optionsAxios }) {
 
@@ -34,12 +34,6 @@ export default function Login({ setCurrentUser, setAccessToken, optionsAxios }) 
             .catch(error => alert(error))
     }
 
-    if (typeof window != "undefined") {
-        window.addEventListener('keydown', (e) => {
-            if (e.keyCode == 13) Login()
-        })
-    }
-
     return (
         <section className={styles.section}>
             <div className={styles.articles_container}>
@@ -51,13 +45,13 @@ export default function Login({ setCurrentUser, setAccessToken, optionsAxios }) 
                     <form className={styles.form}>
                         <h2 className={styles.title}>Bienvenue</h2>
                         <div className={styles.input_box}>
-                            <input className={styles.input} ref={mailRef} type="email" name="email" autoComplete="off" required ></input>
+                            <input className={styles.input} ref={mailRef} type="email" name="email" required ></input>
                             <label className={styles.label}>
                                 <span className={styles.span}>Mail *</span>
                             </label>
                         </div>
                         <div className={styles.input_box}>
-                            <input type="password" className={styles.input} ref={passwordRef} autoComplete="off" required></input>
+                            <input type="password" className={styles.input} ref={passwordRef} required></input>
                             <label className={styles.label}>
                                 <span className={styles.span}>Mot de passe *</span>
                             </label>

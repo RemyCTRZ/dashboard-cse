@@ -1,12 +1,16 @@
-import React, { useState } from 'react'
-import { AiFillHome } from 'react-icons/ai'
-import { FaUserCheck, FaArrowRight, FaPowerOff, FaUserTie, FaUser } from 'react-icons/fa'
-import styles from '../styles/Navbar.module.css'
+import { FaArrowRight, FaPowerOff, FaUserTie, FaUser, FaUserPlus } from 'react-icons/fa'
 import { deleteCookie, setCookie } from 'cookies-next'
+import { AiFillHome } from 'react-icons/ai'
+import { useState } from 'react'
+import styles from '../styles/Navbar.module.css'
 
-export default function Navbar({ switchToDashboard, switchToCandidatesList, switchToCompaniesList, setCurrentUser, dashboardWindow, setCurrentPage, setIsConnected }) {
+export default function Navbar({ open, setOpen, switchToDashboard, switchToCandidatesList, switchToCompaniesList, setCurrentUser, dashboardWindow, setCurrentPage, setIsConnected }) {
 
     const [isNavbarActive, setIsNavbarActive] = useState(true)
+
+    function handleModal() {
+        setOpen(true);
+    };
 
     function logout() {
         setCurrentUser(null)
@@ -27,9 +31,11 @@ export default function Navbar({ switchToDashboard, switchToCandidatesList, swit
 
     return (
         <nav className={styles.nav}>
+
             <button className={styles.button} onClick={navbar_activate}>
                 <FaArrowRight id={isNavbarActive && styles.active} className={styles.arrow} />
             </button>
+
             <button className={styles.link} onClick={() => {
                 switchToDashboard()
                 setCurrentPage('Accueil')
@@ -40,6 +46,7 @@ export default function Navbar({ switchToDashboard, switchToCandidatesList, swit
                     {isNavbarActive && <p className={styles.txt}>Accueil</p>}
                 </span>
             </button>
+
             <button className={styles.link} onClick={() => {
                 switchToCandidatesList()
                 setCurrentPage('Liste des candidats')
@@ -50,6 +57,7 @@ export default function Navbar({ switchToDashboard, switchToCandidatesList, swit
                     {isNavbarActive && <p className={styles.txt}>Liste des candidats</p>}
                 </span>
             </button>
+
             <button className={styles.link} onClick={() => {
                 switchToCompaniesList()
                 setCurrentPage('Liste des recruteurs')
@@ -60,12 +68,21 @@ export default function Navbar({ switchToDashboard, switchToCandidatesList, swit
                     {isNavbarActive && <p className={styles.txt}>Liste des recruteurs</p>}
                 </span>
             </button>
+
+            <button className={styles.link} onClick={handleModal}>
+                <span className={open ? styles.create_active : styles.create}>
+                    <FaUserPlus className={styles.icon} />
+                    {isNavbarActive && <p className={styles.txt}>Créer un utilisateur</p>}
+                </span>
+            </button>
+
             <button className={styles.logout} onClick={() => logout()}>
                 <span className={styles.span} id={styles.logout}>
                     <FaPowerOff className={styles.icon} />
                     {isNavbarActive && <p className={styles.txt}>Déconnexion</p>}
                 </span>
             </button>
+
         </nav>
     )
 }

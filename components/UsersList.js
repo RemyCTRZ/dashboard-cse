@@ -1,19 +1,16 @@
-import { useState } from 'react';
-import styles from '../styles/UsersList.module.css'
 import { DataGrid, frFR } from '@mui/x-data-grid'
+import { BsCheckLg } from 'react-icons/bs'
+import { useState } from 'react';
+import { IoClose } from 'react-icons/io5'
 import UpdateModal from './UpdateModal'
 import DeleteModal from './DeleteModal'
-import { IoClose } from 'react-icons/io5'
-import { BsCheckLg } from 'react-icons/bs'
-import { BiDotsHorizontalRounded } from 'react-icons/bi'
-import CreateModal from './CreateModal'
+import styles from '../styles/UsersList.module.css'
 import dayjs from 'dayjs'
 
 
-export default function AdminsList({ candidates, companies, setMonitorChange, monitorChange, optionsAxios }) {
+export default function AdminsList({ imgSource, setImgSource, candidates, companies, setMonitorChange, monitorChange, optionsAxios }) {
 
     const [copy, setCopy] = useState(false)
-    const [imgSource, setImgSource] = useState('../assets/images/profile_pic.png')
 
     const handleClick = (params) => {
         setCopy(true)
@@ -179,7 +176,6 @@ export default function AdminsList({ candidates, companies, setMonitorChange, mo
                     localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
                 />
             }
-            <CreateModal imgSource={imgSource} setImgSource={setImgSource} monitorChange={monitorChange} setMonitorChange={setMonitorChange} />
             <div className={!copy ? styles.copy : styles.copy_active} onAnimationEnd={() => setCopy(false)}>
                 <p className={styles.copy_txt}>Copié avec succès</p>
             </div>

@@ -1,4 +1,3 @@
-import React, { useState } from 'react'
 import styles from '../styles/FileUploader.module.css'
 
 export default function FileUploader({ onFileSelectError, onFileSelectSuccess, imgSource, setImgSource }) {
@@ -16,7 +15,6 @@ export default function FileUploader({ onFileSelectError, onFileSelectSuccess, i
         else {
             onFileSelectSuccess(file)
             setImgSource(URL.createObjectURL(file))
-            console.log(URL.createObjectURL(file))
         }
     }
 

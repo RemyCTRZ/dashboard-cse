@@ -1,5 +1,4 @@
 const url = 'https://appeclateeback.onrender.com';
-// const url = 'http://localhost:5000';
 
 import axios from 'axios'
 

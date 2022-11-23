@@ -1,19 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import styles from '../styles/Dashboard.module.css'
 
 export default function Dashboard({ companies, candidates }) {
 
     const [activeCandidatesCounter, setActiveCandidatesCounter] = useState(0)
     const [inactiveCandidatesCounter, setInactiveCandidatesCounter] = useState(0)
-    const [pendingCandidatesCounter, setPendingCandidatesCounter] = useState(0)
 
     const [activeCompaniesCounter, setActiveCompaniesCounter] = useState(0)
     const [inactiveCompaniesCounter, setInactiveCompaniesCounter] = useState(0)
-    const [pendingCompaniesCounter, setPendingCompaniesCounter] = useState(0)
 
     useEffect(() => {
         let activeCounter = 0;
-        let pendingCounter = 0;
         let inactiveCounter = 0;
 
         candidates.map(candidate => {
@@ -26,17 +23,11 @@ export default function Dashboard({ companies, candidates }) {
                 inactiveCounter += 1
             }
             setInactiveCandidatesCounter(inactiveCounter)
-
-            if (candidate.is_pending) {
-                pendingCounter += 1
-            }
-            setPendingCandidatesCounter(pendingCounter)
         })
     }, [candidates])
 
     useEffect(() => {
         let activeCounter = 0;
-        let pendingCounter = 0;
         let inactiveCounter = 0;
 
         companies.map(company => {
@@ -49,11 +40,6 @@ export default function Dashboard({ companies, candidates }) {
                 inactiveCounter += 1
             }
             setInactiveCompaniesCounter(inactiveCounter)
-
-            if (company.is_pending) {
-                pendingCounter += 1
-            }
-            setPendingCompaniesCounter(pendingCounter)
         })
     }, [companies])
 

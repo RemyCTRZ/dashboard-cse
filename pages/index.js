@@ -1,84 +1,28 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import { getCookie, hasCookie, setCookie } from 'cookies-next'
+import { useState, useEffect } from 'react'
+import { apiService } from '../services/APIService'
+import jwt_decode from "jwt-decode";
+import UsersList from '../components/UsersList'
+import Dashboard from '../components/Dashboard'
 import Header from '../components/Header'
 import Navbar from '../components/Navbar'
-import Dashboard from '../components/Dashboard'
-import { useState, useEffect } from 'react'
-import { getCookie, hasCookie, setCookie } from 'cookies-next'
-import UsersList from '../components/UsersList'
-import { apiService } from '../services/APIService'
+import styles from '../styles/Home.module.css'
 import Login from '../components/Login'
-import jwt_decode from "jwt-decode";
+import Head from 'next/head'
+import CreateModal from '../components/CreateModal';
 
 export default function DashboardAdmin() {
 
+  // Admin actuellement connecté
   const [currentUser, setCurrentUser] = useState(null)
+  const [isConnected, setIsConnected] = useState(false)
 
+  // Routeur
   const [dashboardWindow, setDashboardWindow] = useState({
     dashboard: true,
     candidatesList: false,
     companiesList: false,
   })
-
-  const [currentPage, setCurrentPage] = useState('Accueil')
-
-  const [candidates, setCandidates] = useState([])
-
-  const [companies, setCompanies] = useState([])
-
-  const [monitorChange, setMonitorChange] = useState(false)
-
-  const [accessToken, setAccessToken] = useState()
-
-  let optionsAxios = {
-    headers: {
-      Authorization: `Bearer ${accessToken}`
-    }
-  }
-
-  async function renewToken() {
-    let token = getCookie('accessToken')
-    let decodedToken = jwt_decode(token)
-    let currentTime = new Date().getTime() / 1000
-    let isExpired = decodedToken.exp < currentTime
-
-    if (!isExpired) return
-
-    const refreshToken = getCookie('refreshToken')
-    const newToken = await apiService.refreshAccessToken({ "token": refreshToken })
-
-    setCookie('accessToken', newToken.data.accessToken)
-  }
-
-  const [isConnected, setIsConnected] = useState(false)
-
-  useEffect(() => {
-    setCurrentUser(getCookie('userFirstname'))
-  }, [hasCookie('userFirstname')])
-
-  useEffect(() => {
-    if (hasCookie('currentPage')) {
-      if (getCookie('currentPage') == 'Home')
-        return switchToDashboard()
-      else if (getCookie('currentPage') == 'CandidatesList')
-        return switchToCandidatesList()
-      else if (getCookie('currentPage') == 'CompaniesList')
-        return switchToCompaniesList()
-    }
-  }, [hasCookie('currentPage')])
-
-  useEffect(() => {
-    if (!hasCookie('refreshToken')) return
-    renewToken()
-    setIsConnected(true)
-    if (hasCookie('accessToken')) optionsAxios = {
-      headers: {
-        Authorization: `Bearer ${getCookie('accessToken')}`
-      }
-    }
-    apiService.get('candidates', optionsAxios).then(response => setCandidates(response.data))
-    apiService.get('companies', optionsAxios).then(response => setCompanies(response.data))
-  }, [dashboardWindow, monitorChange, hasCookie('refreshToken')])
 
   const switchToDashboard = () => {
     setDashboardWindow({
@@ -103,6 +47,82 @@ export default function DashboardAdmin() {
       companiesList: true,
     })
   }
+
+  // Page sur laquelle l'admin est actuellement
+  const [currentPage, setCurrentPage] = useState('Accueil')
+
+  // Permet de forcer le refresh de la page
+  const [monitorChange, setMonitorChange] = useState(false)
+
+  // Candidats récupérés via l'API
+  const [candidates, setCandidates] = useState([])
+
+  // Recruteurs récupérés via l'API
+  const [companies, setCompanies] = useState([])
+
+  // Avatar par défaut
+  const [imgSource, setImgSource] = useState('../assets/images/profile_pic.png')
+
+  // Permet d'ouvrir ou de fermer la modal de création d'utilisateur
+  const [open, setOpen] = useState(false);
+
+  // Access Token
+  const [accessToken, setAccessToken] = useState()
+
+  // Headers nécessaires pour les requêtes
+  let optionsAxios = {
+    headers: {
+      Authorization: `Bearer ${accessToken}`
+    }
+  }
+
+  // Renouvellement de l'Access Token s'il a expiré pour les cookies
+  async function renewToken() {
+    let token = getCookie('accessToken')
+    let decodedToken = jwt_decode(token)
+    let currentTime = new Date().getTime() / 1000
+    let isExpired = decodedToken.exp < currentTime
+
+    if (!isExpired) return
+
+    const refreshToken = getCookie('refreshToken')
+    const newToken = await apiService.refreshAccessToken({ "token": refreshToken })
+
+    setCookie('accessToken', newToken.data.accessToken)
+  }
+
+  // Retrouve le nom de l'utilisateur qui est connecté via un cookie
+  useEffect(() => {
+    setCurrentUser(getCookie('userFirstname'))
+  }, [hasCookie('userFirstname')])
+
+  // Retrouve la page sur laquelle était l'utilisateur via un cookie
+  useEffect(() => {
+    if (hasCookie('currentPage')) {
+      if (getCookie('currentPage') == 'Home')
+        return switchToDashboard()
+      else if (getCookie('currentPage') == 'CandidatesList')
+        return switchToCandidatesList()
+      else if (getCookie('currentPage') == 'CompaniesList')
+        return switchToCompaniesList()
+    }
+  }, [hasCookie('currentPage')])
+
+  // Permet à l'utilisateur de rester connecté après un refresh et récupère les données des candidats & recruteurs
+  useEffect(() => {
+    if (!hasCookie('refreshToken')) return
+    renewToken()
+    setIsConnected(true)
+    if (hasCookie('accessToken')) optionsAxios = {
+      headers: {
+        Authorization: `Bearer ${getCookie('accessToken')}`
+      }
+    }
+    apiService.get('candidates', optionsAxios).then(response => setCandidates(response.data))
+    apiService.get('companies', optionsAxios).then(response => setCompanies(response.data))
+  }, [dashboardWindow, monitorChange, hasCookie('refreshToken')])
+
+
 
   return (
     <>
@@ -129,14 +149,16 @@ export default function DashboardAdmin() {
               dashboardWindow={dashboardWindow}
               setCurrentPage={setCurrentPage}
               setIsConnected={setIsConnected}
+              open={open}
+              setOpen={setOpen}
             />
             {dashboardWindow.dashboard && <Dashboard companies={companies} candidates={candidates} />}
-            {dashboardWindow.candidatesList && <UsersList optionsAxios={optionsAxios} candidates={candidates} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />}
-            {dashboardWindow.companiesList && <UsersList optionsAxios={optionsAxios} companies={companies} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />}
+            {dashboardWindow.candidatesList && <UsersList imgSource={imgSource} setImgSource={setImgSource} optionsAxios={optionsAxios} candidates={candidates} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />}
+            {dashboardWindow.companiesList && <UsersList imgSource={imgSource} setImgSource={setImgSource} optionsAxios={optionsAxios} companies={companies} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />}
+            <CreateModal open={open} setOpen={setOpen} imgSource={imgSource} setImgSource={setImgSource} monitorChange={monitorChange} setMonitorChange={setMonitorChange} />
           </main>
         </>
-      )
-      }
+      )}
     </>
   )
 }
