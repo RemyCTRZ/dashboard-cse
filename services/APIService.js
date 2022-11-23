@@ -5,7 +5,7 @@ import axios from 'axios'
 const apiService = {
     refreshAccessToken(data) {
         return axios
-            .post(`${url}/api/auth/token`, data)
+            .post(`${url}/api/auth/refresh`, data)
     },
     login(logs) {
         return axios

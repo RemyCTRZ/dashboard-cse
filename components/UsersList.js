@@ -29,9 +29,9 @@ export default function AdminsList({ imgSource, setImgSource, candidates, compan
         },
         { field: 'mail', headerName: 'Email', flex: 1 },
         { field: 'city', headerName: 'Ville', flex: 1 },
-        { field: 'zip_code', headerName: 'Code postal', flex: .7, align: 'center', headerAlign: 'center' },
+        { field: 'zip_code', headerName: 'Code postal', minWidth: 70, flex: .7, align: 'center', headerAlign: 'center' },
         {
-            field: 'phone_number', headerName: 'Téléphone', flex: .7, align: 'center', headerAlign: 'center',
+            field: 'phone_number', headerName: 'Téléphone', minWidth: 130, flex: .7, align: 'center',
             renderCell: (params) => {
                 let formated1 = params.value.split("").splice(0, 2).join('')
                 let formated2 = params.value.split("").splice(2, 2).join('')
@@ -55,7 +55,7 @@ export default function AdminsList({ imgSource, setImgSource, candidates, compan
             )
         },
         {
-            field: 'actions', headerName: 'Actions', flex: .7, align: 'center', headerAlign: 'center',
+            field: 'actions', headerName: 'Actions', width: 100, align: 'center', headerAlign: 'center',
             renderCell: (params) => (
                 <div className={styles.container}>
                     <UpdateModal imgSource={imgSource} setImgSource={setImgSource} optionsAxios={optionsAxios} user={params.row} setMonitorChange={setMonitorChange} monitorChange={monitorChange} candidates={candidates} />
@@ -69,7 +69,7 @@ export default function AdminsList({ imgSource, setImgSource, candidates, compan
         { field: 'user_id', headerName: 'ID', flex: .3, align: 'center', headerAlign: 'center' },
         { field: 'name', headerName: 'Nom', flex: 1 },
         {
-            field: 'siret', headerName: 'SIRET', flex: .7, align: 'center', headerAlign: 'center',
+            field: 'siret', headerName: 'SIRET', minWidth: 150, flex: .7, align: 'center', headerAlign: 'center',
             renderCell: (params) => {
                 let formated1 = params.value.split("").splice(0, 3).join('')
                 let formated2 = params.value.split("").splice(3, 3).join('')
@@ -80,9 +80,9 @@ export default function AdminsList({ imgSource, setImgSource, candidates, compan
         },
         { field: 'mail', headerName: 'Email', flex: 1 },
         { field: 'city', headerName: 'Ville', flex: 1 },
-        { field: 'zip_code', headerName: 'Code postal', flex: .3, align: 'center', headerAlign: 'center', },
+        { field: 'zip_code', headerName: 'Code postal', minWidth: 70, flex: .3, align: 'center', headerAlign: 'center' },
         {
-            field: 'phone_number', headerName: 'Téléphone', flex: .5,
+            field: 'phone_number', headerName: 'Téléphone', minWidth: 130, flex: .5,
             renderCell: (params) => {
                 let formated1 = params.value.split("").splice(0, 2).join('')
                 let formated2 = params.value.split("").splice(2, 2).join('')
@@ -100,13 +100,13 @@ export default function AdminsList({ imgSource, setImgSource, candidates, compan
             )
         },
         {
-            field: 'createdAt', headerName: 'Créé le', flex: .5, align: 'center', headerAlign: 'center',
+            field: 'createdAt', headerName: 'Créé le', minWidth: 90, flex: .5, align: 'center', headerAlign: 'center',
             renderCell: (params) => (
                 dayjs(params.value).format('DD/MM/YYYY')
             )
         },
         {
-            field: 'actions', headerName: 'Actions', flex: .5, align: 'center', headerAlign: 'center',
+            field: 'actions', headerName: 'Actions', width: 100, align: 'center', headerAlign: 'center',
             renderCell: (params) => (
                 <div className={styles.container}>
                     <UpdateModal imgSource={imgSource} setImgSource={setImgSource} optionsAxios={optionsAxios} user={params.row} setMonitorChange={setMonitorChange} monitorChange={monitorChange} companies={companies} />

@@ -1,6 +1,7 @@
 import { getCookie, hasCookie, setCookie } from 'cookies-next'
 import { useState, useEffect } from 'react'
 import { apiService } from '../services/APIService'
+import CreateModal from '../components/CreateModal';
 import jwt_decode from "jwt-decode";
 import UsersList from '../components/UsersList'
 import Dashboard from '../components/Dashboard'
@@ -9,7 +10,6 @@ import Navbar from '../components/Navbar'
 import styles from '../styles/Home.module.css'
 import Login from '../components/Login'
 import Head from 'next/head'
-import CreateModal from '../components/CreateModal';
 
 export default function DashboardAdmin() {
 
@@ -112,14 +112,17 @@ export default function DashboardAdmin() {
   useEffect(() => {
     if (!hasCookie('refreshToken')) return
     renewToken()
-    setIsConnected(true)
-    if (hasCookie('accessToken')) optionsAxios = {
-      headers: {
-        Authorization: `Bearer ${getCookie('accessToken')}`
-      }
-    }
-    apiService.get('candidates', optionsAxios).then(response => setCandidates(response.data))
-    apiService.get('companies', optionsAxios).then(response => setCompanies(response.data))
+      .then(response => {
+        setIsConnected(true)
+        if (hasCookie('accessToken')) optionsAxios = {
+          headers: {
+            Authorization: `Bearer ${getCookie('accessToken')}`
+          }
+        }
+        apiService.get('candidates', optionsAxios).then(response => setCandidates(response.data))
+        apiService.get('companies', optionsAxios).then(response => setCompanies(response.data))
+      })
+      .catch(error => alert(error))
   }, [dashboardWindow, monitorChange, hasCookie('refreshToken')])
 
 
