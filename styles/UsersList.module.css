@@ -11,6 +11,7 @@
     flex: 1 1 100%;
     display: flex;
     gap: 1rem;
+    isolation: isolate;
 }
 
 .title {

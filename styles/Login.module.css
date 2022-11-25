@@ -108,12 +108,13 @@
 }
 
 .input {
+    position: relative;
     padding: .2rem;
     padding-left: 1rem;
     border: none;
     border-radius: 5px;
     border-right: 5px solid var(--blue);
-    box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.05);
+    box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
     transition: background-color .2s ease-in-out;
 }
 
@@ -134,15 +135,26 @@
 }
 
 .input:valid {
-    border: rgba(0, 128, 0, 0.4) 2px solid;
+    outline: var(--green-ok) 2px solid;
+    border-right: 5px solid var(--green-ok);
 }
 
-.input:invalid {
-    border: rgba(255, 0, 0, 0.4) 2px solid;
+.input[data-error="1"]:invalid {
+    outline: var(--red-error) 2px solid;
+    border-right: 5px solid var(--red-error);
+}
+
+.input[type=email]:invalid+.label .span[data-error="1"]::before {
+    content: 'Veuillez rentrer un email valide';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    color: var(--red-error);
+    text-align: end;
 }
 
 .input:focus-visible {
-    border: var(--blue) 2px solid;
+    outline: var(--blue) 2px solid;
 }
 
 .btn {

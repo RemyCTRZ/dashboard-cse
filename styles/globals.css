@@ -60,6 +60,8 @@ h6 {
   --white: #efefef;
   --white-2: #f8f8f8;
   --black-text: #222;
+  --red-error: rgba(255, 0, 0, 0.4);
+  --green-ok: rgba(0, 128, 0, .6);
   --gradient-blue: linear-gradient(0deg,
       hsl(199deg 100% 14%) 0%,
       hsl(199deg 100% 18%) 50%,

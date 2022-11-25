@@ -9,7 +9,12 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import styles from '../styles/DeleteModal.module.css'
 
-export default function DeleteModal({ user, setMonitorChange, monitorChange, optionsAxios }) {
+export default function DeleteModal({ user, setMonitorChange, monitorChange, optionsAxios, setError, setErrorMsg }) {
+
+    function pushError(error) {
+        setError(true)
+        setErrorMsg(error)
+    }
 
     const [open, setOpen] = useState(false);
 
@@ -27,8 +32,10 @@ export default function DeleteModal({ user, setMonitorChange, monitorChange, opt
                                 setMonitorChange(!monitorChange)
                             }
                         )
+                        .catch(error => pushError('Utilisateurs introuvables'))
                 }
             )
+            .catch(error => pushError('Impossible de supprimer cet utilisateur'))
     }
 
     return (
@@ -39,14 +46,12 @@ export default function DeleteModal({ user, setMonitorChange, monitorChange, opt
             <Dialog
                 open={open}
                 onClose={() => { handleModal(false) }}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
             >
-                <DialogTitle id="alert-dialog-title">
+                <DialogTitle>
                     {"Confirmer la suppression de " + user.mail + " ?"}
                 </DialogTitle>
                 <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
+                    <DialogContentText>
                         Cette action est irréversible.
                     </DialogContentText>
                 </DialogContent>

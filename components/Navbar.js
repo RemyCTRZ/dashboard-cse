@@ -39,7 +39,7 @@ export default function Navbar({ open, setOpen, switchToDashboard, switchToCandi
             <button className={styles.link} onClick={() => {
                 switchToDashboard()
                 setCurrentPage('Accueil')
-                setCookie('currentPage', 'Home')
+                setCookie('currentPage', 'Home', { secure: true, sameSite: 'none' })
             }}>
                 <span className={dashboardWindow.dashboard ? styles.span_active : styles.span}>
                     <AiFillHome className={styles.icon} />
@@ -50,7 +50,7 @@ export default function Navbar({ open, setOpen, switchToDashboard, switchToCandi
             <button className={styles.link} onClick={() => {
                 switchToCandidatesList()
                 setCurrentPage('Liste des candidats')
-                setCookie('currentPage', 'CandidatesList')
+                setCookie('currentPage', 'CandidatesList', { secure: true, sameSite: 'none' })
             }}>
                 <span className={dashboardWindow.candidatesList ? styles.span_active : styles.span}>
                     <FaUser className={styles.icon} />
@@ -61,7 +61,7 @@ export default function Navbar({ open, setOpen, switchToDashboard, switchToCandi
             <button className={styles.link} onClick={() => {
                 switchToCompaniesList()
                 setCurrentPage('Liste des recruteurs')
-                setCookie('currentPage', 'CompaniesList')
+                setCookie('currentPage', 'CompaniesList', { secure: true, sameSite: 'none' })
             }}>
                 <span className={dashboardWindow.companiesList ? styles.span_active : styles.span}>
                     <FaUserTie className={styles.icon} />

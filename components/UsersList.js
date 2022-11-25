@@ -8,7 +8,7 @@ import styles from '../styles/UsersList.module.css'
 import dayjs from 'dayjs'
 
 
-export default function AdminsList({ imgSource, setImgSource, candidates, companies, setMonitorChange, monitorChange, optionsAxios }) {
+export default function AdminsList({ imgSource, setImgSource, candidates, companies, setMonitorChange, monitorChange, optionsAxios, setError, setErrorMsg }) {
 
     const [copy, setCopy] = useState(false)
 
@@ -59,7 +59,7 @@ export default function AdminsList({ imgSource, setImgSource, candidates, compan
             renderCell: (params) => (
                 <div className={styles.container}>
                     <UpdateModal imgSource={imgSource} setImgSource={setImgSource} optionsAxios={optionsAxios} user={params.row} setMonitorChange={setMonitorChange} monitorChange={monitorChange} candidates={candidates} />
-                    <DeleteModal optionsAxios={optionsAxios} user={params.row} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />
+                    <DeleteModal optionsAxios={optionsAxios} user={params.row} setMonitorChange={setMonitorChange} monitorChange={monitorChange} setError={setError} setErrorMsg={setErrorMsg} />
                 </div>
             ),
         },
@@ -110,7 +110,7 @@ export default function AdminsList({ imgSource, setImgSource, candidates, compan
             renderCell: (params) => (
                 <div className={styles.container}>
                     <UpdateModal imgSource={imgSource} setImgSource={setImgSource} optionsAxios={optionsAxios} user={params.row} setMonitorChange={setMonitorChange} monitorChange={monitorChange} companies={companies} />
-                    <DeleteModal optionsAxios={optionsAxios} user={params.row} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />
+                    <DeleteModal optionsAxios={optionsAxios} user={params.row} setMonitorChange={setMonitorChange} monitorChange={monitorChange} setError={setError} setErrorMsg={setErrorMsg} />
                 </div>
             ),
         },

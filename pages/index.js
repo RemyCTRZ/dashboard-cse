@@ -1,4 +1,5 @@
 import { getCookie, hasCookie, setCookie } from 'cookies-next'
+import { BsExclamationLg } from 'react-icons/bs'
 import { useState, useEffect } from 'react'
 import { apiService } from '../services/APIService'
 import CreateModal from '../components/CreateModal';
@@ -11,7 +12,36 @@ import styles from '../styles/Home.module.css'
 import Login from '../components/Login'
 import Head from 'next/head'
 
+// Renouvellement de l'Access Token s'il a expiré pour les cookies
+export async function renewToken() {
+  let token = getCookie('accessToken')
+  let decodedToken = jwt_decode(token)
+  let currentTime = new Date().getTime() / 1000
+  let isExpired = decodedToken.exp < currentTime
+
+  if (!isExpired) return
+
+  const refreshToken = getCookie('refreshToken')
+  const newToken = await apiService.refreshAccessToken({ "token": refreshToken })
+
+  setCookie('accessToken', newToken.data.accessToken, { secure: true, sameSite: 'none' })
+}
+
 export default function DashboardAdmin() {
+
+  // Ouvrir ou fermer la modal d'erreur
+  const [error, setError] = useState(false)
+  const [errorMsg, setErrorMsg] = useState('')
+
+  function pushError(error) {
+    setError(true)
+    setErrorMsg(error)
+  }
+
+  function modalClick(e) {
+    e.preventDefault()
+    e.stopPropagation()
+  }
 
   // Admin actuellement connecté
   const [currentUser, setCurrentUser] = useState(null)
@@ -76,21 +106,6 @@ export default function DashboardAdmin() {
     }
   }
 
-  // Renouvellement de l'Access Token s'il a expiré pour les cookies
-  async function renewToken() {
-    let token = getCookie('accessToken')
-    let decodedToken = jwt_decode(token)
-    let currentTime = new Date().getTime() / 1000
-    let isExpired = decodedToken.exp < currentTime
-
-    if (!isExpired) return
-
-    const refreshToken = getCookie('refreshToken')
-    const newToken = await apiService.refreshAccessToken({ "token": refreshToken })
-
-    setCookie('accessToken', newToken.data.accessToken)
-  }
-
   // Retrouve le nom de l'utilisateur qui est connecté via un cookie
   useEffect(() => {
     setCurrentUser(getCookie('userFirstname'))
@@ -106,23 +121,27 @@ export default function DashboardAdmin() {
       else if (getCookie('currentPage') == 'CompaniesList')
         return switchToCompaniesList()
     }
-  }, [hasCookie('currentPage')])
+  }, [getCookie('currentPage')])
 
   // Permet à l'utilisateur de rester connecté après un refresh et récupère les données des candidats & recruteurs
   useEffect(() => {
     if (!hasCookie('refreshToken')) return
     renewToken()
       .then(response => {
-        setIsConnected(true)
         if (hasCookie('accessToken')) optionsAxios = {
           headers: {
             Authorization: `Bearer ${getCookie('accessToken')}`
           }
         }
-        apiService.get('candidates', optionsAxios).then(response => setCandidates(response.data))
-        apiService.get('companies', optionsAxios).then(response => setCompanies(response.data))
+        setIsConnected(true)
+        apiService.get('candidates', optionsAxios)
+          .then(response => setCandidates(response.data))
+          .catch(error => pushError(error.response.data.message))
+        apiService.get('companies', optionsAxios)
+          .then(response => setCompanies(response.data))
+          .catch(error => pushError(error.response.data.message))
       })
-      .catch(error => alert(error))
+      .catch(error => pushError(error))
   }, [dashboardWindow, monitorChange, hasCookie('refreshToken')])
 
 
@@ -135,14 +154,33 @@ export default function DashboardAdmin() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
+
+      {error &&
+        <div className={styles.error_shadow} onClick={() => setError(false)}>
+          <BsExclamationLg className={styles.error_icon} onClick={(e) => modalClick(e)} />
+          <div className={styles.error_container} onClick={(e) => modalClick(e)}>
+            <h2 className={styles.error_title}>Erreur :</h2>
+            <p className={styles.error_msg}>{errorMsg ? errorMsg : "Message d'erreur"}</p>
+            <div className={styles.error_btn_container}>
+              <button className={styles.error_btn} onMouseUp={() => setError(false)}>OK</button>
+              <span className={styles.error_btn_truc} />
+            </div>
+          </div>
+        </div>
+      }
+
+
       {!isConnected ? (
-        <Login optionsAxios={optionsAxios} setAccessToken={setAccessToken} setCurrentUser={setCurrentUser} />
+
+        <Login optionsAxios={optionsAxios} setAccessToken={setAccessToken} setCurrentUser={setCurrentUser} setError={setError} setErrorMsg={setErrorMsg} />
+
       ) : (
         <>
           <Header
             currentPage={currentPage} user={currentUser}
           />
           <main className={styles.main}>
+
             <Navbar
               currentUser={currentUser}
               setCurrentUser={setCurrentUser}
@@ -154,10 +192,19 @@ export default function DashboardAdmin() {
               setIsConnected={setIsConnected}
               open={open}
               setOpen={setOpen}
+              optionsAxios={optionsAxios}
             />
+
+            {/* DASHBOARD */}
             {dashboardWindow.dashboard && <Dashboard companies={companies} candidates={candidates} />}
-            {dashboardWindow.candidatesList && <UsersList imgSource={imgSource} setImgSource={setImgSource} optionsAxios={optionsAxios} candidates={candidates} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />}
-            {dashboardWindow.companiesList && <UsersList imgSource={imgSource} setImgSource={setImgSource} optionsAxios={optionsAxios} companies={companies} setMonitorChange={setMonitorChange} monitorChange={monitorChange} />}
+
+            {/* LISTE DES CANDIDATS */}
+            {dashboardWindow.candidatesList && <UsersList imgSource={imgSource} setImgSource={setImgSource} optionsAxios={optionsAxios} candidates={candidates} setMonitorChange={setMonitorChange} monitorChange={monitorChange} setError={setError} setErrorMsg={setErrorMsg} />}
+
+            {/* LISTE DES RECRUTEURS */}
+            {dashboardWindow.companiesList && <UsersList imgSource={imgSource} setImgSource={setImgSource} optionsAxios={optionsAxios} companies={companies} setMonitorChange={setMonitorChange} monitorChange={monitorChange} setError={setError} setErrorMsg={setErrorMsg} />}
+
+            {/* CREATE MODAL */}
             <CreateModal open={open} setOpen={setOpen} imgSource={imgSource} setImgSource={setImgSource} monitorChange={monitorChange} setMonitorChange={setMonitorChange} />
           </main>
         </>

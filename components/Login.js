@@ -1,24 +1,31 @@
 import { hasCookie, getCookie, setCookie } from 'cookies-next'
 import { IoLogInSharp } from 'react-icons/io5'
 import { apiService } from '../services/APIService'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import styles from '../styles/Login.module.css'
 
-export default function Login({ setCurrentUser, setAccessToken, optionsAxios }) {
+export default function Login({ setCurrentUser, setAccessToken, optionsAxios, setError, setErrorMsg }) {
+
+    function pushError(error) {
+        setError(true)
+        setErrorMsg(error)
+    }
 
     const mailRef = useRef(null)
     const passwordRef = useRef(null)
 
     function Login() {
-        if (!mailRef.current.value || !passwordRef.current.value) return alert("Veuillez rentrer vos identifiants")
+        if (!mailRef.current.value || !passwordRef.current.value) return pushError("Veuillez rentrer vos identifiants")
+        const mailInput = document.getElementById('mailInput')
+        if (!mailInput.validity.valid) return pushError('Veuillez rentrer un mail valide')
         apiService.login({
             mail: mailRef.current.value,
             password: passwordRef.current.value
         })
             .then(response => {
                 setAccessToken(response.data.accessToken)
-                setCookie('accessToken', response.data.accessToken)
-                setCookie('refreshToken', response.data.refreshToken)
+                setCookie('accessToken', response.data.accessToken, { secure: true, sameSite: 'none' })
+                setCookie('refreshToken', response.data.refreshToken, { secure: true, sameSite: 'none' })
                 if (hasCookie('accessToken')) optionsAxios = {
                     headers: {
                         Authorization: `Bearer ${getCookie('accessToken')}`
@@ -27,11 +34,18 @@ export default function Login({ setCurrentUser, setAccessToken, optionsAxios }) 
                 apiService.get(`admins/${response.data.user_id}`, optionsAxios)
                     .then(response => {
                         setCurrentUser(response.data.firstname)
-                        setCookie('userFirstname', response.data.firstname)
+                        setCookie('userFirstname', response.data.firstname, { secure: true, sameSite: 'none' })
                     })
-                    .catch(error => alert(error))
+                    .catch(error => pushError(error.response.data.message))
             })
-            .catch(error => alert(error))
+            .catch(error => pushError(error.response.data.message))
+    }
+
+    const [isEmpty, setIsEmpty] = useState(true)
+
+    function checkIfEmpty(e) {
+        if (e.target.value || e.target.value != '') return setIsEmpty(false)
+        setIsEmpty(true)
     }
 
     return (
@@ -45,9 +59,9 @@ export default function Login({ setCurrentUser, setAccessToken, optionsAxios }) 
                     <form className={styles.form}>
                         <h2 className={styles.title}>Bienvenue</h2>
                         <div className={styles.input_box}>
-                            <input className={styles.input} ref={mailRef} type="email" name="email" required ></input>
+                            <input className={styles.input} id='mailInput' data-error={!isEmpty ? 1 : 0} ref={mailRef} type="email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" onChange={(e) => checkIfEmpty(e)} required />
                             <label className={styles.label}>
-                                <span className={styles.span}>Mail *</span>
+                                <span className={styles.span} data-error={!isEmpty ? 1 : 0}>Mail *</span>
                             </label>
                         </div>
                         <div className={styles.input_box}>

@@ -1,5 +1,7 @@
 import { useRef, useState } from 'react';
+import { BsExclamationLg } from 'react-icons/bs'
 import { apiService } from '../services/APIService';
+import { renewToken } from '../pages';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
@@ -12,6 +14,19 @@ import styles from '../styles/CreateModal.module.css'
 var siret = require('siret'); // Module qui permet de vérifier la validité d'un SIRET
 
 export default function CreateModal({ open, setOpen, setMonitorChange, monitorChange, imgSource, setImgSource }) {
+
+    const [error, setError] = useState(false)
+    const [errorMsg, setErrorMsg] = useState('')
+
+    function pushError(error) {
+        setError(true)
+        setErrorMsg(error)
+    }
+
+    function modalClick(e) {
+        e.preventDefault()
+        e.stopPropagation()
+    }
 
     function handleModal(bool) {
         setOpen(bool);
@@ -34,6 +49,9 @@ export default function CreateModal({ open, setOpen, setMonitorChange, monitorCh
 
     // Création de l'utilisateur
     const createUser = () => {
+
+        renewToken()
+
         const formInfo = {
             mail: mailRef.current.value,
             password: passwordRef.current.value,
@@ -52,26 +70,39 @@ export default function CreateModal({ open, setOpen, setMonitorChange, monitorCh
             Object.assign(formInfo, { lastname: lastnameRef.current.value, firstname: firstnameRef.current.value, birthdate: birthRef.current.value })
             apiService.post(`candidates/`, formInfo)
                 .then(response => handleModal(false))
-                .catch(error => alert(error.response.data.error.errors[0].message))
+                .catch(error => pushError(error.response.data.message))
         }
 
         if (selectedRole == 'recruteur') {
-            if (!siret.isSIRET(siretRef.current.value)) return alert("Le siret n'est pas valide")
+            if (!siret.isSIRET(siretRef.current.value)) return pushError("Le siret n'est pas valide")
             Object.assign(formInfo, { name: nameRef.current.value, siret: siretRef.current.value })
             apiService.post(`companies/`, formInfo)
                 .then(response => handleModal(false))
-                .catch(error => alert(error.response.data.error.errors[0].message))
+                .catch(error => pushError(error.response.data.message))
         }
     }
 
     return (
         <div>
             <Dialog open={open} onClose={() => { handleModal(false) }}>
+                {error &&
+                    <div className={styles.error_shadow} onClick={() => setError(false)}>
+                        <BsExclamationLg className={styles.error_icon} onClick={(e) => modalClick(e)} />
+                        <div className={styles.error_container} onClick={(e) => modalClick(e)}>
+                            <h2 className={styles.error_title}>Erreur :</h2>
+                            <p className={styles.error_msg}>{errorMsg ? errorMsg : "Message d'erreur"}</p>
+                            <div className={styles.error_btn_container}>
+                                <button className={styles.error_btn} onMouseUp={() => setError(false)}>OK</button>
+                                <span className={styles.error_btn_truc} />
+                            </div>
+                        </div>
+                    </div>
+                }
                 <DialogTitle className={styles.dialog_title}>Création d'utilisateur</DialogTitle>
                 <DialogContent className={styles.dialog_content}>
                     <div className={styles.first_row}>
                         <FileUploader
-                            onFileSelectError={({ error }) => alert(error)}
+                            onFileSelectError={({ error }) => pushError(error)}
                             onFileSelectSuccess={(file) => (file)}
                             setImgSource={setImgSource}
                             imgSource={imgSource}
@@ -99,6 +130,7 @@ export default function CreateModal({ open, setOpen, setMonitorChange, monitorCh
                                         type="text"
                                         autoFocus
                                         fullWidth
+                                        required
                                     />
                                 </div>
                                 <div className={styles.div}>
@@ -111,6 +143,7 @@ export default function CreateModal({ open, setOpen, setMonitorChange, monitorCh
                                         margin="dense"
                                         type="text"
                                         fullWidth
+                                        required
                                     />
                                 </div>
                                 <div className={styles.div}>
@@ -123,6 +156,7 @@ export default function CreateModal({ open, setOpen, setMonitorChange, monitorCh
                                         margin="dense"
                                         type="date"
                                         fullWidth
+                                        required
                                     />
                                 </div>
                             </>
@@ -141,6 +175,7 @@ export default function CreateModal({ open, setOpen, setMonitorChange, monitorCh
                                         name="name"
                                         autoFocus
                                         fullWidth
+                                        required
                                     />
                                 </div>
                                 <div className={styles.div}>
@@ -154,6 +189,7 @@ export default function CreateModal({ open, setOpen, setMonitorChange, monitorCh
                                         type="siret"
                                         name="siret"
                                         fullWidth
+                                        required
                                     />
                                 </div>
                             </>
@@ -172,6 +208,7 @@ export default function CreateModal({ open, setOpen, setMonitorChange, monitorCh
                                 type="email"
                                 name="mail"
                                 fullWidth
+                                required
                             />
                         </div>
                         <div className={styles.div}>
@@ -184,6 +221,7 @@ export default function CreateModal({ open, setOpen, setMonitorChange, monitorCh
                                 name="password"
                                 margin="dense"
                                 fullWidth
+                                required
                             />
                         </div>
                         <div className={styles.div}>
@@ -196,6 +234,7 @@ export default function CreateModal({ open, setOpen, setMonitorChange, monitorCh
                                 name="address"
                                 type="text"
                                 fullWidth
+                                required
                             />
                         </div>
                         <div className={styles.div}>
@@ -208,6 +247,7 @@ export default function CreateModal({ open, setOpen, setMonitorChange, monitorCh
                                 name="city"
                                 type="text"
                                 fullWidth
+                                required
                             />
                         </div>
                         <div className={styles.div}>
@@ -221,6 +261,7 @@ export default function CreateModal({ open, setOpen, setMonitorChange, monitorCh
                                 margin="dense"
                                 type="text"
                                 fullWidth
+                                required
                             />
                         </div>
                         <div className={styles.div}>
@@ -234,6 +275,7 @@ export default function CreateModal({ open, setOpen, setMonitorChange, monitorCh
                                 margin="dense"
                                 type="tel"
                                 fullWidth
+                                required
                             />
                         </div>
                     </div>

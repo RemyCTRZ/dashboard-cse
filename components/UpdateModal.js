@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import { DialogContentText } from '@mui/material';
 import { apiService } from '../services/APIService';
+import { renewToken } from '../pages';
 import { FiEdit2 } from 'react-icons/fi'
+import { BsExclamationLg } from 'react-icons/bs'
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import FileUploader from './FileUploader';
@@ -11,8 +13,22 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import styles from '../styles/UpdateModal.module.css'
 import dayjs from 'dayjs'
+import { getCookie, hasCookie } from 'cookies-next';
 
 export default function UpdateModal({ user, candidates, companies, setMonitorChange, monitorChange, optionsAxios, imgSource, setImgSource }) {
+
+    const [error, setError] = useState(false)
+    const [errorMsg, setErrorMsg] = useState('')
+
+    function pushError(error) {
+        setError(true)
+        setErrorMsg(error)
+    }
+
+    function modalClick(e) {
+        e.preventDefault()
+        e.stopPropagation()
+    }
 
     const [open, setOpen] = useState(false);
     const [userInfo, setUserInfo] = useState({
@@ -32,9 +48,27 @@ export default function UpdateModal({ user, candidates, companies, setMonitorCha
         setUserInfo(user)
     }, [])
 
+
     const updateUser = () => {
-        if (userInfo.role == 'candidat') apiService.put(`candidates/${user.user_id}`, userInfo, optionsAxios).then(response => setMonitorChange(!monitorChange))
-        if (userInfo.role == 'entreprise') apiService.put(`companies/${user.user_id}`, userInfo, optionsAxios).then(response => setMonitorChange(!monitorChange))
+        if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(userInfo.mail)) return pushError('Email invalide')
+        renewToken()
+        if (hasCookie('accessToken')) optionsAxios = {
+            headers: {
+                Authorization: `Bearer ${getCookie('accessToken')}`
+            }
+        }
+        if (userInfo.role == 'candidat') apiService.put(`candidates/${user.user_id}`, userInfo, optionsAxios)
+            .then(response => {
+                setMonitorChange(!monitorChange)
+                handleModal(false)
+            })
+            .catch(error => pushError(error.response.data.message))
+        if (userInfo.role == 'entreprise') apiService.put(`companies/${user.user_id}`, userInfo, optionsAxios)
+            .then(response => {
+                setMonitorChange(!monitorChange)
+                handleModal(false)
+            })
+            .catch(error => pushError(error.response.data.message))
     }
 
     const handleChange = (e) => {
@@ -54,16 +88,31 @@ export default function UpdateModal({ user, candidates, companies, setMonitorCha
             <button className={styles.btn} onClick={() => { handleModal(true) }}>
                 <FiEdit2 className={styles.icon} />
             </button>
-            <Dialog className={styles.dialog} open={open} onClose={() => { handleModal(false) }}>
+            <Dialog sx={{ zIndex: '0' }} className={styles.dialog} open={open} onClose={() => { handleModal(false) }}>
+                {error &&
+                    <div className={styles.error_shadow} onClick={() => setError(false)}>
+                        <BsExclamationLg className={styles.error_icon} onClick={(e) => modalClick(e)} />
+                        <div className={styles.error_container} onClick={(e) => modalClick(e)}>
+                            <h2 className={styles.error_title}>Erreur :</h2>
+                            <p className={styles.error_msg}>{errorMsg ? errorMsg : "Message d'erreur"}</p>
+                            <div className={styles.error_btn_container}>
+                                <button className={styles.error_btn} onMouseUp={() => setError(false)}>OK</button>
+                                <span className={styles.error_btn_truc} />
+                            </div>
+                        </div>
+                    </div>
+                }
                 <DialogTitle className={styles.dialog_title}>Modification de profil</DialogTitle>
                 <DialogContent className={styles.dialog_content}>
                     <article className={styles.article}>
                         <FileUploader
                             onFileSelectSuccess={(file) => (file)}
-                            onFileSelectError={({ error }) => alert(error)}
+                            onFileSelectError={({ error }) => pushError(error)}
                             imgSource={imgSource}
                             setImgSource={setImgSource}
                         />
+
+
                         {candidates &&
                             <>
                                 <div className={styles.div}>
@@ -98,10 +147,10 @@ export default function UpdateModal({ user, candidates, companies, setMonitorCha
                                         className={styles.text_field}
                                         autoFocus
                                         margin="dense"
-                                        type="text"
+                                        type="date"
                                         name="birthdate"
                                         variant="standard"
-                                        value={dayjs(userInfo.birthdate).format('DD/MM/YYYY')}
+                                        value={dayjs(userInfo.birthdate).format('YYYY-MM-DD')}
                                         onChange={handleChange}
                                         inputProps={{ maxLength: 8 }}
                                     />
@@ -181,11 +230,13 @@ export default function UpdateModal({ user, candidates, companies, setMonitorCha
                                 margin="dense"
                                 type="text"
                                 fullWidth
+                                inputMode='numeric'
                                 name="zip_code"
                                 variant="standard"
                                 value={userInfo.zip_code}
                                 onChange={handleChange}
                                 inputProps={{ maxLength: 5 }}
+                                required
                             />
                         </div>
                         <div className={styles.div}>
@@ -212,7 +263,6 @@ export default function UpdateModal({ user, candidates, companies, setMonitorCha
                 <DialogActions>
                     <Button onClick={() => {
                         updateUser()
-                        handleModal(false)
                     }}>Confirmer</Button>
                     <Button onClick={() => { handleModal(false) }}>Annuler</Button>
                 </DialogActions>
