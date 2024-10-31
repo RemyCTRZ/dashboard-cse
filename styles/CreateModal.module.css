@@ -70,7 +70,7 @@
     font-size: 5em;
     height: fit-content;
     width: fit-content;
-    animation: shake .3s ease;
+    animation: shake .3s cubic-bezier(.17, .67, .39, 1.27);
 }
 
 .error_container {
@@ -85,7 +85,7 @@
     border-radius: 10px;
     border-top: var(--red-error) 10px solid;
     isolation: isolate;
-    animation: shake .3s ease;
+    animation: shake .3s cubic-bezier(.17, .67, .39, 1.27);
     z-index: 1;
 }
 
@@ -113,7 +113,7 @@
     padding: .5rem 1rem;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color .2s ease, transform .2s ease;
+    transition: background-color .2s cubic-bezier(.17, .67, .39, 1.27), transform .2s cubic-bezier(.17, .67, .39, 1.27);
 }
 
 .error_btn:hover {

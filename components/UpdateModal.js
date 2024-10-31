@@ -1,19 +1,19 @@
-import { useEffect, useState } from 'react';
-import { DialogContentText } from '@mui/material';
-import { apiService } from '../services/APIService';
-import { renewToken } from '../pages';
-import { FiEdit2 } from 'react-icons/fi'
-import { BsExclamationLg } from 'react-icons/bs'
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
-import FileUploader from './FileUploader';
-import DialogTitle from '@mui/material/DialogTitle';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import styles from '../styles/UpdateModal.module.css'
+import { DialogContentText } from '@mui/material'
+import Button from '@mui/material/Button'
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
+import DialogTitle from '@mui/material/DialogTitle'
+import TextField from '@mui/material/TextField'
+import { getCookie, hasCookie } from 'cookies-next'
 import dayjs from 'dayjs'
-import { getCookie, hasCookie } from 'cookies-next';
+import { useEffect, useState } from 'react'
+import { BsExclamationLg } from 'react-icons/bs'
+import { FiEdit2 } from 'react-icons/fi'
+import { renewToken } from '../pages'
+import { apiService } from '../services/APIService'
+import styles from '../styles/UpdateModal.module.css'
+import FileUploader from './FileUploader'
 
 export default function UpdateModal({ user, candidates, companies, setMonitorChange, monitorChange, optionsAxios, imgSource, setImgSource }) {
 
@@ -30,7 +30,7 @@ export default function UpdateModal({ user, candidates, companies, setMonitorCha
         e.stopPropagation()
     }
 
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(false)
     const [userInfo, setUserInfo] = useState({
         lastname: '',
         firstname: '',
@@ -80,8 +80,8 @@ export default function UpdateModal({ user, candidates, companies, setMonitorCha
     }
 
     const handleModal = (bool) => {
-        setOpen(bool);
-    };
+        setOpen(bool)
+    }
 
     return (
         <div className={styles.cell}>
@@ -268,5 +268,5 @@ export default function UpdateModal({ user, candidates, companies, setMonitorCha
                 </DialogActions>
             </Dialog>
         </div >
-    );
+    )
 }

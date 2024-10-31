@@ -1,11 +1,11 @@
 import { DataGrid, frFR } from '@mui/x-data-grid'
-import { BsCheckLg } from 'react-icons/bs'
-import { useState } from 'react';
-import { IoClose } from 'react-icons/io5'
-import UpdateModal from './UpdateModal'
-import DeleteModal from './DeleteModal'
-import styles from '../styles/UsersList.module.css'
 import dayjs from 'dayjs'
+import { useState } from 'react'
+import { BsCheckLg } from 'react-icons/bs'
+import { IoClose } from 'react-icons/io5'
+import styles from '../styles/UsersList.module.css'
+import DeleteModal from './DeleteModal'
+import UpdateModal from './UpdateModal'
 
 
 export default function AdminsList({ imgSource, setImgSource, candidates, companies, setMonitorChange, monitorChange, optionsAxios, setError, setErrorMsg }) {
@@ -63,7 +63,7 @@ export default function AdminsList({ imgSource, setImgSource, candidates, compan
                 </div>
             ),
         },
-    ];
+    ]
 
     const companiesColumns = [
         { field: 'user_id', headerName: 'ID', flex: .3, align: 'center', headerAlign: 'center' },
@@ -114,7 +114,7 @@ export default function AdminsList({ imgSource, setImgSource, candidates, compan
                 </div>
             ),
         },
-    ];
+    ]
 
 
     return (
@@ -180,5 +180,5 @@ export default function AdminsList({ imgSource, setImgSource, candidates, compan
                 <p className={styles.copy_txt}>Copié avec succès</p>
             </div>
         </>
-    );
+    )
 }

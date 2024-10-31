@@ -1,17 +1,17 @@
-import { useRef, useState } from 'react';
+import Button from '@mui/material/Button'
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
+import DialogTitle from '@mui/material/DialogTitle'
+import TextField from '@mui/material/TextField'
+import { useRef, useState } from 'react'
 import { BsExclamationLg } from 'react-icons/bs'
-import { apiService } from '../services/APIService';
-import { renewToken } from '../pages';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogActions from '@mui/material/DialogActions';
-import FileUploader from './FileUploader';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
+import { renewToken } from '../pages'
+import { apiService } from '../services/APIService'
 import styles from '../styles/CreateModal.module.css'
+import FileUploader from './FileUploader'
 
-var siret = require('siret'); // Module qui permet de vérifier la validité d'un SIRET
+var siret = require('siret') // Module qui permet de vérifier la validité d'un SIRET
 
 export default function CreateModal({ open, setOpen, setMonitorChange, monitorChange, imgSource, setImgSource }) {
 
@@ -29,9 +29,9 @@ export default function CreateModal({ open, setOpen, setMonitorChange, monitorCh
     }
 
     function handleModal(bool) {
-        setOpen(bool);
+        setOpen(bool)
         setMonitorChange(!monitorChange)
-    };
+    }
 
     // Infos de l'utilisateur
     const [selectedRole, setSelectedRole] = useState('candidat')
@@ -69,7 +69,7 @@ export default function CreateModal({ open, setOpen, setMonitorChange, monitorCh
         if (selectedRole == 'candidat') {
             Object.assign(formInfo, { lastname: lastnameRef.current.value, firstname: firstnameRef.current.value, birthdate: birthRef.current.value })
             apiService.post(`candidates/`, formInfo)
-                .then(response => handleModal(false))
+                .then(() => handleModal(false))
                 .catch(error => pushError(error.response.data.message))
         }
 
@@ -77,7 +77,7 @@ export default function CreateModal({ open, setOpen, setMonitorChange, monitorCh
             if (!siret.isSIRET(siretRef.current.value)) return pushError("Le siret n'est pas valide")
             Object.assign(formInfo, { name: nameRef.current.value, siret: siretRef.current.value })
             apiService.post(`companies/`, formInfo)
-                .then(response => handleModal(false))
+                .then(() => handleModal(false))
                 .catch(error => pushError(error.response.data.message))
         }
     }
@@ -287,5 +287,5 @@ export default function CreateModal({ open, setOpen, setMonitorChange, monitorCh
                 </DialogActions>
             </Dialog >
         </div >
-    );
+    )
 }

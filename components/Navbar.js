@@ -1,7 +1,7 @@
-import { FaArrowRight, FaPowerOff, FaUserTie, FaUser, FaUserPlus } from 'react-icons/fa'
 import { deleteCookie, setCookie } from 'cookies-next'
-import { AiFillHome } from 'react-icons/ai'
 import { useState } from 'react'
+import { AiFillHome } from 'react-icons/ai'
+import { FaArrowRight, FaPowerOff, FaUser, FaUserPlus, FaUserTie } from 'react-icons/fa'
 import styles from '../styles/Navbar.module.css'
 
 export default function Navbar({ open, setOpen, switchToDashboard, switchToCandidatesList, switchToCompaniesList, setCurrentUser, dashboardWindow, setCurrentPage, setIsConnected }) {
@@ -9,8 +9,8 @@ export default function Navbar({ open, setOpen, switchToDashboard, switchToCandi
     const [isNavbarActive, setIsNavbarActive] = useState(true)
 
     function handleModal() {
-        setOpen(true);
-    };
+        setOpen(true)
+    }
 
     function logout() {
         setCurrentUser(null)
@@ -22,10 +22,10 @@ export default function Navbar({ open, setOpen, switchToDashboard, switchToCandi
     async function navbar_activate() {
 
         if (!isNavbarActive) {
-            await setIsNavbarActive(true);
+            await setIsNavbarActive(true)
         }
         else if (isNavbarActive) {
-            await setIsNavbarActive(false);
+            await setIsNavbarActive(false)
         }
     }
 

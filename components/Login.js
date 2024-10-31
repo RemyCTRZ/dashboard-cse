@@ -1,7 +1,7 @@
-import { hasCookie, getCookie, setCookie } from 'cookies-next'
+import { getCookie, hasCookie, setCookie } from 'cookies-next'
+import { useRef, useState } from 'react'
 import { IoLogInSharp } from 'react-icons/io5'
 import { apiService } from '../services/APIService'
-import { useRef, useState } from 'react'
 import styles from '../styles/Login.module.css'
 
 export default function Login({ setCurrentUser, setAccessToken, optionsAxios, setError, setErrorMsg }) {
